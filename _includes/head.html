@@ -26,6 +26,13 @@
     @view-transition {
       navigation: auto;
     }
+    .overflow-scroll::-webkit-scrollbar {
+        display: none;
+    }
+    .overflow-scroll {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
 
   </style>
 
