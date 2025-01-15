@@ -22,6 +22,23 @@
   <meta name="msapplication-config" content="{{ site.baseurl }}/icons/browserconfig.xml">
   <meta name="theme-color" content="#007fff">
 
+
+  <!-- Facebook Meta Tags -->
+  <meta property="og:url" content="{% if page.title %}{{ page.url | replace:'index.html','' | prepend: site.baseurl }}{% else %}{{ site.baseurl }}{% endif %}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+  <meta property="og:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+  <meta property="og:image" content="{% if page.title %}{{ site.baseurl }}/images/{{ page.image }}{% else %}/assets/social.png{% endif %}">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:domain" content="chowdown.io">
+  <meta property="twitter:url" content="{% if page.title %}{{ page.url | replace:'index.html','' | prepend: site.baseurl }}{% else %}{{ site.baseurl }}{% endif %}">
+  <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+  <meta name="twitter:description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+  <meta name="twitter:image" content="{% if page.title %}{{ site.baseurl }}/images/{{ page.image }}{% else %}/assets/social.png{% endif %}">
+
+
   <style>
     @view-transition {
       navigation: auto;
