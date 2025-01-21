@@ -3,7 +3,10 @@
 layout: recipe
 title:  "Crispy Carrots"
 image: crispy-carrots.jpg
-tags: veg, party
+
+tags:
+- veg
+- party
 
 ingredients:
 - 1 lb carrot sticks (or baby carrots)

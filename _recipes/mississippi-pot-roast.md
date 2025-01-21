@@ -4,7 +4,11 @@ layout: recipe
 title:  "Mississippi Pot Roast"
 image: mississippi-pot-roast.jpg
 imagecredit: https://www.today.com/today/amp/tdna199419
-tags: mains, crock pot
+
+tags:
+- mains
+- crock pot
+- easy dinners
 
 ingredients:
 - 3-4 lbs chuck roast

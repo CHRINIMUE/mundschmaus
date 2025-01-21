@@ -3,7 +3,10 @@
 layout: recipe
 title:  "Pork Steaks"
 image: pork-steaks.jpg
-tags: mains, meat
+
+tags:
+- mains
+- meat
 
 ingredients:
 - pork shoulder (or other cheap cut)

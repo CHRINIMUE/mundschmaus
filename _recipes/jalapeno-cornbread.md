@@ -3,7 +3,11 @@
 layout: recipe
 title:  "Jalapeno Cornbread"
 image: jalapeno-cornbread.jpg
-tags: sides, bread, spicy
+
+tags:
+- sides
+- bread
+- spicy
 
 ingredients:
 - 1 box "fiesta" corn bread mix

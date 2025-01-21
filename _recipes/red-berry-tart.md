@@ -3,7 +3,9 @@
 layout: recipe
 title:  "Red Berry Tart"
 image: red-berry-tart.jpg
-tags: desserts
+
+tags:
+- desserts
 
 directions:
 - Bake the crust and let it cool

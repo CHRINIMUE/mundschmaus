@@ -3,7 +3,11 @@
 layout: recipe
 title:  "Pace Pork"
 image: pace-pork.jpg
-tags: mains, crock pot
+
+tags:
+- mains,
+- crock pot
+- easy dinners
 
 ingredients:
 - pork shoulder (or loin)

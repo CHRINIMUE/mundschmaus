@@ -3,7 +3,10 @@
 layout: recipe
 title:  "Cauliflower Cacciatore"
 image: cauliflower-cacciatore.jpg
-tags: mains, veg
+
+tags:
+- mains
+- veg
 
 ingredients:
 - 1 head of cauliflower
