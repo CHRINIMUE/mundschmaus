@@ -39,6 +39,11 @@ layout: default
 <!-- Configuration -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+
+    // Parse the query parameter
+    const params = new URLSearchParams(window.location.search);
+    const tag = params.get('tag');
+    
     // Initialize SimpleJekyllSearch
     const simpleSearch = SimpleJekyllSearch({
       searchInput: document.getElementById('search-input'),
@@ -46,19 +51,20 @@ layout: default
       noResultsText: 'No results (yet), but our search is janky. Try the same term again, right now, or try a suggested search term above...',
       json: '{{site.baseurl}}/search.json',
       searchResultTemplate: '<a class="recipe hover:scale-105 hover:rotate-1 transition" href="{url}"><canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url({image});"></canvas><h1 class="font-semibold leading-tight">{title}</h1></a>',
+      success: () => {
+        console.log('Search initialized successfully');
+        // Trigger a search if a tag is present
+        if (tag) {
+          const searchInput = document.getElementById('search-input');
+          searchInput.value = tag; // Set input value
+          setTimeout(() => {
+            simpleSearch.search(tag);
+          }, 100); // Slight delay to ensure initialization
+        }
+      },
     });
 
-    // Parse the query parameter
-    const params = new URLSearchParams(window.location.search);
-    const tag = params.get('tag');
-
-    if (tag) {
-      const searchInput = document.getElementById('search-input');
-      searchInput.value = tag; // Set input value
-      setTimeout(() => {
-        simpleSearch.search(tag);
-      }, 100); // Slight delay to ensure initialization
-    }
+    
 
     // Add click event listeners to suggestions
     document.querySelectorAll('.suggestion').forEach((item) => {
