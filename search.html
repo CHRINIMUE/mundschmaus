@@ -39,24 +39,35 @@ layout: default
 <!-- Configuration -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-  // Initialize SimpleJekyllSearch
-  const simpleSearch = SimpleJekyllSearch({
-    searchInput: document.getElementById('search-input'),
-    resultsContainer: document.getElementById('results-container'),
-    json: '{{site.baseurl}}/search.json',
-    searchResultTemplate: '<a class="recipe" href="{url}"><canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url({image});"></canvas><h1 class="font-semibold leading-tight">{title}</h1></a>',
-  });
+    // Initialize SimpleJekyllSearch
+    const simpleSearch = SimpleJekyllSearch({
+      searchInput: document.getElementById('search-input'),
+      resultsContainer: document.getElementById('results-container'),
+      json: '{{site.baseurl}}/search.json',
+      searchResultTemplate: '<a class="recipe" href="{url}"><canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url({image});"></canvas><h1 class="font-semibold leading-tight">{title}</h1></a>',
+    });
 
-  // Add click event listeners to suggestions
-  document.querySelectorAll('.suggestion').forEach((item) => {
-    item.addEventListener('click', function () {
+    // Parse the query parameter
+    const params = new URLSearchParams(window.location.search);
+    const tag = params.get('tag');
+
+    if (tag) {
       const searchInput = document.getElementById('search-input');
-      searchInput.value = this.textContent; // Set input value
+      searchInput.value = tag; // Set input value
+      setTimeout(() => {
+        simpleSearch.search(tag);
+      }, 100); // Slight delay to ensure initialization
+    }
 
-      // Force a search by calling SimpleJekyllSearch.search()
-      simpleSearch.search(this.textContent);
+    // Add click event listeners to suggestions
+    document.querySelectorAll('.suggestion').forEach((item) => {
+      item.addEventListener('click', function () {
+        const searchInput = document.getElementById('search-input');
+        searchInput.value = this.textContent; // Set input value
+        simpleSearch.search(this.textContent); // Trigger search
+      });
     });
   });
-});
-
 </script>
+
+
