@@ -50,7 +50,7 @@ layout: default
       resultsContainer: document.getElementById('results-container'),
       noResultsText: 'No results (yet), but our search is janky. Try the same term again, right now, or try a suggested search term above...',
       json: '{{site.baseurl}}/search.json',
-      searchResultTemplate: '<a class="recipe hover:scale-105 hover:rotate-1 transition" href="{url}"><canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url({image});"></canvas><h1 class="font-semibold leading-tight">{title}</h1></a>',
+      searchResultTemplate: '<a class="recipe md:hover:scale-105 md:hover:rotate-1 transition" href="{url}"><canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url({image});"></canvas><h1 class="font-semibold leading-tight">{title}</h1></a>',
       success: () => {
         console.log('Search initialized successfully');
         // Trigger a search if a tag is present

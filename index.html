@@ -11,7 +11,7 @@ layout: default
             <!-- First 3 Recipes -->
             {% assign first_recipes = site.recipes | sort:"date" %}
             {% for post in first_recipes limit:3 %}
-              <a class="recipe w-3/4 md:w-auto flex-shrink-0 block snap-center hover:scale-105 hover:rotate-1 transition" href="{{ post.url | prepend: site.baseurl }}">
+              <a class="recipe w-3/4 md:w-auto flex-shrink-0 block snap-center md:hover:scale-105 md:hover:rotate-1 transition" href="{{ post.url | prepend: site.baseurl }}">
                 <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center"{% for image in post.image %} style="background-image:url({{site.baseurl}}/images/{{ image }});"{% endfor %}>
                 </canvas>
                 <h1 class="font-semibold leading-tight text-2xl text-primary font-gelica md:text-base md:text-orange-950 md:font-inter pr-16 md:pr-0">{{ post.title }}</h1>
@@ -25,7 +25,7 @@ layout: default
 
             {% assign sorted = site.recipes | sort:"date" %}
               {% for post in sorted offset:3 %}
-                <a class="recipe hover:scale-105 hover:rotate-1 transition" href="{{ post.url | prepend: site.baseurl }}">
+                <a class="recipe md:hover:scale-105 md:hover:rotate-1 transition" href="{{ post.url | prepend: site.baseurl }}">
                     <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center"{% for image in post.image %} style="background-image:url({{site.baseurl}}/images/{{ image }});"{% endfor %}
                     >
                     </canvas>
