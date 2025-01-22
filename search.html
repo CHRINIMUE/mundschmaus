@@ -44,7 +44,7 @@ layout: default
       searchInput: document.getElementById('search-input'),
       resultsContainer: document.getElementById('results-container'),
       json: '{{site.baseurl}}/search.json',
-      searchResultTemplate: '<a class="recipe" href="{url}"><canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url({image});"></canvas><h1 class="font-semibold leading-tight">{title}</h1></a>',
+      searchResultTemplate: '<a class="recipe hover:scale-105 hover:rotate-1 transition" href="{url}"><canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url({image});"></canvas><h1 class="font-semibold leading-tight">{title}</h1></a>',
     });
 
     // Parse the query parameter
