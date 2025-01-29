@@ -20,17 +20,17 @@ layout: default
         autofocus
       >
 
-      <div id="filters" class="flex block gap-6 mt-4">
+      <div id="filters" class="flex block gap-4 mt-4">
 
 
       <div class="suggestions w-full mt-4 text-lg flex flex-col gap-2">
-      	<span class="text-red-950 md:text-primary uppercase font-semibold">INGREDIENTS</span>
-        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-2 rounded-lg bg-red-200 w-fit">chicken</span> 
-        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-2 rounded-lg bg-red-200 w-fit">lentils</span> 
-        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-2 rounded-lg bg-red-200 w-fit">beef</span> 
-        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-2 rounded-lg bg-red-200 w-fit">butter</span> 
-        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-2 rounded-lg bg-red-200 w-fit">garlic</span> 
-        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-2 rounded-lg bg-red-200 w-fit">cheese</span>
+      	<span class="text-red-950 md:text-primary uppercase font-semibold text-center">INGREDIENTS</span>
+        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">chicken</span> 
+        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">lentils</span> 
+        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">beef</span> 
+        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">butter</span> 
+        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">garlic</span> 
+        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">cheese</span>
       </div>
 
 
@@ -50,11 +50,11 @@ layout: default
 {% assign tag_array = all_tags | split: "," %}
 
 <!-- Step 3: Output tags in the correct format -->
-<div class="suggestions w-full mt-4 text-lg flex flex-col gap-2 items-end">
-  <span class="text-red-950 md:text-primary uppercase font-semibold">TAGS</span>     
+<div class="suggestions w-full mt-4 text-lg flex flex-col gap-2">
+  <span class="text-red-950 md:text-primary uppercase font-semibold text-center">TAGS</span>     
   {% for tag in tag_array limit:6 %}
     {% if tag != "" %}
-      <span class="suggestion cursor-pointer text-white text-xl px-3 py-2 rounded-lg bg-primary w-fit">{{ tag }}</span>
+      <span class="suggestion cursor-pointer text-white text-xl px-3 py-3 rounded-lg bg-primary text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">{{ tag }}</span>
     {% endif %}
   {% endfor %}
 </div>
@@ -68,7 +68,7 @@ layout: default
     </div>
   </div>
 
-  <div id="results" class="recipes hidden">
+  <div id="results" class="recipes hidden mb-24">
     <h2 class="uppercase text-primary font-semibold mt-8 mb-4">Search Results</h2>
     <div id="results_list" class="grid h-full grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
       
