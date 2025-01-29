@@ -5,7 +5,7 @@ title:  "Pace Pork"
 image: pace-pork.jpg
 
 tags:
-- mains,
+- mains
 - crock pot
 - easy dinners
 

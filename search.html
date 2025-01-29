@@ -3,8 +3,15 @@ layout: default
 ---
   
 <div class="content w-full md:w-4/5 p-6 h-full overflow-scroll">
-  <div class="search container max-width-2">
-    <div id="search-container">
+  <div class="search container max-width-2 mt-4">
+    <div id="search-container" class="relative">
+
+      <div id="filter" class="icon absolute top-2 right-2 p-0.5">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-6">
+          <path d="M6.5 2.25a.75.75 0 0 0-1.5 0v3a.75.75 0 0 0 1.5 0V4.5h6.75a.75.75 0 0 0 0-1.5H6.5v-.75ZM11 6.5a.75.75 0 0 0-1.5 0v3a.75.75 0 0 0 1.5 0v-.75h2.25a.75.75 0 0 0 0-1.5H11V6.5ZM5.75 10a.75.75 0 0 1 .75.75v.75h6.75a.75.75 0 0 1 0 1.5H6.5v.75a.75.75 0 0 1-1.5 0v-3a.75.75 0 0 1 .75-.75ZM2.75 7.25H8.5v1.5H2.75a.75.75 0 0 1 0-1.5ZM4 3H2.75a.75.75 0 0 0 0 1.5H4V3ZM2.75 11.5H4V13H2.75a.75.75 0 0 1 0-1.5Z" />
+        </svg>
+      </div>
+
       <input
         class="block w-full rounded-md bg-white px-4 py-2 text-xl text-gray-900 outline outline-2 -outline-offset-1 outline-gray-500 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-primary focus:ring-[6px] focus:ring-red-200"
         type="text"
@@ -12,24 +19,59 @@ layout: default
         placeholder="search titles or ingredients..."
         autofocus
       >
-      <div class="suggestions mt-4 text-lg">
-      	<span>Try: </span>
-        <span class="suggestion cursor-pointer text-primary underline">chicken</span>, 
-        <span class="suggestion cursor-pointer text-primary underline">butter</span>, 
-        <span class="suggestion cursor-pointer text-primary underline">cheese</span>
+
+      <div id="filters" class="flex block gap-6 mt-4">
+
+
+      <div class="suggestions w-full mt-4 text-lg flex flex-col gap-2">
+      	<span class="text-red-950 md:text-primary uppercase font-semibold">INGREDIENTS</span>
+        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-2 rounded-lg bg-red-200 w-fit">chicken</span> 
+        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-2 rounded-lg bg-red-200 w-fit">lentils</span> 
+        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-2 rounded-lg bg-red-200 w-fit">beef</span> 
+        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-2 rounded-lg bg-red-200 w-fit">butter</span> 
+        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-2 rounded-lg bg-red-200 w-fit">garlic</span> 
+        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-2 rounded-lg bg-red-200 w-fit">cheese</span>
       </div>
+
+
+      {% assign all_tags = "" %}
+
+<!-- Step 1: Collect all tags from recipes -->
+{% for recipe in site.recipes %}
+  {% for tag in recipe.tags %}
+    {% assign tag = tag | strip %}
+    {% unless all_tags contains tag %}
+      {% assign all_tags = all_tags | append: tag | append: "," %}
+    {% endunless %}
+  {% endfor %}
+{% endfor %}
+
+<!-- Step 2: Convert collected tags into an array -->
+{% assign tag_array = all_tags | split: "," %}
+
+<!-- Step 3: Output tags in the correct format -->
+<div class="suggestions w-full mt-4 text-lg flex flex-col gap-2 items-end">
+  <span class="text-red-950 md:text-primary uppercase font-semibold">TAGS</span>     
+  {% for tag in tag_array limit:6 %}
+    {% if tag != "" %}
+      <span class="suggestion cursor-pointer text-white text-xl px-3 py-2 rounded-lg bg-primary w-fit">{{ tag }}</span>
+    {% endif %}
+  {% endfor %}
+</div>
+
+
+
+
+</div>
+
+
     </div>
   </div>
 
-  <div class="recipes">
+  <div id="results" class="recipes hidden">
     <h2 class="uppercase text-primary font-semibold mt-8 mb-4">Search Results</h2>
-    <div id="results-container" class="grid h-full grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-      <div class="col-span-3 text-center rounded-lg p-12 border-dotted border-2 border-gray-400 flex items-center place-content-center h-[calc(100vh-400px)]">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-12 opacity-40">
-          <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clip-rule="evenodd" />
-        </svg>
-      </div>
-    </div>
+    <div id="results_list" class="grid h-full grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+      
   </div>
 </div>
 
@@ -38,43 +80,80 @@ layout: default
 
 <!-- Configuration -->
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
+  // Get elements
+  const searchInput = document.getElementById('search-input');
+  const filters = document.getElementById('filters');
+  const results = document.getElementById('results');
+  const filterButton = document.getElementById('filter');
 
-    // Parse the query parameter
-    const params = new URLSearchParams(window.location.search);
-    const tag = params.get('tag');
+  // Function to toggle filters visibility
+  function toggleFilters() {
+    const filtersAreHidden = filters.classList.contains('hidden');
     
-    // Initialize SimpleJekyllSearch
-    const simpleSearch = SimpleJekyllSearch({
-      searchInput: document.getElementById('search-input'),
-      resultsContainer: document.getElementById('results-container'),
-      noResultsText: 'No results (yet), but our search is janky. Try the same term again, right now, or try a suggested search term above...',
-      json: '{{site.baseurl}}/search.json',
-      searchResultTemplate: '<a class="recipe md:hover:scale-105 md:hover:rotate-1 transition" href="{url}"><canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url({image});"></canvas><h1 class="font-semibold leading-tight">{title}</h1></a>',
-      success: () => {
-        console.log('Search initialized successfully');
-        // Trigger a search if a tag is present
-        if (tag) {
-          const searchInput = document.getElementById('search-input');
-          searchInput.value = tag; // Set input value
-          setTimeout(() => {
-            simpleSearch.search(tag);
-          }, 100); // Slight delay to ensure initialization
-        }
-      },
-    });
-
+    // Toggle filters visibility
+    filters.classList.toggle('hidden', !filtersAreHidden);
+    filters.classList.toggle('block', filtersAreHidden);
     
+    // Correct opacity logic
+    if (filtersAreHidden) {
+      filterButton.classList.remove('opacity-30'); // Remove opacity when filters are shown
+    } else {
+      filterButton.classList.add('opacity-30'); // Add opacity when filters are hidden
+    }
+  }
 
-    // Add click event listeners to suggestions
-    document.querySelectorAll('.suggestion').forEach((item) => {
-      item.addEventListener('click', function () {
-        const searchInput = document.getElementById('search-input');
-        searchInput.value = this.textContent; // Set input value
-        simpleSearch.search(this.textContent); // Trigger search
-      });
+  // Function to show results and hide filters
+  function showResults() {
+    filters.classList.add('hidden');
+    filters.classList.remove('block');
+    results.classList.remove('hidden');
+    results.classList.add('block');
+
+    // Ensure the filter button gets opacity-30 when filters are hidden
+    filterButton.classList.add('opacity-30');
+  }
+
+  // Parse URL parameters
+  const params = new URLSearchParams(window.location.search);
+  const tag = params.get('tag');
+
+  // Initialize SimpleJekyllSearch
+  const simpleSearch = SimpleJekyllSearch({
+    searchInput,
+    resultsContainer: document.getElementById('results_list'),
+    noResultsText: 'No results (yet), but our search is janky. Try the same term again, right now, or try a suggested search term above...',
+    json: '{{site.baseurl}}/search.json',
+    searchResultTemplate: '<a class="recipe md:hover:scale-105 md:hover:rotate-1 transition" href="{url}"><canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url({image});"></canvas><h1 class="font-semibold leading-tight">{title}</h1></a>',
+    success: () => {
+      console.log('Search initialized successfully');
+
+      // If a tag is present, trigger search and update UI
+      if (tag) {
+        searchInput.value = tag;
+        setTimeout(() => {
+          simpleSearch.search(tag);
+          showResults();
+        }, 100);
+      }
+    },
+  });
+
+  // Event listener for clicking on suggested tags
+  document.querySelectorAll('.suggestion').forEach(item => {
+    item.addEventListener('click', function () {
+      searchInput.value = this.textContent;
+      simpleSearch.search(this.textContent);
+      showResults();
     });
   });
+
+  // Event listener for toggling filters
+  filterButton.addEventListener('click', toggleFilters);
+});
+
+
+
 </script>
 
 
