@@ -3,6 +3,7 @@
 {% assign shuffled_recipes = site.recipes | sort: "title" | sort: "random" %}
 {% assign random_recipe = shuffled_recipes | first %}
 
+[
 {
   "title"    : "{{ random_recipe.title | escape }}",
   {% if random_recipe.ingredients %}"ingredients"    : "{% for ingredient in random_recipe.ingredients %}{{ ingredient | escape }}, {% endfor %}",{% endif %}
@@ -10,3 +11,4 @@
   "image"    : "{{ site.baseurl }}/images/{{ random_recipe.image }}",
   "url"      : "{{ site.baseurl }}{{ random_recipe.url }}"
 }
+]
