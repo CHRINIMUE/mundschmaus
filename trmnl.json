@@ -1,5 +1,6 @@
 ---
 ---
+[
 {% for post in site.recipes %}
   {
   
@@ -12,3 +13,4 @@
     
   } {% unless forloop.last %},{% endunless %}
 {% endfor %}
+]
