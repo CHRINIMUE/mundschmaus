@@ -15,7 +15,7 @@ ingredients:
 - ½ cup roasted cashews
 - 1 block of tofu
 
- directions:
+directions:
 - Heat a large frying pan on medium-high.
 - Add the onion and cook, stirring, until it’s soft.
 - Stir in the curry paste and cook for 1 minute.
