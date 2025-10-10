@@ -3,7 +3,7 @@ layout: recipe
 title: "Speedy Spinach Curry"
 image: speedy-spinach-curry.png
 
- tags:
+tags:
 - mains
 - vegetarian
 
