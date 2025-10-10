@@ -37,4 +37,4 @@ directions:
 - Stir in spinach and basil. Season with salt and pepper if needed. Let it sit for about 5–10 minutes to thicken up.
 
 ---
-Recipe scanned from whatsmomcookin.com_marry-me-chicken-and-gnocchi-soup_.png.
+Recipe scanned from whatsmomcookin.com
