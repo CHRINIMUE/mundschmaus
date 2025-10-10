@@ -2,7 +2,7 @@
 
 layout: recipe
 title: "Speedy Spinach Curry"
-image: speedy-spinach-curry.png
+image: speedy-spinach-curry.jpg
 
 tags:
 - mains
