@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Marry Me Chicken and Gnocchi Soup"
-image: marry-me-chicken-and-gnocchi-soup.png
+image: marry-me-chicken-and-gnocchi-soup.jpg
 tags:
 - Dinner
 - Lunch
