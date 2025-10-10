@@ -1,4 +1,5 @@
 ---
+
 layout: recipe
 title: "Speedy Spinach Curry"
 image: speedy-spinach-curry.png
@@ -20,5 +21,7 @@ ingredients:
 - Stir in the curry paste and cook for 1 minute.
 - Add the spinach and tofu, and stir for 5 minutes.
 - Top with cashews before serving.
+  
 ---
+
 Recipe scanned from image.png.
