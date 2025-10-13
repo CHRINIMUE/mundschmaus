@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "Melted Leek and Sausage Shells"
-image: melted-leek-and-sausage-shells.png
+image: melted-leek-and-sausage-shells.jpg
 tags:
 - mains
 - pasta
