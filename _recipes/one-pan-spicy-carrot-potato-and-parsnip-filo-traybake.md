@@ -1,7 +1,7 @@
 ---
 layout: recipe
 title: "One-pan Spicy Carrot, Potato and Parsnip Filo Traybake"
-image: one-pan-spicy-carrot-potato-and-parsnip-filo-traybake-10-14-2025.webp
+image: one-pan-spicy-carrot-potato-and-parsnip-filo-traybake.webp
 tags:
 - mains
 - vegetarian
