@@ -1,6 +1,6 @@
 ---
 layout: recipe
-title: "Cranberry Lemon Bars recipe"
+title: "Cranberry Lemon Bars"
 image: cranberry-lemon-bars.jpg
 tags:
 - dessert
