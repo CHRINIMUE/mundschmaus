@@ -148,6 +148,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Event listener for search input to show results on typing
+  searchInput.addEventListener('input', function() {
+    if (searchInput.value.length > 0) {
+      showResults();
+    }
+  });
+
   // Event listener for toggling filters
   filterButton.addEventListener('click', toggleFilters);
 });
