@@ -16,7 +16,7 @@ ingredients:
 - 1⁄2 cup soy sauce
 - 1⁄2 cup water
 - 3⁄4 cup dark brown sugar
-- 1 lb flank steak
+- 1 lb beef flank steak
 - 1 yellow onion
 - 2 large green onions
 

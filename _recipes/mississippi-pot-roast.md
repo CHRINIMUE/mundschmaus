@@ -11,7 +11,7 @@ tags:
 - easy dinners
 
 ingredients:
-- 3-4 lbs chuck roast
+- 3-4 lbs beef chuck roast
 - 1 packet ranch mix
 - 1 packet au jus gravy mix
 - 1 stick butter

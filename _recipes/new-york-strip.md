@@ -9,7 +9,7 @@ tags:
 - meat
 
 ingredients:
-- NY Strip Steak(s)
+- Beef NY Strip Steak(s)
 - salt to taste
 
 directions:
