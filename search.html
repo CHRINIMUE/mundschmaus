@@ -16,7 +16,7 @@ layout: default
         class="block w-full rounded-md bg-white px-4 py-2 text-xl text-gray-900 outline outline-2 -outline-offset-1 outline-gray-500 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-primary focus:ring-[6px] focus:ring-red-200"
         type="text"
         id="search-input"
-        placeholder="search titles or ingredients..."
+        placeholder="Suche nach Titel oder Zutaten ..."
         autofocus
       >
 
@@ -24,7 +24,7 @@ layout: default
 
 
       <div class="suggestions w-full mt-4 text-lg flex flex-col gap-2">
-      	<span class="text-red-950 md:text-primary uppercase font-semibold text-center">INGREDIENTS</span>
+      	<span class="text-red-950 md:text-primary uppercase font-semibold text-center">{{ site.translation[site.language].ingredients }}</span>
         <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">chicken</span> 
         <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">lentils</span> 
         <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">beef</span> 
@@ -51,7 +51,7 @@ layout: default
 
 <!-- Step 3: Output tags in the correct format -->
 <div class="suggestions w-full mt-4 text-lg flex flex-col gap-2">
-  <span class="text-red-950 md:text-primary uppercase font-semibold text-center">TAGS</span>     
+  <span class="text-red-950 md:text-primary uppercase font-semibold text-center">Tags</span>     
   {% for tag in tag_array limit:6 %}
     {% if tag != "" %}
       <span class="suggestion cursor-pointer text-white text-xl px-3 py-3 rounded-lg bg-primary text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">{{ tag }}</span>
