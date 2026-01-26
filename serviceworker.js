@@ -1,4 +1,5 @@
 const CACHE = "pwabuilder-offline";
+const CACHE_VERSION = 'v{{ site.time | date: "%Y%m%d%H%M%S" }}'; // Automatisch bei jedem Build
 
 const offlineFallbackPage = "index.html";
 
@@ -15,6 +16,24 @@ self.addEventListener("install", function (event) {
       }
 
       return cache.add(offlineFallbackPage);
+    })
+  );
+
+  // Neue Version installiert sich im Hintergrund
+  self.skipWaiting(); // Aktiviert sofort
+});
+
+self.addEventListener('activate', function(event) {
+  // Löscht alte Caches
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.map(function(cacheName) {
+          if (cacheName !== CACHE_VERSION) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
     })
   );
 });
@@ -60,3 +79,12 @@ function updateCache(request, response) {
     return cache.put(request, response);
   });
 }
+
+// In head.html nach der Service Worker Registration
+navigator.serviceWorker.register("{{ site.baseurl }}/serviceworker.js")
+  .then(function(reg) {
+    // Prüfe alle 24h auf Updates
+    setInterval(function() {
+      reg.update();
+    }, 24 * 60 * 60 * 1000);
+  });
