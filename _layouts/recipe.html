@@ -72,11 +72,30 @@ layout: default
       {% endif %}
 
       {% if page.ingredients %}
-      <h2 class="uppercase text-primary font-semibold mb-2">{{ site.translation[site.language].ingredients }}</h2>
-      <ul itemprop="ingredients" class="flex flex-col gap-2 mb-8">
-        <!-- list ingredients that make up recipe -->
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="uppercase text-primary font-semibold">{{ site.translation[site.language].ingredients }}</h2>
+        <div class="flex items-center gap-3 bg-orange-50 rounded-lg p-2">
+          <button id="decrease-servings" class="w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <span class="font-semibold min-w-[60px] text-center">
+            <span id="current-servings">{{ page.servings | default: 4 }}</span> Portionen
+          </span>
+          <button id="increase-servings" class="w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <ul itemprop="recipeIngredient" class="flex flex-col gap-2 mb-8" data-original-servings="{{ page.servings | default: 4 }}">
         {% for ingredient in page.ingredients %}
-        <li itemprop="recipeIngredient" class="flex items-start gap-3 text-lg leading-loose">{{ ingredient | markdownify }}</li>
+        <li class="flex items-start gap-3 text-lg leading-loose ingredient-item" data-ingredient="{{ ingredient }}">
+          <span class="ingredient-display">{{ ingredient | replace: '|', ' ' | markdownify }}</span>
+        </li>
         {% endfor %}
       </ul>
       {% endif %}
@@ -156,55 +175,66 @@ layout: default
 
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function() {
+    const container = document.querySelector(".post-content");
+    const originalServings = parseInt(document.querySelector("ul[data-original-servings]")?.getAttribute("data-original-servings")) || 4;
+    let currentServings = originalServings;
 
-  // Define clickToggle function in vanilla JavaScript
-  function clickToggle(element, func1, func2) {
-    let toggleState = false;
-    element.addEventListener("click", function() {
-      toggleState = !toggleState;
-      if (toggleState) {
-        func1.call(this);
-      } else {
-        func2.call(this);
-      }
-    });
-  }
-
-  // Select the overflow container
-  const container = document.querySelector(".post-content");
-
-  // Select all list items in the unordered list
-  document.querySelectorAll("ul li").forEach(function(li) {
-    // Append a checkbox input to each list item
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.classList.add("mt-2.5");
-
-    li.insertBefore(checkbox, li.firstChild);
-
-    // Apply clickToggle function to each list item
-    clickToggle(li, function() {
-      // First function: Check the checkbox and scroll down within the container
-      this.querySelector("input").checked = true;
-      const height = this.offsetHeight;
-      const y = container.scrollTop;
-      container.scrollTo({
-        top: y + height + 16,
-        behavior: "smooth"
+    // Servings Calculator
+    function updateServings(newServings) {
+      if (newServings < 1) return;
+      
+      currentServings = newServings;
+      document.getElementById("current-servings").textContent = currentServings;
+      
+      const multiplier = currentServings / originalServings;
+      
+      document.querySelectorAll(".ingredient-item").forEach(function(item) {
+        const original = item.getAttribute("data-ingredient");
+        const parts = original.split("|");
+        
+        if (parts.length > 1) {
+          const amount = parseFloat(parts[0]);
+          const newAmount = (amount * multiplier).toFixed(2).replace(/\.?0+$/, '');
+          const rest = parts.slice(1).join(" ");
+          item.querySelector(".ingredient-display").innerHTML = `${newAmount} ${rest}`;
+        }
       });
-    }, function() {
-      // Second function: Uncheck the checkbox and scroll up within the container
-      this.querySelector("input").checked = false;
-      const height = this.offsetHeight;
-      const y = container.scrollTop;
-      container.scrollTo({
-        top: y - height - 16,
-        behavior: "smooth"
+    }
+
+    document.getElementById("decrease-servings")?.addEventListener("click", function() {
+      updateServings(currentServings - 1);
+    });
+
+    document.getElementById("increase-servings")?.addEventListener("click", function() {
+      updateServings(currentServings + 1);
+    });
+
+    // Checkbox Toggle
+    function clickToggle(element, func1, func2) {
+      let toggleState = false;
+      element.addEventListener("click", function() {
+        toggleState = !toggleState;
+        toggleState ? func1.call(this) : func2.call(this);
+      });
+    }
+
+    document.querySelectorAll("ul li").forEach(function(li) {
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.classList.add("mt-2.5");
+      li.insertBefore(checkbox, li.firstChild);
+
+      clickToggle(li, function() {
+        this.querySelector("input").checked = true;
+        const height = this.offsetHeight;
+        const y = container.scrollTop;
+        container.scrollTo({ top: y + height + 16, behavior: "smooth" });
+      }, function() {
+        this.querySelector("input").checked = false;
+        const height = this.offsetHeight;
+        const y = container.scrollTop;
+        container.scrollTo({ top: y - height - 16, behavior: "smooth" });
       });
     });
   });
-
-});
-
-
 </script>
