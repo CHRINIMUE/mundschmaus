@@ -292,32 +292,100 @@ layout: default
       });
     });
 
-    // Checkbox Toggle
-    function clickToggle(element, func1, func2) {
-      let toggleState = false;
-      element.addEventListener("click", function() {
-        toggleState = !toggleState;
-        toggleState ? func1.call(this) : func2.call(this);
-      });
-    }
-
+    // Custom Checkbox Styling
     document.querySelectorAll("ul li").forEach(function(li) {
+      const textContent = li.textContent.trim();
+      
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.classList.add("mt-2.5");
-      li.insertBefore(checkbox, li.firstChild);
+      checkbox.className = "recipe-checkbox";
+      checkbox.id = "cb-" + Math.random().toString(36).substr(2, 9);
+      
+      const label = document.createElement("label");
+      label.htmlFor = checkbox.id;
+      label.className = "recipe-label";
+      label.setAttribute("data-content", textContent);
+      label.innerHTML = li.innerHTML;
+      
+      li.innerHTML = "";
+      li.appendChild(checkbox);
+      li.appendChild(label);
 
-      clickToggle(li, function() {
-        this.querySelector("input").checked = true;
-        const height = this.offsetHeight;
-        const y = container.scrollTop;
-        container.scrollTo({ top: y + height + 16, behavior: "smooth" });
-      }, function() {
-        this.querySelector("input").checked = false;
-        const height = this.offsetHeight;
-        const y = container.scrollTop;
-        container.scrollTo({ top: y - height - 16, behavior: "smooth" });
+      // Scroll on check
+      checkbox.addEventListener("change", function() {
+        if (this.checked) {
+          const height = li.offsetHeight;
+          const y = container.scrollTop;
+          container.scrollTo({ top: y + height + 16, behavior: "smooth" });
+        }
       });
     });
   });
 </script>
+
+<style>
+  .recipe-checkbox {
+    position: relative;
+    width: 1.5em;
+    height: 1.5em;
+    min-width: 1.5em;
+    color: #363839;
+    border: 2px solid #bdc1c6;
+    border-radius: 4px;
+    appearance: none;
+    outline: 0;
+    cursor: pointer;
+    transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+    margin-right: 0.75rem;
+    margin-top: 0.25rem;
+  }
+  
+  .recipe-checkbox::before {
+    position: absolute;
+    content: '';
+    display: block;
+    top: 2px;
+    left: 7px;
+    width: 8px;
+    height: 14px;
+    border-style: solid;
+    border-color: #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+  }
+  
+  .recipe-checkbox:checked {
+    color: #fff;
+    border-color: #F53200;
+    background: #F53200;
+  }
+  
+  .recipe-checkbox:checked::before {
+    opacity: 1;
+  }
+  
+  .recipe-checkbox:checked ~ .recipe-label::before {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  
+  .recipe-label {
+    position: relative;
+    cursor: pointer;
+    font-size: 1.125rem;
+    font-weight: 400;
+    user-select: none;
+    flex: 1;
+  }
+  
+  .recipe-label::before {
+    position: absolute;
+    content: attr(data-content);
+    color: #9c9e9f;
+    clip-path: polygon(0 0, 0 0, 0% 100%, 0 100%);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: #363839;
+    transition: clip-path 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+</style>
