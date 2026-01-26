@@ -63,10 +63,16 @@ layout: default
       <!-- check if it's a component-based recipe -->
       {% if page.components %}
       <h4 class="uppercase text-primary font-semibold mb-2">{{ site.translation[site.language].components }}</h4>
-      <ul class="flex flex-col gap-2 mb-8">
+      <ul class="flex flex-col gap-3 mb-8">
         <!-- list components that make up recipe -->
         {% for component in page.components %}
-        <li class="flex items-start gap-3">{{ component | markdownify }}</li>
+        <li class="flex gap-3 items-start text-lg leading-loose">
+          {% if component.name %}
+            <p>{{ component.servings | default: 1 }}x {{ component.name }}</p>
+          {% else %}
+            <p>{{ component }}</p>
+          {% endif %}
+        </li>
         {% endfor %}
       </ul>
       {% endif %}
@@ -121,44 +127,76 @@ layout: default
     &darr; {{ site.translation[site.language].component_based }} &darr;
   </div>
 
-  <div class="clearfix mxn2">
+  <div class="flex flex-col gap-12">
   {% for component in page.components %}
-    <div class="sm-col sm-col-4 px2">
+    {% assign component_name = component.name | default: component %}
+    {% assign component_servings = component.servings | default: 1 %}
+    
     {% for recipe in site.components %}
-    {% if recipe.title == component %}
-      <h4 class="font-gelica text-3xl mb-8 mt-16">{{recipe.title}}</h4>
+    {% if recipe.title == component_name %}
+      <div class="component-recipe pt-8" data-required-servings="{{ component_servings }}">
+        <h4 class="font-gelica text-3xl mb-6">{{recipe.title}} <span class="text-xl text-gray-600">({{ component_servings }}x benötigt)</span></h4>
 
-      {% for image in recipe.image %}
-      <div class="image ratio bg-cover relative mb-8" style="background-image:url({{site.baseurl}}/images/{{ image }});">
-        <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/{{ image }}" />
-        {% if recipe.imagecredit %}
-          {% for imagecredit in recipe.imagecredit %}
-            <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
-              <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
-            </a>
+        {% for image in recipe.image %}
+        <div class="image ratio bg-cover relative mb-8" style="background-image:url({{site.baseurl}}/images/{{ image }});">
+          <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/{{ image }}" />
+          {% if recipe.imagecredit %}
+            {% for imagecredit in recipe.imagecredit %}
+              <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
+                <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
+              </a>
+            {% endfor %}
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        {% if recipe.ingredients %}
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="uppercase text-primary font-semibold">{{ site.translation[site.language].ingredients }}</h2>
+          <div class="flex items-center gap-3 bg-orange-50 rounded-lg p-2">
+            <button class="decrease-component-servings w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                <path fill-rule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <span class="font-semibold min-w-[60px] text-center">
+              <span class="current-component-servings">{{ recipe.servings | default: 4 | times: component_servings }}</span> Portionen
+            </span>
+            <button class="increase-component-servings w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <ul class="ingredients flex flex-col gap-2 mb-8" itemprop="ingredients" data-original-servings="{{ recipe.servings | default: 4 }}" data-base-servings="{{ recipe.servings | default: 4 | times: component_servings }}">
+          {% for item in recipe.ingredients %}
+          <li itemprop="ingredient" class="flex items-start gap-3 text-lg leading-loose component-ingredient-item" data-ingredient="{{ item }}">
+            <span class="component-ingredient-display">
+              {% assign parts = item | split: '|' %}
+              {% if parts.size > 1 %}
+                {% assign amount = parts[0] | times: 1.0 | times: component_servings %}
+                {{ amount }} {{ parts[1] | strip }} {% if parts[2] %}{{ parts[2] | strip }}{% endif %}
+              {% else %}
+                {{ item }}
+              {% endif %}
+            </span>
+          </li>
           {% endfor %}
+        </ul>
         {% endif %}
-      </div>
-        
-      {% endfor %}
 
-      <h2 class="uppercase text-primary font-semibold mb-2">{{ site.translation[site.language].ingredients }}</h2>
-        <ul class="ingredients flex flex-col gap-3 mb-8" itemprop="ingredients">
-        {% for item in recipe.ingredients %}
-        <li itemprop="ingredient" class="flex gap-3 items-start">{{ item | markdownify }}</li>
-        {% endfor %}
-      </ul>
-
-      <h2 class="uppercase text-primary font-semibold mb-2">{{ site.translation[site.language].directions }}</h2>
+        <h2 class="uppercase text-primary font-semibold mb-2">{{ site.translation[site.language].directions }}</h2>
         <ul itemprop="instructions" class="flex flex-col gap-3 mb-8">
-        {% for item in recipe.directions %}
-        <li class="flex gap-3 items-start">{{ item | markdownify }}</li>
-        {% endfor %}
-      </ul>
+          {% for item in recipe.directions %}
+          <li class="flex gap-3 items-start text-lg leading-loose">{{ item | markdownify }}</li>
+          {% endfor %}
+        </ul>
+      </div>
 
     {% endif %}
     {% endfor %}
-    </div>
   {% endfor %}
   </div>
 
@@ -176,17 +214,18 @@ layout: default
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function() {
     const container = document.querySelector(".post-content");
-    const originalServings = parseInt(document.querySelector("ul[data-original-servings]")?.getAttribute("data-original-servings")) || 4;
-    let currentServings = originalServings;
+    
+    // Main Recipe Servings Calculator
+    const mainOriginalServings = parseInt(document.querySelector("ul[data-original-servings]")?.getAttribute("data-original-servings")) || 4;
+    let mainCurrentServings = mainOriginalServings;
 
-    // Servings Calculator
     function updateServings(newServings) {
       if (newServings < 1) return;
       
-      currentServings = newServings;
-      document.getElementById("current-servings").textContent = currentServings;
+      mainCurrentServings = newServings;
+      document.getElementById("current-servings").textContent = mainCurrentServings;
       
-      const multiplier = currentServings / originalServings;
+      const multiplier = mainCurrentServings / mainOriginalServings;
       
       document.querySelectorAll(".ingredient-item").forEach(function(item) {
         const original = item.getAttribute("data-ingredient");
@@ -202,11 +241,55 @@ layout: default
     }
 
     document.getElementById("decrease-servings")?.addEventListener("click", function() {
-      updateServings(currentServings - 1);
+      updateServings(mainCurrentServings - 1);
     });
 
     document.getElementById("increase-servings")?.addEventListener("click", function() {
-      updateServings(currentServings + 1);
+      updateServings(mainCurrentServings + 1);
+    });
+
+    // Component Servings Calculators
+    document.querySelectorAll(".component-recipe").forEach(function(componentDiv) {
+      const ingredientsList = componentDiv.querySelector("ul[data-original-servings]");
+      if (!ingredientsList) return;
+      
+      const originalServings = parseInt(ingredientsList.getAttribute("data-original-servings")) || 4;
+      const baseServings = parseInt(ingredientsList.getAttribute("data-base-servings")) || originalServings;
+      const requiredMultiplier = parseInt(componentDiv.getAttribute("data-required-servings")) || 1;
+      let currentServings = baseServings;
+      
+      const decreaseBtn = componentDiv.querySelector(".decrease-component-servings");
+      const increaseBtn = componentDiv.querySelector(".increase-component-servings");
+      const servingsDisplay = componentDiv.querySelector(".current-component-servings");
+      
+      function updateComponentServings(newServings) {
+        if (newServings < 1) return;
+        
+        currentServings = newServings;
+        servingsDisplay.textContent = currentServings;
+        
+        const multiplier = currentServings / originalServings;
+        
+        componentDiv.querySelectorAll(".component-ingredient-item").forEach(function(item) {
+          const original = item.getAttribute("data-ingredient");
+          const parts = original.split("|");
+          
+          if (parts.length > 1) {
+            const amount = parseFloat(parts[0]);
+            const newAmount = (amount * multiplier).toFixed(2).replace(/\.?0+$/, '');
+            const rest = parts.slice(1).join(" ");
+            item.querySelector(".component-ingredient-display").innerHTML = `${newAmount} ${rest}`;
+          }
+        });
+      }
+      
+      decreaseBtn?.addEventListener("click", function() {
+        updateComponentServings(currentServings - originalServings);
+      });
+      
+      increaseBtn?.addEventListener("click", function() {
+        updateComponentServings(currentServings + originalServings);
+      });
     });
 
     // Checkbox Toggle

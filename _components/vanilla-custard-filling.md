@@ -4,14 +4,15 @@ layout: recipe
 title:  "Vanilla Custard Filling"
 image: vanilla-custard.jpg
 imagecredit: https://flic.kr/p/99yJqV
+servings: 1
 
 ingredients:
-- 1/2 cup sugar
-- 1/4 cup all-purpose flour
-- 1/2 teaspoon salt
-- 2 cups milk
-- 2 egg yolks, lightly beaten
-- 2 teaspoons vanilla extract
+- 1/2|cup|sugar
+- 1/4|cup|all-purpose flour
+- 1/2|teaspoon|salt
+- 2|cups|milk
+- 2|egg yolks, lightly beaten
+- 2|teaspoons|vanilla extract
 
 
 directions:

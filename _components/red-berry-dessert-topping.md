@@ -4,12 +4,13 @@ layout: recipe
 title:  "Red Berry Dessert Topping"
 image: red-berry-topping.jpg
 imagecredit: https://flic.kr/p/9kczzP
+servings: 1
 
 ingredients:
-- 1/2 cup raspberries
-- 1/2 cup strawberries
-- 1/4 white sugar
-- 1 squirt honey
+- 1/2|cup|raspberries
+- 1/2|cup|strawberries
+- 1/4|white sugar
+- 1|squirt honey
 
 
 directions:

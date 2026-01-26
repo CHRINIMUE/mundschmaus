@@ -4,13 +4,14 @@ layout: recipe
 title:  "Graham Cracker Crust"
 image: graham-cracker-crust.jpg
 imagecredit: https://flic.kr/p/atxu75
+servings: 1
 
 
 ingredients:
-- 2 cups graham cracker crumbs
-- 6 tbs butter (melted)
-- 1/3 cup white sugar
-- 1 tsp cinnamon
+- 2|cups|graham cracker crumbs
+- 6|tbs|butter (melted)
+- 1/3|cup|white sugar
+- 1|tsp|cinnamon
 
 directions:
 - pulse graham cracker in food processor or use muddler to crumb in bowl
