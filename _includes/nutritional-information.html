@@ -4,7 +4,7 @@
 {% if page.nutrition['servingSize'] != nil %}
 ({{ page.nutrition['servingSize'] }})
 {% endif %}</h4>
-<div class="flex flex-wrap" itemprop="nutrition" itemscope itemtype="http://schema.org/NutritionInformation">
+<div class="flex flex-wrap" itemprop="nutrition" itemscope itemtype="https://schema.org/NutritionInformation">
 {% assign nutrients = page.nutrition %}
 {% for nutrient in nutrients  %}
   {% if nutrient.first == 'servingSize' %}{% continue %}{% endif %}

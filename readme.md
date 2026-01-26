@@ -45,4 +45,4 @@ A component recipe is a special recipe made up of other recipes. To make a new c
 You can an example on the Red Berry Tart recipe. 
 
 - [example Markdown](https://raw.githubusercontent.com/clarklab/chowdown/gh-pages/_recipes/red-berry-tart.md)
-- [example recipe page](http://chowdown.io/recipes/red-berry-tart.html)
+- [example recipe page](https://chowdown.io/recipes/red-berry-tart.html)
