@@ -235,7 +235,15 @@ layout: default
           const amount = parseFloat(parts[0]);
           const newAmount = (amount * multiplier).toFixed(2).replace(/\.?0+$/, '');
           const rest = parts.slice(1).join(" ");
-          item.querySelector(".ingredient-display").innerHTML = `${newAmount} ${rest}`;
+          const newText = `${newAmount} ${rest}`;
+          
+          item.querySelector(".ingredient-display").innerHTML = newText;
+          
+          // Update data-content attribute for strikethrough effect
+          const label = item.querySelector(".recipe-label");
+          if (label) {
+            label.setAttribute("data-content", newText.trim());
+          }
         }
       });
     }
@@ -278,7 +286,15 @@ layout: default
             const amount = parseFloat(parts[0]);
             const newAmount = (amount * multiplier).toFixed(2).replace(/\.?0+$/, '');
             const rest = parts.slice(1).join(" ");
-            item.querySelector(".component-ingredient-display").innerHTML = `${newAmount} ${rest}`;
+            const newText = `${newAmount} ${rest}`;
+            
+            item.querySelector(".component-ingredient-display").innerHTML = newText;
+            
+            // Update data-content attribute for strikethrough effect
+            const label = item.querySelector(".recipe-label");
+            if (label) {
+              label.setAttribute("data-content", newText.trim());
+            }
           }
         });
       }
