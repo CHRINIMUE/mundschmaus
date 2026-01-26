@@ -2,7 +2,8 @@
 title: Mundschmaus
 email: info@mundschmaus.de
 description: The plain text recipe database for hackers
-baseurl: "https://mundschmaus.de"
+baseurl: ""
+url: "https://mundschmaus.de"
 language: "de"
 lang_direction: "ltr"
 color: "#F53200"
