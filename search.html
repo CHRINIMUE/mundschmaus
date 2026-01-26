@@ -23,17 +23,6 @@ layout: default
       <div id="filters" class="flex block gap-4 mt-4">
 
 
-      <div class="suggestions w-full mt-4 text-lg flex flex-col gap-2">
-      	<span class="text-red-950 md:text-primary uppercase font-semibold text-center">{{ site.translation[site.language].ingredients }}</span>
-        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">chicken</span> 
-        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">lentils</span> 
-        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">beef</span> 
-        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">butter</span> 
-        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">garlic</span> 
-        <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">cheese</span>
-      </div>
-
-
       {% assign all_tags = "" %}
 
 <!-- Step 1: Collect all tags from recipes -->
@@ -49,7 +38,35 @@ layout: default
 <!-- Step 2: Convert collected tags into an array -->
 {% assign tag_array = all_tags | split: "," %}
 
-<!-- Step 3: Output tags in the correct format -->
+<!-- Step 3: Collect all ingredients from recipes -->
+{% assign all_ingredients = "" %}
+{% for recipe in site.recipes %}
+  {% for ingredient in recipe.ingredients %}
+    {% assign parts = ingredient | split: "|" %}
+    {% if parts.size >= 2 %}
+      {% assign ingredient_name = parts[-1] | strip | downcase %}
+    {% else %}
+      {% assign ingredient_name = ingredient | strip | downcase %}
+    {% endif %}
+    {% unless all_ingredients contains ingredient_name %}
+      {% assign all_ingredients = all_ingredients | append: ingredient_name | append: "," %}
+    {% endunless %}
+  {% endfor %}
+{% endfor %}
+
+<!-- Step 4: Convert collected ingredients into an array -->
+{% assign ingredient_array = all_ingredients | split: "," | uniq | sort %}
+
+<div class="suggestions w-full mt-4 text-lg flex flex-col gap-2">
+  <span class="text-red-950 md:text-primary uppercase font-semibold text-center">{{ site.translation[site.language].ingredients }}</span>     
+  {% for ingredient in ingredient_array limit:6 %}
+    {% if ingredient != "" %}
+      <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">{{ ingredient }}</span>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<!-- Step 5: Output tags in the correct format -->
 <div class="suggestions w-full mt-4 text-lg flex flex-col gap-2">
   <span class="text-red-950 md:text-primary uppercase font-semibold text-center">Tags</span>     
   {% for tag in tag_array limit:6 %}
