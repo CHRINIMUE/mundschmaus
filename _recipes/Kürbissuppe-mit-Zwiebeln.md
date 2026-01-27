@@ -22,12 +22,12 @@ ingredients:
 
 
 directions:
-- 1 Kürbis in kleinere Stücke schneiden und mit der Fleischbrühe weichkochen.
-- 2 Anschließend pürieren. 
-- 3 Den in Streifen geschnittenen Speck in Butter kross anbraten.
-- 4 Speck herausnehmen und im Fett die kleingeschnittene Zwiebel andämpfen.
-- 5 Den Puderzucker darübersieben und unterrühren (Darf nicht dunkel werden).
-- 6 Beides zum Püree geben. Sahne dazugebeben, mit dem Brühwürfel, Salz und Pfeffer abschmecken.
+- Kürbis in kleinere Stücke schneiden und mit der Fleischbrühe weichkochen.
+- Anschließend pürieren. 
+- Den in Streifen geschnittenen Speck in Butter kross anbraten.
+- Speck herausnehmen und im Fett die kleingeschnittene Zwiebel andämpfen.
+- Den Puderzucker darübersieben und unterrühren (Darf nicht dunkel werden).
+- Beides zum Püree geben. Sahne dazugebeben, mit dem Brühwürfel, Salz und Pfeffer abschmecken.
 
 ---
 
