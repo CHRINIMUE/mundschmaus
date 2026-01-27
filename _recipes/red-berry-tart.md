@@ -5,7 +5,8 @@ title:  "Red Berry Tart"
 image: red-berry-tart.jpg
 
 tags:
-- desserts
+- Kuchen & Torten
+- Desserts & Süßspeisen
 
 directions:
 - Bake the crust and let it cool

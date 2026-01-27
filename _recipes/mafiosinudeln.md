@@ -5,8 +5,7 @@ title:  "Mafiosinudeln"
 servings: 4
 
 tags:
-- Mittagessen
-- Kochen
+- Fleischgerichte
 
 ingredients:
 - 2|Zwiebeln

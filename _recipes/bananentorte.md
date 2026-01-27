@@ -5,21 +5,21 @@ title:  "Bananentorte"
 servings: 1
 
 tags:
-- Torte
+- Kuchen & Torten
 
 ingredients:
 - 4|Eier
 - 3|EL|Wasser
 - 120|g|Zucker
-- 1|Packungen|Vanillezucker
+- 1||Vanillezucker
 - 80|g|Mehl
 - 50|g|Stärke
 - 5|Bananen
 - 0.5|l|Orangesaft
-- 2|Packungen|Tortenguss
+- 2|Pck.|Tortenguss
 - 0.5|l|Sahne
-- 2|Packungen|Vanillezucker
-- 1|Packungen|Ritter-Sport-Schokolade Vollnuss
+- 2|Pck.|Vanillezucker
+- 1|Pck.|Ritter-Sport-Schokolade Vollnuss
 
 directions:
 - Eigelb und Eiweiß trennen. Das Eigelb und Wasser schaumig rühren.
@@ -33,3 +33,5 @@ directions:
 - Schokolade und Kokosfett im Wasserbad schmelzen und mit einem Esslöfen nach Lust und Laune auf der Sahne verteilen
 
 ---
+
+Von Sonja
