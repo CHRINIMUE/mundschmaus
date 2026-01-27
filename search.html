@@ -44,9 +44,9 @@ layout: default
   {% for ingredient in recipe.ingredients %}
     {% assign parts = ingredient | split: "|" %}
     {% if parts.size >= 2 %}
-      {% assign ingredient_name = parts[-1] | strip | downcase %}
+      {% assign ingredient_name = parts[-1] | strip %}
     {% else %}
-      {% assign ingredient_name = ingredient | strip | downcase %}
+      {% assign ingredient_name = ingredient | strip %}
     {% endif %}
     {% unless all_ingredients contains ingredient_name %}
       {% assign all_ingredients = all_ingredients | append: ingredient_name | append: "," %}
@@ -61,7 +61,7 @@ layout: default
   <span class="text-red-950 md:text-primary uppercase font-semibold text-center">{{ site.translation[site.language].ingredients }}</span>     
   {% for ingredient in ingredient_array limit:6 %}
     {% if ingredient != "" %}
-      <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">{{ ingredient }}</span>
+      <span class="suggestion cursor-pointer text-primary text-xl px-3 py-3 rounded-lg bg-red-200 text-center md:hover:scale-105 md:hover:rotate-1 transition">{{ ingredient }}</span>
     {% endif %}
   {% endfor %}
 </div>
@@ -71,7 +71,7 @@ layout: default
   <span class="text-red-950 md:text-primary uppercase font-semibold text-center">Tags</span>     
   {% for tag in tag_array limit:6 %}
     {% if tag != "" %}
-      <span class="suggestion cursor-pointer text-white text-xl px-3 py-3 rounded-lg bg-primary text-center md:hover:scale-105 md:hover:rotate-1 transition underline underline-offset-2">{{ tag }}</span>
+      <span class="suggestion cursor-pointer text-white text-xl px-3 py-3 rounded-lg bg-primary text-center md:hover:scale-105 md:hover:rotate-1 transition">{{ tag }}</span>
     {% endif %}
   {% endfor %}
 </div>
