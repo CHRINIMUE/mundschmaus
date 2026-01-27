@@ -8,7 +8,7 @@ tags:
 - Fleischgerichte
 
 ingredients:
-- 2|Zwiebeln
+- 2|Zwiebel
 - 1|Knoblauchzehe
 - 10|Scheiben|Bacon
 - 1|EL|Tomatenmark

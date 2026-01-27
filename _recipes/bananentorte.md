@@ -14,7 +14,7 @@ ingredients:
 - 1||Vanillezucker
 - 80|g|Mehl
 - 50|g|Stärke
-- 5|Bananen
+- 5|Banane
 - 0.5|l|Orangesaft
 - 2|Pck.|Tortenguss
 - 0.5|l|Sahne
