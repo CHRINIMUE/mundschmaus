@@ -2,6 +2,7 @@
 
 layout: recipe
 title:  "Bananentorte"
+date: 2026-01-20
 servings: 1
 
 tags:

@@ -2,6 +2,7 @@
 
 layout: recipe
 title:  "Mafiosinudeln"
+date: 2026-01-20
 servings: 4
 
 tags:
