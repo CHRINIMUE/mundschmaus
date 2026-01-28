@@ -24,8 +24,11 @@ layout: default
                   {% endif %}
                 {% endif %}
                 <a class="recipe w-3/4 md:w-auto flex-shrink-0 block snap-center md:hover:scale-105 md:hover:rotate-1 transition" href="{{ post.url | prepend: site.baseurl }}">
-                  <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url('{{ site.baseurl }}/images/{{ first_image }}');">
-                  </canvas>
+                  <img 
+                    class="aspect-video w-full rounded-xl bg-gray-100 mb-1 object-cover" 
+                    src="{{ site.baseurl }}/images/{{ first_image }}" 
+                    loading="lazy"
+                    alt="{{ post.title }}">
                   <h1 class="font-semibold leading-tight text-red-950 uppercase md:text-base md:text-orange-950 md:font-inter md:normal-case pr-16 md:pr-0">{{ post.title }}</h1>
                 </a>
               {% endfor %}
