@@ -9,7 +9,9 @@ layout: default
         {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort:"date" | reverse %}
         {% if category_recipes.size > 0 %}
           <div class="recipes">
-            <h2 class="text-xl text-primary font-gelica md:text-primary uppercase md:font-semibold mb-2 px-6">{{ category }}</h2>
+            <a href="{{ site.baseurl }}/search.html?tag={{ category | url_encode }}" class="block">
+              <h2 class="text-xl text-primary font-gelica md:text-primary uppercase md:font-semibold mb-2 px-6 cursor-pointer">{{ category }}</h2>
+            </a>
 
             <div class="flex overflow-scroll md:overflow-visible snap-x md:grid px-6 md:h-full md:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6">
               {% for post in category_recipes limit:3 %}

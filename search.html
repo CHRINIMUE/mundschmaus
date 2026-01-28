@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Parse URL parameters
   const params = new URLSearchParams(window.location.search);
-  const tag = params.get('tag');
+  const tag = params.get('tag') ? decodeURIComponent(params.get('tag')) : null;
 
   // Initialize SimpleJekyllSearch
   const simpleSearch = SimpleJekyllSearch({
@@ -142,14 +142,17 @@ document.addEventListener('DOMContentLoaded', () => {
     noResultsText: 'Keine Ergebnisse bis jetzt, aber die Suche ist etwas klapprig. Versuche den gleichen Suchbegriff nochmal oder einen der vorgeschlagenen Suchbegriffe ...',
     json: '{{site.baseurl}}/search.json',
     searchResultTemplate: '<a class="recipe md:hover:scale-105 md:hover:rotate-1 transition" href="{url}"><canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url(\'{image}\'), url(\'{{ site.baseurl }}/images/default.jpg\');"></canvas><h1 class="font-semibold leading-tight">{title}</h1></a>',
+    fuzzy: false,
+    exclude: [],
     success: () => {
       console.log('Search initialized successfully');
 
       // If a tag is present, trigger search and update UI
       if (tag) {
-        searchInput.value = tag;
+        const trimmedTag = tag.trim();
+        searchInput.value = trimmedTag;
         setTimeout(() => {
-          simpleSearch.search(tag);
+          simpleSearch.search(trimmedTag);
           showResults();
         }, 100);
       }
