@@ -9,7 +9,7 @@ layout: default
         {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort:"date" | reverse %}
         {% if category_recipes.size > 0 %}
           <div class="recipes">
-            <h2 class="text-red-950 md:text-primary uppercase font-semibold mb-2 px-6">{{ category }}</h2>
+            <h2 class="text-xl text-primary font-gelica md:text-primary uppercase md:font-semibold mb-2 px-6">{{ category }}</h2>
 
             <div class="flex overflow-scroll md:overflow-visible snap-x md:grid px-6 md:h-full md:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6">
               {% for post in category_recipes limit:3 %}
@@ -24,7 +24,7 @@ layout: default
                 <a class="recipe w-3/4 md:w-auto flex-shrink-0 block snap-center md:hover:scale-105 md:hover:rotate-1 transition" href="{{ post.url | prepend: site.baseurl }}">
                   <canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url('{{ site.baseurl }}/images/{{ first_image }}');">
                   </canvas>
-                  <h1 class="font-semibold leading-tight text-2xl text-primary font-gelica md:text-base md:text-orange-950 md:font-inter pr-16 md:pr-0">{{ post.title }}</h1>
+                  <h1 class="font-semibold leading-tight text-red-950 uppercase md:text-base md:text-orange-950 md:font-inter md:normal-case pr-16 md:pr-0">{{ post.title }}</h1>
                 </a>
               {% endfor %}
             </div>
