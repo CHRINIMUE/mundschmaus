@@ -79,12 +79,3 @@ function updateCache(request, response) {
     return cache.put(request, response);
   });
 }
-
-// In head.html nach der Service Worker Registration
-navigator.serviceWorker.register("{{ site.baseurl }}/serviceworker.js")
-  .then(function(reg) {
-    // Prüfe alle 24h auf Updates
-    setInterval(function() {
-      reg.update();
-    }, 24 * 60 * 60 * 1000);
-  });

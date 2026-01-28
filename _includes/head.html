@@ -91,6 +91,10 @@
         })
         .then(function (reg) {
           console.log("Service worker has been registered for scope: " + reg.scope);
+          // Prüfe alle 24h auf Updates
+          setInterval(function() {
+            reg.update();
+          }, 24 * 60 * 60 * 1000);
         });
     }
   }
