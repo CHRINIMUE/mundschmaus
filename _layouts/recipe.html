@@ -14,21 +14,41 @@ layout: default
     </a>
     
     <!-- call up the image and image credit link -->
-    {% for image in page.image %}
+    {% if page.image %}
+      {% if page.image contains ".jpg" or page.image contains ".jpeg" or page.image contains ".png" or page.image contains ".webp" or page.image contains ".gif" or page.image contains ".avif" %}
+        <canvas class="view w-full h-full bg-cover bg-center"
+          style="background-image:url('{{ site.baseurl }}/images/{{ page.image }}');">
+        </canvas>
 
-      <canvas class="view w-full h-full bg-cover bg-center"
-        style="background-image:url({{ site.baseurl }}/images/{{ image }});">
-      </canvas>
+
+        {% if page.imagecredit %}
+          {% for imagecredit in page.imagecredit %}
+            <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
+              <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
+            </a>
+          {% endfor %}
+        {% endif %}
+      {% else %}
+        {% for image in page.image %}
+
+          <canvas class="view w-full h-full bg-cover bg-center"
+            style="background-image:url('{{ site.baseurl }}/images/{{ image }}');">
+          </canvas>
 
 
-      {% if page.imagecredit %}
-        {% for imagecredit in page.imagecredit %}
-          <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
-            <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
-          </a>
+          {% if page.imagecredit %}
+            {% for imagecredit in page.imagecredit %}
+              <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
+                <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
+              </a>
+            {% endfor %}
+          {% endif %}
         {% endfor %}
       {% endif %}
-    {% endfor %}
+    {% else %}
+      <canvas class="view w-full h-full bg-cover bg-center"
+        style="background-image:url('{{ site.baseurl }}/images/default.jpg');"></canvas>
+    {% endif %}
 
   </div>
 
@@ -137,18 +157,38 @@ layout: default
       <div class="component-recipe pt-8" data-required-servings="{{ component_servings }}">
         <h4 class="font-gelica text-3xl mb-6">{{recipe.title}} <span class="text-xl text-gray-600">({{ component_servings }}x benötigt)</span></h4>
 
-        {% for image in recipe.image %}
-        <div class="image ratio bg-cover relative mb-8" style="background-image:url({{site.baseurl}}/images/{{ image }});">
-          <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/{{ image }}" />
-          {% if recipe.imagecredit %}
-            {% for imagecredit in recipe.imagecredit %}
-              <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
-                <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
-              </a>
+        {% if recipe.image %}
+          {% if recipe.image contains ".jpg" or recipe.image contains ".jpeg" or recipe.image contains ".png" or recipe.image contains ".webp" or recipe.image contains ".gif" or recipe.image contains ".avif" %}
+          <div class="image ratio bg-cover relative mb-8" style="background-image:url('{{ site.baseurl }}/images/{{ recipe.image }}');">
+            <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/{{ recipe.image }}" />
+            {% if recipe.imagecredit %}
+              {% for imagecredit in recipe.imagecredit %}
+                <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
+                  <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
+                </a>
+              {% endfor %}
+            {% endif %}
+          </div>
+          {% else %}
+            {% for image in recipe.image %}
+            <div class="image ratio bg-cover relative mb-8" style="background-image:url('{{ site.baseurl }}/images/{{ image }}');">
+              <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/{{ image }}" />
+              {% if recipe.imagecredit %}
+                {% for imagecredit in recipe.imagecredit %}
+                  <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
+                    <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
+                  </a>
+                {% endfor %}
+              {% endif %}
+            </div>
             {% endfor %}
           {% endif %}
+        {% endif %}
+        {% unless recipe.image %}
+        <div class="image ratio bg-cover relative mb-8" style="background-image:url('{{ site.baseurl }}/images/default.jpg');">
+          <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/default.jpg" />
         </div>
-        {% endfor %}
+        {% endunless %}
 
         {% if recipe.ingredients %}
         <div class="flex items-center justify-between mb-4">

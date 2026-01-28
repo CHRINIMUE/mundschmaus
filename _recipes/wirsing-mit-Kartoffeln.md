@@ -2,6 +2,7 @@
 
 layout: recipe
 title:  "Wirsing mit Kartoffeln"
+image: wirsing-mit-kartoffeln.jpg
 date: 2026-01-27
 servings: 4
 

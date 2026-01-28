@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resultsContainer: document.getElementById('results_list'),
     noResultsText: 'Keine Ergebnisse bis jetzt, aber die Suche ist etwas klapprig. Versuche den gleichen Suchbegriff nochmal oder einen der vorgeschlagenen Suchbegriffe ...',
     json: '{{site.baseurl}}/search.json',
-    searchResultTemplate: '<a class="recipe md:hover:scale-105 md:hover:rotate-1 transition" href="{url}"><canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url({image});"></canvas><h1 class="font-semibold leading-tight">{title}</h1></a>',
+    searchResultTemplate: '<a class="recipe md:hover:scale-105 md:hover:rotate-1 transition" href="{url}"><canvas class="aspect-video w-full rounded-xl bg-gray-100 mb-1 bg-cover bg-center" style="background-image:url(\'{image}\'), url(\'{{ site.baseurl }}/images/default.jpg\');"></canvas><h1 class="font-semibold leading-tight">{title}</h1></a>',
     success: () => {
       console.log('Search initialized successfully');
 
