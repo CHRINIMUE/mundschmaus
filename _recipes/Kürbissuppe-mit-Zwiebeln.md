@@ -8,6 +8,7 @@ servings: 4
 
 tags:
 - Fleischgerichte
+- Suppen, Eintöpfe & Currys
 
 ingredients:
 - 1|Hokkaido (ca. 800g)
