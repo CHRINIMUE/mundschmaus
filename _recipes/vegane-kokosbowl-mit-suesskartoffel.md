@@ -8,6 +8,7 @@ servings: 2
 tags:
 - Salate & Bowls
 - Vegetarisch & Vegan
+- Reis
 
 ingredients:
 - 20|ml|Sojasoße

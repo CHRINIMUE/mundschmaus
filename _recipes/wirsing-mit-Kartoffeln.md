@@ -8,6 +8,7 @@ servings: 4
 
 tags:
 - Fleischgerichte
+- Kartoffeln
 
 ingredients:
 - 1|großer Wirsing

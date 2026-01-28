@@ -7,6 +7,7 @@ servings: 4
 
 tags:
 - Fleischgerichte
+- Nudeln
 
 ingredients:
 - 2|Zwiebel
