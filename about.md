@@ -11,7 +11,11 @@ Wenn nicht: auch okay – Geschmäcker sind verschieden.
 
 Diese Sammlung wächst nach und nach weiter, immer wenn wieder etwas Leckeres auf den Tisch kommt.
 
+Als Grundlage für diese Website verwenden wir die großartige Vorlage [Chowdown von clarklab](https://github.com/clarklab/chowdown).  
+Ein herzliches Dankeschön an die Entwickler dafür, dass sie dieses Projekt lizenzfrei zur Verfügung stellen und damit ermöglichen, dass auch kleine private Projekte wie dieses darauf aufbauen dürfen.
+
 Danke fürs Vorbeischauen und viel Spaß beim Stöbern und Nachkochen!
+
 
 
 <small>Hier noch die rechtlichen Angaben im [Impressum](/impressum/).</small>
