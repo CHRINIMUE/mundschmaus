@@ -14,8 +14,8 @@ Diese Sammlung wächst nach und nach weiter, immer wenn wieder etwas Leckeres au
 Als Grundlage für diese Website verwenden wir die großartige Vorlage [Chowdown von clarklab](https://github.com/clarklab/chowdown).  
 Ein herzliches Dankeschön an die Entwickler dafür, dass sie dieses Projekt lizenzfrei zur Verfügung stellen und damit ermöglichen, dass auch kleine private Projekte wie dieses darauf aufbauen dürfen.
 
+Der [Quellcode](https://github.com/CHRINIMUE/mundschmaus) für diese Website ist ebenfalls verfügbar und darf gerne - genauso wie die Rezepte selbst - verwendet werden.
+
 Danke fürs Vorbeischauen und viel Spaß beim Stöbern und Nachkochen!
-
-
 
 <small>Hier noch die rechtlichen Angaben im [Impressum](/impressum/).</small>
