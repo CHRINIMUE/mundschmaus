@@ -7,7 +7,6 @@ date: 2026-01-27
 servings: 4
 
 tags:
-- Fleischgerichte
 - Kartoffeln
 
 ingredients:

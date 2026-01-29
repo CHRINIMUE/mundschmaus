@@ -6,7 +6,6 @@ date: 2026-01-20
 servings: 4
 
 tags:
-- Fleischgerichte
 - Nudeln
 
 ingredients:
