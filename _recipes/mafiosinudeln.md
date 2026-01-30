@@ -20,12 +20,12 @@ ingredients:
 - 5|EL|Wodka
 
 directions:
-- Die Nudeln in Salzwasser nach Packungsanweisung kochen.
-- Währenddessen Zwiebeln und Knoblauch schälen und fein würfeln. 
-- Bacon in einer großen Pfanne ohne Fett von jeder Seite knusprig braten. Herausnehmen und auf Küchenpapier abtropfen lassen.
-- Zwiebeln und Knoblauch im heißen Bratfett andünsten. Tomatenmark einrühren und kurz anschwitzen. 
-- Stückige Tomaten, Sahne und Wodka einrühren. Mit Salz und Pfeffer würzen. Aufkochen und bei schwacher Hitze 8–10 Minuten köcheln lassen.
-- Mozzarella fein würfeln, den Bacon grob zerbröckeln und kurz vor Ende der Kochzeit in Soße geben. Danach servieren ...
+- Die [400|g|Nudeln (Penne)] in Salzwasser nach Packungsanweisung kochen.
+- Währenddessen [2|x|Zwiebel|Zwiebeln] und [1|x|Knoblauchzehe] schälen und fein würfeln. 
+- "[10|Scheiben|Bacon] in einer großen Pfanne ohne Fett von jeder Seite knusprig braten. Herausnehmen und auf Küchenpapier abtropfen lassen."
+- Zwiebeln und Knoblauch im heißen Bratfett andünsten. [1|EL|Tomatenmark] einrühren und kurz anschwitzen. 
+- "[1|Dose|stückige Tomaten], [100|g|Schlagsahne] und [5|EL|Wodka] einrühren. Mit Salz und Pfeffer würzen. Aufkochen und bei schwacher Hitze 8–10 Minuten köcheln lassen."
+- "[125|g|Mozzarella] fein würfeln, den Bacon grob zerbröckeln und kurz vor Ende der Kochzeit in Soße geben. Danach servieren ..."
 
 ---
 

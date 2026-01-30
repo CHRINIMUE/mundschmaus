@@ -134,9 +134,11 @@ layout: default
 
     <div class="sm-col sm-col-6 lg-col-6">
       <h2 class="uppercase text-primary font-semibold mb-2">{{ site.translation[site.language].directions }}</h2>
-      <ul itemprop="recipeInstructions" class="flex flex-col gap-3 mb-8">
+      <ul itemprop="recipeInstructions" class="flex flex-col gap-3 mb-8 directions-list" data-original-servings="{{ page.servings | default: 4 }}">
         {% for direction in page.directions %}
-        <li class="flex gap-3 items-start text-lg leading-loose">{{ direction | markdownify }}</li>
+        <li class="flex gap-3 items-start text-lg leading-loose direction-item" data-direction="{{ direction }}">
+          <span class="direction-display">{{ direction | markdownify }}</span>
+        </li>
         {% endfor %}
       </ul>
     </div>
@@ -263,6 +265,25 @@ layout: default
     const mainOriginalServings = parseInt(document.querySelector("ul[data-original-servings]")?.getAttribute("data-original-servings")) || 4;
     let mainCurrentServings = mainOriginalServings;
 
+    function processDirectionText(text, multiplier) {
+      // Process [amount|unit|singular|plural] patterns in directions
+      return text.replace(/\[([^\]]+)\]/g, function(match, content) {
+        const parts = content.split("|");
+        if (parts.length >= 3) {
+          const amount = parseFloat(parts[0]);
+          const newAmount = (amount * multiplier).toFixed(2).replace(/\.?0+$/, '');
+          const unit = parts[1].trim();
+          const singular = parts[2].trim();
+          const plural = parts.length > 3 ? parts[3].trim() : singular;
+          
+          // Determine singular or plural
+          const name = parseFloat(newAmount) === 1 ? singular : plural;
+          return `${newAmount} ${unit} ${name}`;
+        }
+        return match;
+      });
+    }
+
     function updateServings(newServings) {
       if (newServings < 1) return;
       
@@ -290,7 +311,28 @@ layout: default
           }
         }
       });
+      
+      // Update directions with dynamic amounts
+      document.querySelectorAll(".direction-item").forEach(function(item) {
+        const original = item.getAttribute("data-direction");
+        const processedText = processDirectionText(original, multiplier);
+        
+        item.querySelector(".direction-display").innerHTML = processedText;
+        
+        // Update data-content attribute for strikethrough effect
+        const label = item.querySelector(".recipe-label");
+        if (label) {
+          label.setAttribute("data-content", processedText.trim());
+        }
+      });
     }
+
+    // Initialize directions on page load
+    document.querySelectorAll(".direction-item").forEach(function(item) {
+      const original = item.getAttribute("data-direction");
+      const processedText = processDirectionText(original, 1);
+      item.querySelector(".direction-display").innerHTML = processedText;
+    });
 
     document.getElementById("decrease-servings")?.addEventListener("click", function() {
       updateServings(mainCurrentServings - 1);
@@ -354,7 +396,9 @@ layout: default
 
     // Custom Checkbox Styling
     document.querySelectorAll("ul li").forEach(function(li) {
-      const textContent = li.textContent.trim();
+      // Get the actual displayed text content (after processing)
+      const displayElement = li.querySelector(".ingredient-display, .direction-display, .component-ingredient-display");
+      const textContent = displayElement ? displayElement.textContent.trim() : li.textContent.trim();
       
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";

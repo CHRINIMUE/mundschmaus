@@ -21,11 +21,11 @@ ingredients:
 
 
 directions:
-- Wirsing achteln und anschließend in Streifen schneiden.
+- "[1|x|großer Wirsing] achteln und anschließend in Streifen schneiden."
 - Kartoffeln schälen und in Salzwasser kochen.
-- Zwiebel würfeln und in Öl andünsten. Den in Würfel geschnittenen Schinken dazugeben und ca. 3 EL Tomatenmark untermischen.
+- "[1|x|Zwiebel] würfeln und in Öl andünsten. Den in Würfel geschnittenen [200|g|Kochschinken] dazugeben und [3|EL|Tomatenmark] untermischen."
 - Alles mit etwas Wasser ablöschen und die Kohlstücke hineingeben.
-- Wenn der Kohl eingegangen ist, die saure und süße Sahne dazugeben und mit Salz, Pfeffer und Muskat würzen.
+- Wenn der Kohl eingegangen ist, die [1|Becher|saure Sahne] und [1|Becher|süße Sahne] dazugeben und mit Salz, Pfeffer und Muskat würzen.
 
 
 

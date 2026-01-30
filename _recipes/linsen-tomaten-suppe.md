@@ -23,14 +23,14 @@ ingredients:
 - Schmand
 
 directions:
-- Zwiebeln, Ingwer schälen, Knoblauchzehen abziehen und fein hacken. Die Linsen in einem Sieb abbrausen und abtropfen lassen.
-- Das Öl in einem großen Topf erhitzen, die Zwiebeln darin in 5 Minuten glasig dünsten.
-- Ingwer und Knoblauch zugeben und unter Rühren 1 Minute mitdünsten.
-- Tomatenmark und Currypulver zugeben und unter Rühren einige Sekunden anrösten.
-- Linsen, Brühe, Kokosmilch und Tomaten zufügen und alles zugedeckt 25-30 Minuten köcheln lassen.
-- Anschließend die Suppe mit Salz und Pfeffer abschmecken.
-- In tiefe Teller oder Schalen füllen und jeweils einen Klecks Schmand obenauf setzen. 
+- "Die [2|x|Zwiebel|Zwiebeln], [1|x|Ingwer] schälen, [3|x|Knoblauchzehe|Knoblauchzehen] abziehen und fein hacken. Die [200|g|rote Linsen] in einem Sieb abbrausen und abtropfen lassen."
+- "Das [2|EL|Kokosöl] in einem großen Topf erhitzen, die Zwiebeln darin in 5 Minuten glasig dünsten."
+- "Ingwer und Knoblauch zugeben und unter Rühren 1 Minute mitdünsten."
+- "[2|EL|Tomatenmark] und [1|EL|Currypulver] zugeben und unter Rühren einige Sekunden anrösten."
+- "Linsen, [500|ml|Gemüsebrühe], [300|ml|Kokosmilch] und [400|g|Tomaten (gehackt oder passiert)] zufügen und alles zugedeckt 25-30 Minuten köcheln lassen."
+- "Anschließend die Suppe mit Salz und Pfeffer abschmecken."
+- "In tiefe Teller oder Schalen füllen und jeweils einen Klecks Schmand obenauf setzen."
 
 ---
 
-Angelehnt an das Rezept von Bianca.
+Angelehnt an das Rezept von Bianca Zapatka.
