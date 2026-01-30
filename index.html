@@ -6,7 +6,7 @@ layout: default
 
       <!-- Category Sections -->
       {% for category in site.data.categories %}
-        {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort:"date" | reverse %}
+        {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort: "date" | reverse %}
         {% if category_recipes.size > 0 %}
           <div class="recipes">
             <a href="{{ site.baseurl }}/search.html?tag={{ category | url_encode }}" class="block">

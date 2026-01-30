@@ -1,7 +1,8 @@
 ---
 ---
+{% assign sorted_recipes = site.recipes | sort: "date" | reverse %}
 [
-  {% for post in site.recipes %}
+  {% for post in sorted_recipes %}
     {
     
 	    "title"    : "{{ post.title | escape }}",
