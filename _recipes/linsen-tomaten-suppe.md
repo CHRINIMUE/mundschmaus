@@ -33,4 +33,4 @@ directions:
 
 ---
 
-Angelehnt an das Rezept von Bianca
+Angelehnt an das Rezept von Bianca.
