@@ -1,7 +1,7 @@
 # Site settings
 title: Mundschmaus
 email: info@mundschmaus.de
-description: The plain text recipe database for hackers
+description: Unsere liebsten Rezepte zum Nachkochen und Genießen.
 baseurl: ""
 url: "https://mundschmaus.de"
 language: "de"
