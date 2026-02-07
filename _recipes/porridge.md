@@ -12,7 +12,7 @@ tags:
 ingredients:
 - 81|g|Haferflocken (fein)
 - 0.75|TL|Zimt
-- 3|TL|Kakao
+- 2|TL|Kakao
 - 150|ml|Wasser
 - 225|ml|Milch
 - 1|Banane
@@ -20,7 +20,7 @@ ingredients:
 - Topping - frisches Obst nach Wahl (z.B. Beeren, Apfel, Birne, Banane)
 
 directions:
-- "[81|g|Haferflocken (fein)], [0.75|TL|Zimt], [3|TL|Kakao], [150|ml|Wasser], [225|ml|Milch] und [1|x|Banane|Bananen] (zerquetscht) in einen Topf geben und zum Aufkochen bringen. Bei reduzierter Hitze noch ca. 2 Minuten köcheln lassen & währenddessen regelmäßig rühren. (Damit nichts anbrennt 😉)"
+- "[81|g|Haferflocken (fein)], [0.75|TL|Zimt], [2|TL|Kakao], [150|ml|Wasser], [225|ml|Milch] und [1|x|Banane|Bananen] (zerquetscht) in einen Topf geben und zum Aufkochen bringen. Bei reduzierter Hitze noch ca. 2 Minuten köcheln lassen & währenddessen regelmäßig rühren. (Damit nichts anbrennt 😉)"
 - Währenddessen für das Topping Obst in kleine Stücke schneiden und die Schokolade fein zerkleinern.
 - Porridge in Schüsseln zum Servieren geben, dann die Schokolade & Topping darauf verteilen.
 
