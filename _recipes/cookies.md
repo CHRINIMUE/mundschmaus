@@ -23,7 +23,7 @@ directions:
 - "Ofen auf 190˚C Umluft vorheizen. Die Backbleche mit Backpapier vorbereiten"
 - "[125|g|Butter] in einer Rührschüssel abwiegen, in der Mikrowelle leicht schmelzen lassen und mit [50|g|braunen Zucker] und [65|g|Zucker] schaumig schlagen"
 - "[1|x|Ei|Eier] und [0.5|Pck|Vanillezucker] zufügen und cremig rühren."
-- "[1|TL|Backpulver] und [170|g|Mehl] unter die Masse rühren, bis der Teig fes und zäh ist."
+- "[1|TL|Backpulver] und [170|g|Mehl] unter die Masse rühren, bis der Teig fest und zäh ist."
 - "[100|g|Schokolade] grob hacken und unter den Teig mischen. (Oder die individuell gewählte Variation)"
 - "Den Teig mit einem Esslöfel auf dem Backpapier verteilen (ca. 5 pro Blech)."
 - "Für 8-9 Minuten in den Ofen geben. Wenn die Ränder leicht braun sind und der Kern noch feucht ist, sind die Cookies fertig."
