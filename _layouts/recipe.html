@@ -102,7 +102,7 @@ layout: default
         <li class="flex gap-3 items-start text-lg leading-loose">
           {% if matched_component_recipe %}
             <p>
-              <a href="{{ site.baseurl }}{{ matched_component_recipe.url }}" class="underline decoration-[3px] decoration-primary underline-offset-2">
+              <a class="underline decoration-[3px] decoration-primary underline-offset-2">
                 {{ matched_component_recipe.title }}
               </a>
               {% if component.amount and component.unit %}
@@ -209,7 +209,7 @@ layout: default
 
       <div class="component-recipe pt-8" data-required-servings="{{ component_servings }}" data-scaling-mode="{{ component_scaling_mode }}" data-serving-size="{{ recipe_serving_size }}" data-base-amount="{{ base_component_display }}" data-amount-unit="{{ component_display_unit }}" data-component-step="{{ component_step }}">
         <h4 class="font-gelica text-3xl mb-6">
-          <a href="{{ site.baseurl }}{{ recipe.url }}" class="underline decoration-[3px] decoration-primary underline-offset-2">{{recipe.title}}</a>
+          <a class="underline decoration-[3px] decoration-primary underline-offset-2">{{recipe.title}}</a>
           {% if component_scaling_mode == 'amount' %}
             <span class="text-xl text-gray-600">({{ component_amount }} {{ component_unit }} benötigt)</span>
           {% else %}
