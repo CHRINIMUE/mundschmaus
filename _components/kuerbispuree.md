@@ -3,6 +3,8 @@
 layout: recipe
 title:  "Kürbispüree"
 servings: 1
+serving_size: 250
+serving_unit: g
 
 
 ingredients:

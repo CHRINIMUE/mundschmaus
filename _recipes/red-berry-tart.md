@@ -15,11 +15,11 @@ directions:
 - Make the red berry topping, spread over the top
 
 components:
-- name: Graham Cracker Crust
+- file: graham-cracker-crust.md
   servings: 1
-- name: Vanilla Custard Filling
+- file: vanilla-custard-filling.md
   servings: 1
-- name: Red Berry Dessert Topping
+- file: red-berry-dessert-topping.md
   servings: 2
 
 ---

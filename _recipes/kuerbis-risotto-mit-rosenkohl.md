@@ -30,8 +30,9 @@ directions:
 - "Danach den Rosenkohl in einer Pfanne ca. 3-5 Minuten von allen Seiten goldbraun braten. Nach Geschmack salzen und pfeffern."
 
 components:
-- name: Kürbispüree
-  servings: 1
+- file: kuerbispuree.md
+  amount: 240
+  unit: g
 
 ---
 

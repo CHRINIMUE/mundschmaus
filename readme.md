@@ -46,3 +46,26 @@ You can an example on the Red Berry Tart recipe.
 
 - [example Markdown](https://raw.githubusercontent.com/clarklab/chowdown/gh-pages/_recipes/red-berry-tart.md)
 - [example recipe page](https://chowdown.io/recipes/red-berry-tart.html)
+
+## Komponenten per Datei referenzieren
+
+Komponenten werden per Markdown-Datei referenziert:
+
+```yml
+components:
+	- file: kuerbispuree.md
+		amount: 240
+		unit: g
+```
+
+In der Komponente selbst kannst du definieren, welche Menge eine Basis-Portion ist:
+
+```yml
+serving_size: 250
+serving_unit: g
+```
+
+Damit wird der Multiplikator automatisch berechnet (`amount / serving_size`).
+Im Beispiel oben also `240 / 250 = 0.96`.
+
+Optional kannst du weiterhin `servings` statt `amount/unit` nutzen, wenn du über Portionen arbeiten willst.
