@@ -29,6 +29,10 @@ directions:
 - "Die [500|g|Rosenkohl] in kochendem Wasser 3-4 Minuten blanchieren. Mit kaltem Wasser abschrecken und abtropfen lassen."
 - "Danach den Rosenkohl in einer Pfanne ca. 3-5 Minuten von allen Seiten goldbraun braten. Nach Geschmack salzen und pfeffern."
 
+components:
+- name: Kürbispüree
+  servings: 1
+
 ---
 
 Rezept angelehnt an das "Kürbis-Risotto mit Rosenkohl" aus dem Buch "Vegan Soulfood" von Bianca Zapatka.
