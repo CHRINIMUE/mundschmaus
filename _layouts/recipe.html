@@ -84,41 +84,6 @@ layout: default
   <div class="">
 
     <div class="">
-      <!-- check if it's a component-based recipe -->
-      {% if page.components %}
-      <h4 class="uppercase text-primary font-semibold mb-2">{{ site.translation[site.language].components }}</h4>
-      <ul class="flex flex-col gap-3 mb-8">
-        <!-- list components that make up recipe -->
-        {% for component in page.components %}
-        {% assign component_file = component.file | default: component %}
-        {% assign matched_component_recipe = nil %}
-        {% for component_recipe in site.components %}
-          {% assign component_recipe_file = component_recipe.path | split: '/' | last %}
-          {% if component_recipe_file == component_file %}
-            {% assign matched_component_recipe = component_recipe %}
-            {% break %}
-          {% endif %}
-        {% endfor %}
-        <li class="flex gap-3 items-start text-lg leading-loose">
-          {% if matched_component_recipe %}
-            <p>
-              <a class="underline decoration-[3px] decoration-primary underline-offset-2">
-                {{ matched_component_recipe.title }}
-              </a>
-              {% if component.amount and component.unit %}
-                ({{ component.amount }} {{ component.unit }})
-              {% elsif component.servings %}
-                ({{ component.servings }}x)
-              {% endif %}
-            </p>
-          {% else %}
-            <p>{{ component_file }}</p>
-          {% endif %}
-        </li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-
       {% if page.ingredients %}
       <div class="flex items-center justify-between mb-4">
         <h2 class="uppercase text-primary font-semibold">{{ site.translation[site.language].ingredients }}</h2>
@@ -145,6 +110,38 @@ layout: default
           <span class="ingredient-display">{{ ingredient | replace: '|', ' ' | markdownify }}</span>
         </li>
         {% endfor %}
+        {% if page.components %}
+          {% for component in page.components %}
+          {% assign component_file = component.file | default: component %}
+          {% assign component_anchor = component_file | replace: '.md', '' | slugify %}
+          {% assign matched_component_recipe = nil %}
+          {% for component_recipe in site.components %}
+            {% assign component_recipe_file = component_recipe.path | split: '/' | last %}
+            {% if component_recipe_file == component_file %}
+              {% assign matched_component_recipe = component_recipe %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+          {% assign component_scaling_mode = 'servings' %}
+          {% assign component_base_amount = component.servings | default: 1 %}
+          {% assign component_display_text = component_base_amount | append: 'x' %}
+          {% if component.amount and component.unit %}
+            {% assign component_scaling_mode = 'amount' %}
+            {% assign component_base_amount = component.amount %}
+            {% assign component_display_text = component.amount | append: ' ' | append: component.unit %}
+          {% endif %}
+          <li class="flex items-start gap-3 text-lg leading-loose main-component-item" data-scaling-mode="{{ component_scaling_mode }}" data-base-amount="{{ component_base_amount }}" data-unit="{{ component.unit }}" data-component-target="#component-{{ component_anchor }}">
+            <span class="ingredient-display">
+              <span class="main-component-amount">{{ component_display_text }}</span>
+              {% if matched_component_recipe %}
+                {{ matched_component_recipe.title }}
+              {% else %}
+                {{ component_file }}
+              {% endif %}
+            </span>
+          </li>
+          {% endfor %}
+        {% endif %}
       </ul>
       {% endif %}
 
@@ -174,6 +171,7 @@ layout: default
   <div class="flex flex-col gap-12">
   {% for component in page.components %}
     {% assign component_file = component.file | default: component %}
+    {% assign component_anchor = component_file | replace: '.md', '' | slugify %}
     {% assign component_servings = component.servings | default: 1 %}
     {% assign component_amount = component.amount | default: nil %}
     {% assign component_unit = component.unit | default: nil %}
@@ -207,9 +205,9 @@ layout: default
         {% assign component_step = recipe_servings %}
       {% endif %}
 
-      <div class="component-recipe pt-8" data-required-servings="{{ component_servings }}" data-scaling-mode="{{ component_scaling_mode }}" data-serving-size="{{ recipe_serving_size }}" data-base-amount="{{ base_component_display }}" data-amount-unit="{{ component_display_unit }}" data-component-step="{{ component_step }}">
+      <div id="component-{{ component_anchor }}" class="component-recipe pt-8" data-required-servings="{{ component_servings }}" data-scaling-mode="{{ component_scaling_mode }}" data-serving-size="{{ recipe_serving_size }}" data-base-amount="{{ base_component_display }}" data-amount-unit="{{ component_display_unit }}" data-component-step="{{ component_step }}">
         <h4 class="font-gelica text-3xl mb-6">
-          <a class="underline decoration-[3px] decoration-primary underline-offset-2">{{recipe.title}}</a>
+          <a href="#component-{{ component_anchor }}" class="component-jump-link underline decoration-[3px] decoration-primary underline-offset-2">{{recipe.title}}</a>
           {% if component_scaling_mode == 'amount' %}
             <span class="text-xl text-gray-600">({{ component_amount }} {{ component_unit }} benötigt)</span>
           {% else %}
@@ -313,6 +311,35 @@ layout: default
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function() {
     const container = document.querySelector(".post-content");
+    const componentControllers = [];
+
+    function formatAmount(value) {
+      return Number(value).toFixed(2).replace(/\.?0+$/, '');
+    }
+
+    function updateMainComponentLinks(multiplier) {
+      document.querySelectorAll(".main-component-item").forEach(function(item) {
+        const scalingMode = item.getAttribute("data-scaling-mode") || "servings";
+        const baseAmount = parseFloat(item.getAttribute("data-base-amount")) || 1;
+        const unit = item.getAttribute("data-unit") || "";
+        const amountNode = item.querySelector(".main-component-amount");
+        if (!amountNode) return;
+
+        const scaledAmount = baseAmount * multiplier;
+        if (scalingMode === "amount") {
+          amountNode.textContent = `${formatAmount(scaledAmount)} ${unit}`.trim();
+        } else {
+          amountNode.textContent = `${formatAmount(scaledAmount)}x`;
+        }
+      });
+    }
+
+    function syncComponentsWithMain(multiplier) {
+      componentControllers.forEach(function(controller) {
+        controller.syncWithMain(multiplier);
+      });
+      updateMainComponentLinks(multiplier);
+    }
     
     // Main Recipe Servings Calculator
     const mainOriginalServings = parseInt(document.querySelector("ul[data-original-servings]")?.getAttribute("data-original-servings")) || 4;
@@ -378,6 +405,8 @@ layout: default
           label.setAttribute("data-content", processedText.trim());
         }
       });
+
+      syncComponentsWithMain(multiplier);
     }
 
     // Initialize directions on page load
@@ -401,21 +430,17 @@ layout: default
       if (!ingredientsList) return;
       
       const originalServings = parseFloat(ingredientsList.getAttribute("data-original-servings")) || 1;
-      const baseServings = parseFloat(ingredientsList.getAttribute("data-base-servings")) || originalServings;
       const scalingMode = componentDiv.getAttribute("data-scaling-mode") || "servings";
       const servingSize = parseFloat(componentDiv.getAttribute("data-serving-size")) || 1;
       const amountUnit = componentDiv.getAttribute("data-amount-unit") || "Portionen";
       const step = parseFloat(componentDiv.getAttribute("data-component-step")) || 1;
-      let currentServings = baseServings;
+      const baseAmount = parseFloat(componentDiv.getAttribute("data-base-amount")) || 1;
+      let currentServings = baseAmount;
       
       const decreaseBtn = componentDiv.querySelector(".decrease-component-servings");
       const increaseBtn = componentDiv.querySelector(".increase-component-servings");
       const servingsDisplay = componentDiv.querySelector(".current-component-servings");
       const unitDisplay = componentDiv.querySelector(".current-component-unit");
-
-      function formatAmount(value) {
-        return Number(value).toFixed(2).replace(/\.?0+$/, '');
-      }
       
       function updateComponentServings(newServings) {
         if (newServings < 1) return;
@@ -452,6 +477,12 @@ layout: default
       }
 
       updateComponentServings(currentServings);
+
+      componentControllers.push({
+        syncWithMain: function(multiplier) {
+          updateComponentServings(baseAmount * multiplier);
+        }
+      });
       
       decreaseBtn?.addEventListener("click", function() {
         updateComponentServings(currentServings - step);
@@ -464,6 +495,8 @@ layout: default
 
     // Custom Checkbox Styling
     document.querySelectorAll("ul li").forEach(function(li) {
+      if (li.classList.contains("no-checkbox")) return;
+
       // Get the actual displayed text content (after processing)
       const displayElement = li.querySelector(".ingredient-display, .direction-display, .component-ingredient-display");
       const textContent = displayElement ? displayElement.textContent.trim() : li.textContent.trim();
@@ -483,6 +516,18 @@ layout: default
       li.appendChild(checkbox);
       li.appendChild(label);
 
+      if (li.classList.contains("main-component-item")) {
+        const targetSelector = li.getAttribute("data-component-target");
+        if (targetSelector) {
+          const jumpLink = document.createElement("a");
+          jumpLink.href = targetSelector;
+          jumpLink.className = "component-jump-trigger underline decoration-[3px] decoration-primary underline-offset-2 ml-2 text-base";
+          jumpLink.textContent = "↳";
+          jumpLink.setAttribute("aria-label", "Zur Komponente springen");
+          li.appendChild(jumpLink);
+        }
+      }
+
       // Scroll on check
       checkbox.addEventListener("change", function() {
         if (this.checked) {
@@ -492,6 +537,22 @@ layout: default
         }
       });
     });
+
+    // In-page jump links to component sections (delegated, works after checkbox DOM updates)
+    container?.addEventListener("click", function(event) {
+      const link = event.target.closest(".component-jump-link[href^='#component-'], .component-jump-trigger[href^='#component-']");
+      if (!link) return;
+
+      const targetSelector = link.getAttribute("href");
+      const targetElement = targetSelector ? document.querySelector(targetSelector) : null;
+      if (!targetElement || !container) return;
+
+      event.preventDefault();
+      const targetTop = targetElement.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop;
+      container.scrollTo({ top: targetTop - 16, behavior: "smooth" });
+    });
+
+    updateMainComponentLinks(1);
   });
 </script>
 
