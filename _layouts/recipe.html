@@ -205,13 +205,13 @@ layout: default
         {% assign component_step = recipe_servings %}
       {% endif %}
 
-      <div id="component-{{ component_anchor }}" class="component-recipe pt-8" data-required-servings="{{ component_servings }}" data-scaling-mode="{{ component_scaling_mode }}" data-serving-size="{{ recipe_serving_size }}" data-base-amount="{{ base_component_display }}" data-amount-unit="{{ component_display_unit }}" data-component-step="{{ component_step }}">
+      <div id="component-{{ component_anchor }}" class="component-recipe pt-8" data-required-servings="{{ component_servings }}" data-scaling-mode="{{ component_scaling_mode }}" data-serving-size="{{ recipe_serving_size }}" data-base-amount="{{ base_component_display }}" data-amount-unit="{{ component_display_unit }}" data-component-step="{{ component_step }}" data-base-required-amount="{{ component_amount | default: component_servings }}" data-required-unit="{{ component_unit }}">
         <h4 class="font-gelica text-3xl mb-6">
           <a href="#component-{{ component_anchor }}" class="component-jump-link underline decoration-[3px] decoration-primary underline-offset-2">{{recipe.title}}</a>
           {% if component_scaling_mode == 'amount' %}
-            <span class="text-xl text-gray-600">({{ component_amount }} {{ component_unit }} benötigt)</span>
+            <span class="text-xl text-gray-600">(<span class="component-required-display">{{ component_amount }} {{ component_unit }}</span> benötigt)</span>
           {% else %}
-            <span class="text-xl text-gray-600">({{ component_servings }}x benötigt)</span>
+            <span class="text-xl text-gray-600">(<span class="component-required-display">{{ component_servings }}x</span> benötigt)</span>
           {% endif %}
         </h4>
 
@@ -339,6 +339,25 @@ layout: default
         controller.syncWithMain(multiplier);
       });
       updateMainComponentLinks(multiplier);
+      updateComponentRequiredDisplay(multiplier);
+    }
+    
+    function updateComponentRequiredDisplay(multiplier) {
+      document.querySelectorAll(".component-recipe").forEach(function(componentDiv) {
+        const scalingMode = componentDiv.getAttribute("data-scaling-mode") || "servings";
+        const baseRequiredAmount = parseFloat(componentDiv.getAttribute("data-base-required-amount")) || 1;
+        const requiredUnit = componentDiv.getAttribute("data-required-unit") || "";
+        const displayElement = componentDiv.querySelector(".component-required-display");
+        
+        if (!displayElement) return;
+        
+        const scaledAmount = baseRequiredAmount * multiplier;
+        if (scalingMode === "amount") {
+          displayElement.textContent = `${formatAmount(scaledAmount)} ${requiredUnit}`.trim();
+        } else {
+          displayElement.textContent = `${formatAmount(scaledAmount)}x`;
+        }
+      });
     }
     
     // Main Recipe Servings Calculator
