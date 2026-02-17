@@ -14,13 +14,17 @@ ingredients:
 - 1|TL|Natron
 - 2||TL|Zimt (oder Kürbisgewürz)
 - 0.5|TL|Salz
-- 340|g|Kürbis (oder fertiges Kürbispüree)
 - 120|ml|neutrale Öl (z.B. Rapsöl oder Sonnenblumenöl)
 - 200|g|Zucker
 - 60|ml|Orangesaft
 - 1|Ei
 - 3|EL|Kakaopulver
 - 120|g|Schoko-Drops
+
+components:
+- file: kuerbispuree.md
+  amount: 340
+  unit: g
 
 directions:
 - "Den Backofen auf 175 °C Ober-/Unterhitze vorheizen. Eine Kastenform leicht einfetten und mit Backpapier auskleiden, sodass es an beiden Seiten etwas übersteht"
