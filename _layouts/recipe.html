@@ -130,7 +130,28 @@ layout: default
             {% assign component_base_amount = component.amount %}
             {% assign component_display_text = component.amount | append: ' ' | append: component.unit %}
           {% endif %}
-          <li class="flex items-start gap-3 text-lg leading-loose main-component-item" data-scaling-mode="{{ component_scaling_mode }}" data-base-amount="{{ component_base_amount }}" data-unit="{{ component.unit }}" data-component-target="#component-{{ component_anchor }}">
+          {% comment %} Calculate component multiplier for sub-ingredients {% endcomment %}
+          {% if matched_component_recipe %}
+            {% assign component_servings = component.servings | default: 1 %}
+            {% assign component_amount = component.amount | default: nil %}
+            {% assign component_unit = component.unit | default: nil %}
+            {% assign recipe_servings = matched_component_recipe.servings | default: 1 %}
+            {% assign recipe_serving_size = matched_component_recipe.serving_size | default: nil %}
+            {% assign recipe_serving_unit = matched_component_recipe.serving_unit | default: nil %}
+            {% if component_amount and component_unit and recipe_serving_size and recipe_serving_unit and component_unit == recipe_serving_unit %}
+              {% assign component_multiplier = component_amount | times: 1.0 | divided_by: recipe_serving_size %}
+            {% else %}
+              {% assign component_multiplier = component_servings | times: 1.0 %}
+            {% endif %}
+          {% endif %}
+          <li class="flex flex-wrap items-start gap-3 text-lg leading-loose main-component-item" data-scaling-mode="{{ component_scaling_mode }}" data-base-amount="{{ component_base_amount }}" data-unit="{{ component.unit }}" data-component-target="#component-{{ component_anchor }}">
+            {% if matched_component_recipe and matched_component_recipe.ingredients %}
+            <button class="component-toggle inline-flex items-center justify-center w-5 h-5 text-primary hover:text-orange-600 transition-transform duration-200 flex-shrink-0" data-target="component-sub-{{ component_anchor }}" aria-label="Zutaten aufklappen">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            {% endif %}
             <span class="ingredient-display">
               <span class="main-component-amount">{{ component_display_text }}</span>
               {% if matched_component_recipe %}
@@ -138,7 +159,25 @@ layout: default
               {% else %}
                 {{ component_file }}
               {% endif %}
+              <a href="#component-{{ component_anchor }}" class="component-jump-link-inline inline-flex items-center justify-center underline decoration-[3px] decoration-primary underline-offset-2 ml-1 text-base hover:text-orange-600 transition-colors" aria-label="Zur Komponente springen">↳</a>
             </span>
+            {% if matched_component_recipe and matched_component_recipe.ingredients %}
+            <ul class="component-sub-ingredients component-sub-{{ component_anchor }} hidden flex-col gap-2 mt-2 w-full" data-component-anchor="{{ component_anchor }}" data-component-multiplier="{{ component_multiplier }}" data-original-servings="{{ recipe_servings }}">
+              {% for sub_ingredient in matched_component_recipe.ingredients %}
+              <li class="flex items-start gap-3 text-base leading-loose sub-ingredient-item text-gray-600" data-ingredient="{{ sub_ingredient }}" data-parent-component="#component-{{ component_anchor }}">
+                <span class="sub-ingredient-display">
+                  {% assign parts = sub_ingredient | split: '|' %}
+                  {% if parts.size > 1 %}
+                    {% assign amount = parts[0] | times: 1.0 | times: component_multiplier %}
+                    {{ amount }} {{ parts[1] | strip }} {% if parts[2] %}{{ parts[2] | strip }}{% endif %}
+                  {% else %}
+                    {{ sub_ingredient }}
+                  {% endif %}
+                </span>
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
           </li>
           {% endfor %}
         {% endif %}
@@ -317,6 +356,34 @@ layout: default
       return Number(value).toFixed(2).replace(/\.?0+$/, '');
     }
 
+    // Component Toggle Functionality
+    container?.addEventListener("click", function(event) {
+      const toggleBtn = event.target.closest(".component-toggle");
+      if (!toggleBtn) return;
+      
+      event.preventDefault();
+      event.stopPropagation();
+      
+      const targetClass = toggleBtn.getAttribute("data-target");
+      const subList = document.querySelector(`.${targetClass}`);
+      
+      if (!subList) return;
+      
+      const isHidden = subList.classList.contains("hidden");
+      
+      if (isHidden) {
+        subList.classList.remove("hidden");
+        subList.classList.add("flex");
+        toggleBtn.classList.add("expanded");
+        toggleBtn.setAttribute("aria-label", "Zutaten zuklappen");
+      } else {
+        subList.classList.add("hidden");
+        subList.classList.remove("flex");
+        toggleBtn.classList.remove("expanded");
+        toggleBtn.setAttribute("aria-label", "Zutaten aufklappen");
+      }
+    });
+
     function updateMainComponentLinks(multiplier) {
       document.querySelectorAll(".main-component-item").forEach(function(item) {
         const scalingMode = item.getAttribute("data-scaling-mode") || "servings";
@@ -402,6 +469,32 @@ layout: default
           const newText = `${newAmount} ${rest}`;
           
           item.querySelector(".ingredient-display").innerHTML = newText;
+          
+          // Update data-content attribute for strikethrough effect
+          const label = item.querySelector(".recipe-label");
+          if (label) {
+            label.setAttribute("data-content", newText.trim());
+          }
+        }
+      });
+      
+      // Update sub-ingredients (nested in components)
+      document.querySelectorAll(".sub-ingredient-item").forEach(function(item) {
+        const original = item.getAttribute("data-ingredient");
+        const parts = original.split("|");
+        const subList = item.closest(".component-sub-ingredients");
+        const componentMultiplier = parseFloat(subList?.getAttribute("data-component-multiplier")) || 1;
+        
+        if (parts.length > 1) {
+          const amount = parseFloat(parts[0]);
+          const newAmount = (amount * componentMultiplier * multiplier).toFixed(2).replace(/\.?0+$/, '');
+          const rest = parts.slice(1).join(" ");
+          const newText = `${newAmount} ${rest}`;
+          
+          const displayElement = item.querySelector(".sub-ingredient-display");
+          if (displayElement) {
+            displayElement.innerHTML = newText;
+          }
           
           // Update data-content attribute for strikethrough effect
           const label = item.querySelector(".recipe-label");
@@ -517,7 +610,7 @@ layout: default
       if (li.classList.contains("no-checkbox")) return;
 
       // Get the actual displayed text content (after processing)
-      const displayElement = li.querySelector(".ingredient-display, .direction-display, .component-ingredient-display");
+      const displayElement = li.querySelector(".ingredient-display, .direction-display, .component-ingredient-display, .sub-ingredient-display");
       const textContent = displayElement ? displayElement.textContent.trim() : li.textContent.trim();
       
       const checkbox = document.createElement("input");
@@ -529,46 +622,100 @@ layout: default
       label.htmlFor = checkbox.id;
       label.className = "recipe-label";
       label.setAttribute("data-content", textContent);
-      label.innerHTML = li.innerHTML;
       
-      li.innerHTML = "";
-      li.appendChild(checkbox);
-      li.appendChild(label);
-
+      // For main-component-item, preserve the toggle button and jump link outside the label
       if (li.classList.contains("main-component-item")) {
-        const targetSelector = li.getAttribute("data-component-target");
-        if (targetSelector) {
-          const jumpLink = document.createElement("a");
-          jumpLink.href = targetSelector;
-          jumpLink.className = "component-jump-trigger underline decoration-[3px] decoration-primary underline-offset-2 ml-2 text-base";
-          jumpLink.textContent = "↳";
-          jumpLink.setAttribute("aria-label", "Zur Komponente springen");
-          li.appendChild(jumpLink);
+        const toggleBtn = li.querySelector(".component-toggle");
+        const subIngredients = li.querySelector(".component-sub-ingredients");
+        const ingredientDisplay = li.querySelector(".ingredient-display");
+        const jumpLink = li.querySelector(".component-jump-link-inline");
+        
+        if (ingredientDisplay) {
+          // Clone the display content for the label, but remove the jump link
+          const displayClone = ingredientDisplay.cloneNode(true);
+          const clonedJumpLink = displayClone.querySelector(".component-jump-link-inline");
+          if (clonedJumpLink) {
+            clonedJumpLink.remove();
+          }
+          label.innerHTML = displayClone.innerHTML;
+          
+          // Clear and rebuild structure
+          li.innerHTML = "";
+          li.appendChild(checkbox);
+          
+          // Add toggle button if it exists
+          if (toggleBtn) {
+            li.appendChild(toggleBtn);
+          }
+          
+          li.appendChild(label);
+          
+          // Add jump link after label if it exists
+          if (jumpLink) {
+            li.appendChild(jumpLink);
+          }
+          
+          // Re-append sub-ingredients list if it exists
+          if (subIngredients) {
+            li.appendChild(subIngredients);
+          }
+        } else {
+          label.innerHTML = li.innerHTML;
+          li.innerHTML = "";
+          li.appendChild(checkbox);
+          li.appendChild(label);
         }
+      } else {
+        label.innerHTML = li.innerHTML;
+        li.innerHTML = "";
+        li.appendChild(checkbox);
+        li.appendChild(label);
       }
+
+      // Jump link is now extracted and appended separately, outside the label
 
       // Scroll on check
       checkbox.addEventListener("change", function() {
         if (this.checked) {
           const height = li.offsetHeight;
-          const y = container.scrollTop;
-          container.scrollTo({ top: y + height + 16, behavior: "smooth" });
+          const containerScrollable = container && container.scrollHeight > container.clientHeight;
+          
+          if (containerScrollable) {
+            // Desktop: scroll within container
+            const y = container.scrollTop;
+            container.scrollTo({ top: y + height + 16, behavior: "smooth" });
+          } else {
+            // Mobile: scroll the window
+            const y = window.pageYOffset;
+            window.scrollTo({ top: y + height + 16, behavior: "smooth" });
+          }
         }
       });
     });
 
     // In-page jump links to component sections (delegated, works after checkbox DOM updates)
     container?.addEventListener("click", function(event) {
-      const link = event.target.closest(".component-jump-link[href^='#component-'], .component-jump-trigger[href^='#component-']");
+      const link = event.target.closest(".component-jump-link[href^='#component-'], .component-jump-link-inline[href^='#component-'], .component-jump-trigger[href^='#component-']");
       if (!link) return;
 
       const targetSelector = link.getAttribute("href");
       const targetElement = targetSelector ? document.querySelector(targetSelector) : null;
-      if (!targetElement || !container) return;
+      if (!targetElement) return;
 
       event.preventDefault();
-      const targetTop = targetElement.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop;
-      container.scrollTo({ top: targetTop - 16, behavior: "smooth" });
+      
+      // Check if container is scrollable (desktop) or if we need to scroll the window (mobile)
+      const containerScrollable = container && container.scrollHeight > container.clientHeight;
+      
+      if (containerScrollable) {
+        // Desktop: scroll within container
+        const targetTop = targetElement.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop;
+        container.scrollTo({ top: targetTop - 16, behavior: "smooth" });
+      } else {
+        // Mobile: scroll the window
+        const targetTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
+        window.scrollTo({ top: targetTop - 16, behavior: "smooth" });
+      }
     });
 
     updateMainComponentLinks(1);
@@ -639,5 +786,124 @@ layout: default
     text-decoration-thickness: 2px;
     text-decoration-color: #363839;
     transition: clip-path 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  /* Component Toggle Button */
+  .component-toggle {
+    flex-shrink: 0;
+    align-self: flex-start;
+    background: none;
+    border: none;
+    padding: 0.5rem; /* Larger touch target */
+    margin: -0.5rem 0 -0.5rem -0.5rem; /* Compensate padding to maintain visual position */
+    margin-top: calc(0.25rem - 0.5rem); /* Align with checkbox minus padding */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 44px; /* iOS minimum touch target */
+    min-height: 44px;
+    border-radius: 0.375rem;
+  }
+  
+  .component-toggle:hover {
+    background-color: rgba(245, 50, 0, 0.1);
+  }
+  
+  .component-toggle:active {
+    background-color: rgba(245, 50, 0, 0.2);
+    transform: scale(0.95);
+  }
+  
+  .component-toggle.expanded {
+    transform: rotate(90deg);
+  }
+  
+  .component-toggle.expanded:active {
+    transform: rotate(90deg) scale(0.95);
+  }
+  
+  .component-toggle svg {
+    pointer-events: none; /* Ensure entire button is clickable */
+  }
+  
+  /* Make toggle button more visible on mobile */
+  @media (max-width: 640px) {
+    .component-toggle {
+      width: 1.75rem;
+      height: 1.75rem;
+      background-color: rgba(245, 50, 0, 0.05);
+    }
+    
+    .component-toggle:hover {
+      background-color: rgba(245, 50, 0, 0.15);
+    }
+    
+    .component-toggle svg {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+  }
+  
+  /* Jump Link Styling */
+  .component-jump-link-inline {
+    padding: 0.375rem;
+    margin: -0.375rem 0 -0.375rem 0.25rem;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 0.375rem;
+  }
+  
+  .component-jump-link-inline:hover {
+    background-color: rgba(245, 50, 0, 0.1);
+  }
+  
+  .component-jump-link-inline:active {
+    background-color: rgba(245, 50, 0, 0.2);
+  }
+  
+  @media (max-width: 640px) {
+    .component-jump-link-inline {
+      font-size: 1.25rem;
+      padding: 0.5rem;
+      margin: -0.5rem 0 -0.5rem 0.25rem;
+      background-color: rgba(245, 50, 0, 0.05);
+      text-decoration: none;
+    }
+    
+    .component-jump-link-inline:hover {
+      background-color: rgba(245, 50, 0, 0.15);
+    }
+  }
+  
+  /* Sub-Ingredients Styling */
+  .component-sub-ingredients {
+    width: 100%;
+    padding-left: 0;
+    margin-left: 2.5rem; /* Align with text after checkbox and toggle button */
+  }
+  
+  .sub-ingredient-item {
+    font-size: 0.95rem;
+    color: #6b7280;
+    opacity: 0.9;
+  }
+  
+  .sub-ingredient-item .recipe-checkbox {
+    width: 1.25em;
+    height: 1.25em;
+    min-width: 1.25em;
+    border-color: #d1d5db;
+  }
+  
+  .sub-ingredient-item .recipe-checkbox::before {
+    top: 1px;
+    left: 5px;
+    width: 6px;
+    height: 11px;
+    border-width: 0 2px 2px 0;
+  }
+  
+  .sub-ingredient-item .recipe-label {
+    font-size: 1rem;
+    color: #6b7280;
   }
 </style>

@@ -3,12 +3,13 @@
 layout: recipe
 title:  "Kürbispüree"
 servings: 1
-serving_size: 250
+serving_size: 240
 serving_unit: g
 
 
 ingredients:
 - 250|g|Kürbis
+- Wasser
 
 directions:
 - "Den Kürbis aufschneiden, die Kerne usw. entfernen und in kleine Stücke schneiden."
