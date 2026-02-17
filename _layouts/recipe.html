@@ -2,16 +2,63 @@
 layout: default
 ---
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Recipe",
+  "name": "{{ page.title | escape }}",
+  "image": "{{ site.url }}{{ site.baseurl }}/images/{% if page.image contains '.' %}{{ page.image }}{% else %}{{ page.image | first }}{% endif %}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.author | default: 'Mundschmaus' }}"
+  },
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "description": "{{ page.content | strip_html | truncatewords: 30 | escape }}",
+  "recipeYield": "{{ page.servings | default: 4 }} Portionen",
+  "recipeCategory": "{{ page.categories | join: ', ' }}",
+  "keywords": "{{ page.tags | join: ', ' }}",
+  {% if page.nutrition %}
+  "nutrition": {
+    "@type": "NutritionInformation",
+    "calories": "{{ page.nutrition.calories }}",
+    "proteinContent": "{{ page.nutrition.protein }}",
+    "fatContent": "{{ page.nutrition.fat }}",
+    "carbohydrateContent": "{{ page.nutrition.carbs }}"
+  },
+  {% endif %}
+  "recipeIngredient": [
+    {% for ingredient in page.ingredients %}
+      "{{ ingredient | replace: '|', ' ' | strip_html | escape }}"{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ],
+  "recipeInstructions": [
+    {% for direction in page.directions %}
+    {
+      "@type": "HowToStep",
+      "text": "{{ direction | strip_html | escape }}",
+      "position": {{ forloop.index }}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
+
 <div class="grid grid-cols-1 md:grid-cols-5 w-full" itemscope itemtype="https://schema.org/Recipe">
   
 
   <div class="image bg-red-500 relative aspect-video md:aspect-auto md:h-screen md:max-h-screen md:col-span-2">
 
-    <a href="/" class="back bg-white rounded-full block fixed top-6 md:top-10 left-6 md:left-10 p-4 md:p-6 z-50">
+    <a href="/" class="back bg-white rounded-full block fixed top-6 md:top-10 left-6 md:left-10 p-4 md:p-6 z-50 hover:bg-orange-50 transition" aria-label="Zurück zur Startseite">
       <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 md:size-8">
         <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
       </svg>
     </a>
+    
+    <button id="share-recipe" class="bg-white rounded-full block fixed top-6 md:top-10 right-6 md:right-10 p-4 md:p-6 z-50 hover:bg-orange-50 transition" aria-label="Rezept teilen">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 md:size-8">
+        <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
+      </svg>
+    </button>
     
     <!-- call up the image and image credit link -->
     {% if page.image %}
@@ -19,7 +66,8 @@ layout: default
         <img 
           class="view w-full h-full object-cover" 
           src="{{ site.baseurl }}/images/{{ page.image }}"
-          alt="{{ page.title }}">
+          alt="{{ page.title }}"
+          loading="lazy">
 
 
         {% if page.imagecredit %}
@@ -35,7 +83,8 @@ layout: default
           <img 
             class="view w-full h-full object-cover" 
             src="{{ site.baseurl }}/images/{{ image }}"
-            alt="{{ page.title }}">
+            alt="{{ page.title }}"
+            loading="lazy">
 
 
           {% if page.imagecredit %}
@@ -51,7 +100,8 @@ layout: default
       <img 
         class="view w-full h-full object-cover" 
         src="{{ site.baseurl }}/images/default.jpg"
-        alt="{{ page.title }}">
+        alt="{{ page.title }}"
+        loading="lazy">
     {% endif %}
 
   </div>
@@ -88,7 +138,7 @@ layout: default
       <div class="flex items-center justify-between mb-4">
         <h2 class="uppercase text-primary font-semibold">{{ site.translation[site.language].ingredients }}</h2>
         <div class="flex items-center gap-3 bg-orange-50 rounded-lg p-2">
-          <button id="decrease-servings" class="w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition">
+          <button id="decrease-servings" class="w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition" aria-label="Portionen verringern">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
               <path fill-rule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
             </svg>
@@ -96,7 +146,7 @@ layout: default
           <span class="font-semibold min-w-[60px] text-center">
             <span id="current-servings">{{ page.servings | default: 4 }}</span> Portionen
           </span>
-          <button id="increase-servings" class="w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition">
+          <button id="increase-servings" class="w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition" aria-label="Portionen erhöhen">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
               <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
             </svg>
@@ -257,7 +307,7 @@ layout: default
         {% if recipe.image %}
           {% if recipe.image contains ".jpg" or recipe.image contains ".jpeg" or recipe.image contains ".png" or recipe.image contains ".webp" or recipe.image contains ".gif" or recipe.image contains ".avif" %}
           <div class="image ratio bg-cover relative mb-8" style="background-image:url('{{ site.baseurl }}/images/{{ recipe.image }}');">
-            <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/{{ recipe.image }}" />
+            <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/{{ recipe.image }}" loading="lazy" />
             {% if recipe.imagecredit %}
               {% for imagecredit in recipe.imagecredit %}
                 <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
@@ -269,7 +319,7 @@ layout: default
           {% else %}
             {% for image in recipe.image %}
             <div class="image ratio bg-cover relative mb-8" style="background-image:url('{{ site.baseurl }}/images/{{ image }}');">
-              <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/{{ image }}" />
+              <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/{{ image }}" loading="lazy" />
               {% if recipe.imagecredit %}
                 {% for imagecredit in recipe.imagecredit %}
                   <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
@@ -283,7 +333,7 @@ layout: default
         {% endif %}
         {% unless recipe.image %}
         <div class="image ratio bg-cover relative mb-8" style="background-image:url('{{ site.baseurl }}/images/default.jpg');">
-          <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/default.jpg" />
+          <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/default.jpg" loading="lazy" />
         </div>
         {% endunless %}
 
@@ -291,7 +341,7 @@ layout: default
         <div class="flex items-center justify-between mb-4">
           <h2 class="uppercase text-primary font-semibold">{{ site.translation[site.language].ingredients }}</h2>
           <div class="flex items-center gap-3 bg-orange-50 rounded-lg p-2">
-            <button class="decrease-component-servings w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition">
+            <button class="decrease-component-servings w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition" aria-label="Komponentenmenge verringern">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                 <path fill-rule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
               </svg>
@@ -299,7 +349,7 @@ layout: default
             <span class="font-semibold min-w-[60px] text-center">
               <span class="current-component-servings">{{ base_component_display }}</span> <span class="current-component-unit">{{ component_display_unit }}</span>
             </span>
-            <button class="increase-component-servings w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition">
+            <button class="increase-component-servings w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition" aria-label="Komponentenmenge erhöhen">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                 <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
               </svg>
@@ -674,8 +724,14 @@ layout: default
 
       // Jump link is now extracted and appended separately, outside the label
 
-      // Scroll on check
+      // Scroll on check + Save state to localStorage
       checkbox.addEventListener("change", function() {
+        // Save checkbox state to localStorage
+        const recipeId = window.location.pathname;
+        const checkboxState = JSON.parse(localStorage.getItem(`recipe-checkboxes-${recipeId}`) || "{}");
+        checkboxState[this.id] = this.checked;
+        localStorage.setItem(`recipe-checkboxes-${recipeId}`, JSON.stringify(checkboxState));
+        
         if (this.checked) {
           const height = li.offsetHeight;
           const containerScrollable = container && container.scrollHeight > container.clientHeight;
@@ -691,6 +747,13 @@ layout: default
           }
         }
       });
+      
+      // Restore checkbox state from localStorage
+      const recipeId = window.location.pathname;
+      const savedState = JSON.parse(localStorage.getItem(`recipe-checkboxes-${recipeId}`) || "{}");
+      if (savedState[checkbox.id]) {
+        checkbox.checked = true;
+      }
     });
 
     // In-page jump links to component sections (delegated, works after checkbox DOM updates)
@@ -719,6 +782,29 @@ layout: default
     });
 
     updateMainComponentLinks(1);
+    
+    // Share functionality
+    document.getElementById("share-recipe")?.addEventListener("click", async function() {
+      const shareData = {
+        title: "{{ page.title | escape }}",
+        text: "Schau dir dieses Rezept an: {{ page.title | escape }}",
+        url: window.location.href
+      };
+      
+      try {
+        if (navigator.share && navigator.canShare(shareData)) {
+          await navigator.share(shareData);
+        } else {
+          // Fallback: Copy to clipboard
+          await navigator.clipboard.writeText(window.location.href);
+          alert("Link in Zwischenablage kopiert!");
+        }
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.log("Share failed:", err);
+        }
+      }
+    });
   });
 </script>
 
@@ -878,7 +964,23 @@ layout: default
   .component-sub-ingredients {
     width: 100%;
     padding-left: 0;
-    margin-left: 2.5rem; /* Align with text after checkbox and toggle button */
+    margin-left: 2.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: top;
+    overflow: hidden;
+  }
+  
+  .component-sub-ingredients.hidden {
+    max-height: 0 !important;
+    opacity: 0;
+    transform: scaleY(0.8);
+    margin-top: 0;
+  }
+  
+  .component-sub-ingredients:not(.hidden) {
+    max-height: 2000px;
+    opacity: 1;
+    transform: scaleY(1);
   }
   
   .sub-ingredient-item {
@@ -905,5 +1007,90 @@ layout: default
   .sub-ingredient-item .recipe-label {
     font-size: 1rem;
     color: #6b7280;
+  }
+  
+  /* Keyboard Navigation Focus Styles */
+  .recipe-checkbox:focus-visible,
+  .component-toggle:focus-visible,
+  .component-jump-link-inline:focus-visible,
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid #F53200;
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+  
+  button:focus:not(:focus-visible),
+  a:focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  /* Enhanced Touch Feedback for Mobile */
+  @media (hover: none) and (pointer: coarse) {
+    button:active,
+    a:active {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
+  }
+  
+  /* Print Styles */
+  @media print {
+    .back,
+    .component-toggle,
+    .component-jump-link-inline,
+    .component-jump-link,
+    button,
+    .tags {
+      display: none !important;
+    }
+    
+    .component-sub-ingredients {
+      display: flex !important;
+      page-break-inside: avoid;
+    }
+    
+    .recipe-checkbox:checked ~ .recipe-label::before {
+      display: none;
+    }
+    
+    .recipe-checkbox {
+      display: none !important;
+    }
+    
+    .grid {
+      display: block !important;
+    }
+    
+    .image {
+      max-height: 300px !important;
+      page-break-after: avoid;
+    }
+    
+    article {
+      overflow: visible !important;
+      padding: 1rem !important;
+    }
+    
+    .component-recipe,
+    .recipe-header,
+    h1, h2, h3, h4 {
+      page-break-after: avoid;
+      page-break-inside: avoid;
+    }
+    
+    ul, ol {
+      page-break-inside: avoid;
+    }
+    
+    a[href^="http"]:after {
+      content: " (" attr(href) ")";
+      font-size: 0.8em;
+      color: #666;
+    }
+    
+    a[href^="#"]:after {
+      content: "";
+    }
   }
 </style>
