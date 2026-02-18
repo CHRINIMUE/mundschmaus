@@ -14,7 +14,7 @@ ingredients:
 - 200|g||Kochschinken
 - 1|Becher|süße Sahne
 - 1|Becher|saure Sahne
-- 1|Zzwiebel
+- 1|Zwiebel
 - 3|EL|Tomatenmark
 - Muskat
 - Salz und Pfeffer
