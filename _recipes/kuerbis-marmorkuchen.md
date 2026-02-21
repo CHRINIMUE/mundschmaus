@@ -2,6 +2,7 @@
 
 layout: recipe
 title:  "Kürbis-Marmorkuchen"
+image: kuerbis-marmorkuchen.jpg
 date: 2026-01-30
 servings: 1
 
