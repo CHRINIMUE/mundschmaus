@@ -28,7 +28,7 @@ components:
 
 directions:
 - "Den Backofen auf 175 °C Ober-/Unterhitze vorheizen. Eine Kastenform leicht einfetten und mit Backpapier auskleiden, sodass es an beiden Seiten etwas übersteht"
-- "[200|g|Mehl], [1|TL|Backpulver], [1|TL|Natron], [2|TL|Zimt] und [0.5|TL|Salz] in einer Rührschüssel vermischen."
+- "[220|g|Mehl], [1|TL|Backpulver], [1|TL|Natron], [2|TL|Zimt] und [0.5|TL|Salz] in einer Rührschüssel vermischen."
 - "In einem Messbecher das [340|g|Kürbispüree] mit [120|g|Butter] (vorher in Mikrowelle schnelzen lassen), [150|g|Zucker], [60|ml|Orangesaft]  und mit [1|x|Ei|Eier] verrühren"
 - "Nun die feuchten Zutaten in die trockenen Zutaten gießen und alles kurz zu einem Teig verrühren. Der teig sollte relativ dick, aber nicht zu fest sein. Bei Bedarf kann man noch etwas Milch oder Mehl hinzugeben."
 - "Die Hälfte von dem Kürbiskuchenteig in eine andere Rührschüssel geben. In einer kleinen Tasse [3|EL|Kakaopulver] verrühren und in die Hälfte des Teigs rühren. Dann 2/3 der Schoko-Drops unterrühren."
