@@ -8,7 +8,7 @@ servings: 1
 
 tags:
 - Frühstück & Brunch
-- Brot & Brötchen
+- Kuchen & Torten
 
 ingredients:
 - 250|g|Weizen oder Dinkelmehl
