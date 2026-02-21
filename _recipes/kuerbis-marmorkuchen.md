@@ -16,7 +16,7 @@ ingredients:
 - 2||TL|Zimt (oder Kürbisgewürz)
 - 0.5|TL|Salz
 - 120|g|Butter
-- 150|g|Zucker (wurde schon reduziert)
+- 150|g|Zucker (schon reduziert)
 - 60|ml|Orangesaft
 - 1|Ei
 - 3|EL|Kakaopulver
