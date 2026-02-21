@@ -8,7 +8,6 @@ servings: 1
 
 tags:
 - Frühstück & Brunch
-- Desserts & Süßspeisen
 - Brot & Brötchen
 
 ingredients:
