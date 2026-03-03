@@ -27,7 +27,23 @@ layout: default
   },
   {% endif %}
   "recipeIngredient": [
-    {% for ingredient in page.ingredients %}
+    {% assign ingredient_values = '' | split: '' %}
+    {% assign grouped_ingredients = nil %}
+    {% if page.ingredients and page.ingredients.first and page.ingredients.first.items %}
+      {% assign grouped_ingredients = page.ingredients %}
+    {% elsif page.ingredient_groups %}
+      {% assign grouped_ingredients = page.ingredient_groups %}
+    {% endif %}
+    {% if grouped_ingredients %}
+      {% for group in grouped_ingredients %}
+        {% if group.title and group.items %}
+          {% assign ingredient_values = ingredient_values | concat: group.items %}
+        {% endif %}
+      {% endfor %}
+    {% elsif page.ingredients %}
+      {% assign ingredient_values = page.ingredients %}
+    {% endif %}
+    {% for ingredient in ingredient_values %}
       "{{ ingredient | replace: '|', ' ' | strip_html | escape }}"{% unless forloop.last %},{% endunless %}
     {% endfor %}
   ],
@@ -134,7 +150,13 @@ layout: default
   <div class="">
 
     <div class="">
-      {% if page.ingredients %}
+      {% assign grouped_ingredients = nil %}
+      {% if page.ingredients and page.ingredients.first and page.ingredients.first.items %}
+        {% assign grouped_ingredients = page.ingredients %}
+      {% elsif page.ingredient_groups %}
+        {% assign grouped_ingredients = page.ingredient_groups %}
+      {% endif %}
+      {% if page.ingredients or grouped_ingredients or page.components %}
       <div class="flex items-center justify-between mb-4">
         <h2 class="uppercase text-primary font-semibold">{{ site.translation[site.language].ingredients }}</h2>
         <div class="flex items-center gap-3 bg-orange-50 rounded-lg p-2">
@@ -154,12 +176,27 @@ layout: default
         </div>
       </div>
       
-      <ul itemprop="recipeIngredient" class="flex flex-col gap-2 mb-8" data-original-servings="{{ page.servings | default: 4 }}">
-        {% for ingredient in page.ingredients %}
-        <li class="flex items-start gap-3 text-lg leading-loose ingredient-item" data-ingredient="{{ ingredient }}">
-          <span class="ingredient-display">{{ ingredient | replace: '|', ' ' | markdownify }}</span>
-        </li>
-        {% endfor %}
+      <ul itemprop="recipeIngredient" class="main-ingredients-list flex flex-col gap-2 mb-8" data-original-servings="{{ page.servings | default: 4 }}">
+        {% if grouped_ingredients %}
+          {% for group in grouped_ingredients %}
+            {% if group.title and group.items %}
+            <li class="mt-3 first:mt-0 no-checkbox">
+              <h3 class="uppercase text-orange-700 text-sm font-semibold tracking-wide">{{ group.title }}</h3>
+            </li>
+            {% for ingredient in group.items %}
+            <li class="flex items-start gap-3 text-lg leading-loose ingredient-item" data-ingredient="{{ ingredient }}">
+              <span class="ingredient-display">{{ ingredient | replace: '|', ' ' | markdownify }}</span>
+            </li>
+            {% endfor %}
+            {% endif %}
+          {% endfor %}
+        {% elsif page.ingredients %}
+          {% for ingredient in page.ingredients %}
+          <li class="flex items-start gap-3 text-lg leading-loose ingredient-item" data-ingredient="{{ ingredient }}">
+            <span class="ingredient-display">{{ ingredient | replace: '|', ' ' | markdownify }}</span>
+          </li>
+          {% endfor %}
+        {% endif %}
         {% if page.components %}
           {% for component in page.components %}
           {% assign component_file = component.file | default: component %}
@@ -478,7 +515,7 @@ layout: default
     }
     
     // Main Recipe Servings Calculator
-    const mainOriginalServings = parseInt(document.querySelector("ul[data-original-servings]")?.getAttribute("data-original-servings")) || 4;
+    const mainOriginalServings = parseInt(document.querySelector("ul.main-ingredients-list[data-original-servings]")?.getAttribute("data-original-servings")) || 4;
     let mainCurrentServings = mainOriginalServings;
 
     function processDirectionText(text, multiplier) {
