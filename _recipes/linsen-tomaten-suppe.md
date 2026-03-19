@@ -2,6 +2,7 @@
 
 layout: recipe
 title:  "Linsen-Tomaten-Suppe"
+image: linsen-tomaten-suppe.jpg
 date: 2026-01-29
 servings: 4
 
