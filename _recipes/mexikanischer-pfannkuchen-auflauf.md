@@ -22,7 +22,7 @@ ingredients:
 - 1|Butterschmalz
 - 8|Halme|Schnittlauch
 - 400|g|Schmand
-- ca. 150|g|Goudakäse 
+- 150|g|Goudakäse 
 
 directions:
 - "[1|x|Zwiebel|Zwiebeln] schälen und fein würfeln. [150|g|Karotten] schälen, waschen und in kleine Würfel schneiden."
@@ -32,7 +32,7 @@ directions:
 - "[8|Halme|Schnittlauch] waschen, trocken schütteln und in dünne Röllchen schneiden. Hälfte der Röllchen und [300|g| Schmand] verrühren und mit Salz und Pfeffer würzen."
 - Pfannkuchen mit Kräuter-Schmand bestreichen und mit Käse bestreuen. Dann eng aufrollen und in breite Stücke schneiden (dritteln oder vierteln). 
 - Gemüsesoße in eine Auflaufform geben, Pfannkuchenstücke darauf verteilen.
-- "[100|g|Schmand] mit Salz und Pfeffer würzen und in Klecksen auf dem Auflauf verteilen. 
+- "[100|g|Schmand] mit Salz und Pfeffer würzen und in Klecksen auf dem Auflauf verteilen."
 - "Auflauf im vorgeheizten Backofen (E-Herd: 225 °C/ Umluft: 200 °C/ Gas: Stufe 4) ca. 15 Minuten goldbraun backen."
 
 ---
