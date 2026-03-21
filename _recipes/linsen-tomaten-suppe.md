@@ -7,6 +7,7 @@ date: 2026-01-29
 servings: 4
 
 tags:
+- Vegetarisch & Vegan
 - Suppen, Eintöpfe & Currys
 
 ingredients:
