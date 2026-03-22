@@ -22,7 +22,7 @@ ingredients:
 
 directions:
 - "[200|g|Butter], [4|x|Ei|Eier] und [150|g|Zucker] schaumig rüheren"
-- "Die anderen Zutaten unterheben, in eine Süriingform geben und die gut abgetropten [1|Glas|Sauerkirschen] drauf legen.
+- "Die anderen Zutaten unterheben, in eine Süriingform geben und die gut abgetropten [1|Glas|Sauerkirschen] drauf legen."
 - "Bei 200 Grad für 30-40 Minuten backen."
 
 ---
