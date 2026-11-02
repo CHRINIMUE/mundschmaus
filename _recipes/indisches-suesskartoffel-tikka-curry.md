@@ -18,9 +18,10 @@ ingredients:
 - 500|ml|Kokosmilch
 - 2|Dosen|stückige Tomaten
 - 150|g|Babyspinat
+- Optional: Fladenbrot
 
 directions:
-- "Heize den Backofen auf 200 °C Ober-/Unterhitze (180 °C Umluft) vor."
+- "Wenn Fladenbrot dabei ist: Heize den Backofen auf 200 °C Ober-/Unterhitze (180 °C Umluft) vor."
 - "[2|x|Süßkartoffel] schälen und in 2 cm große Würfel schneiden. [2|x|Rote Zwiebel|Rote Zwiebeln] abziehen und achteln."
 - "In einer großen Pfanne Öl bei hoher Hitze erhitzen. Zwiebelspalten darin ca. 1 Min. scharf anbraten. Süßkartoffelwürfel zugeben und 2 – 3 Min. anbraten."
 - "[80|g|Tikka-Paste] zufügen und ca. 1 Min. unter Wenden weiterbraten, bis alles fein duftet. Mit [2|Dosen|stückigen Tomaten] und [500|ml|Kokosmilch] ablöschen und 10 – 15 Min. mit Deckel einköcheln lassen. Mit Salz und etwas Zucker abschmecken."
