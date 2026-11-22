@@ -443,6 +443,16 @@ layout: default
       return Number(value).toFixed(2).replace(/\.?0+$/, '');
     }
 
+    const NON_SCALING_UNITS = new Set(["prise", "prisen"]);
+
+    function isNonScalingUnit(unit) {
+      return !!unit && NON_SCALING_UNITS.has(unit.trim().toLowerCase());
+    }
+
+    function scaleAmount(amount, unit, multiplier) {
+      return isNonScalingUnit(unit) ? amount : amount * multiplier;
+    }
+
     // Component Toggle Functionality
     container?.addEventListener("click", function(event) {
       const toggleBtn = event.target.closest(".component-toggle");
@@ -524,8 +534,8 @@ layout: default
         const parts = content.split("|");
         if (parts.length >= 3) {
           const amount = parseFloat(parts[0]);
-          const newAmount = (amount * multiplier).toFixed(2).replace(/\.?0+$/, '');
           const unit = parts[1].trim();
+          const newAmount = formatAmount(scaleAmount(amount, unit, multiplier));
           const singular = parts[2].trim();
           const plural = parts.length > 3 ? parts[3].trim() : singular;
           
@@ -551,7 +561,7 @@ layout: default
         
         if (parts.length > 1) {
           const amount = parseFloat(parts[0]);
-          const newAmount = (amount * multiplier).toFixed(2).replace(/\.?0+$/, '');
+          const newAmount = formatAmount(scaleAmount(amount, parts[1], multiplier));
           const rest = parts.slice(1).join(" ");
           const newText = `${newAmount} ${rest}`;
           
@@ -574,7 +584,7 @@ layout: default
         
         if (parts.length > 1) {
           const amount = parseFloat(parts[0]);
-          const newAmount = (amount * componentMultiplier * multiplier).toFixed(2).replace(/\.?0+$/, '');
+          const newAmount = formatAmount(scaleAmount(amount, parts[1], componentMultiplier * multiplier));
           const rest = parts.slice(1).join(" ");
           const newText = `${newAmount} ${rest}`;
           
@@ -660,7 +670,7 @@ layout: default
           
           if (parts.length > 1) {
             const amount = parseFloat(parts[0]);
-            const newAmount = (amount * multiplier).toFixed(2).replace(/\.?0+$/, '');
+            const newAmount = formatAmount(scaleAmount(amount, parts[1], multiplier));
             const rest = parts.slice(1).join(" ");
             const newText = `${newAmount} ${rest}`;
             
