@@ -37,4 +37,4 @@ directions:
 
 ---
 
-Klassische, aromatisch gewürzte Lebkuchen mit Orangeat, Zitronat und Schokoladenüberzug. Das Originalrezept ergibt 88 Stück; die Mengen hier sind für 44 Stück angegeben.
+Klassische, aromatisch gewürzte Lebkuchen mit Orangeat, Zitronat und Schokoladenüberzug.
