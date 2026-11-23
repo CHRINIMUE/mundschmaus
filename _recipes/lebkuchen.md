@@ -5,7 +5,7 @@ title:  "Lebkuchen"
 image: lebkuchen.jpg
 date: 2025-11-18
 servings: 44
-serving_size: 22
+serving_size: 15
 serving_unit: "Lebkuchen"
 
 tags:
