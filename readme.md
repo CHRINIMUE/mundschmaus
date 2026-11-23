@@ -69,3 +69,19 @@ Damit wird der Multiplikator automatisch berechnet (`amount / serving_size`).
 Im Beispiel oben also `240 / 250 = 0.96`.
 
 Optional kannst du weiterhin `servings` statt `amount/unit` nutzen, wenn du über Portionen arbeiten willst.
+
+## Mengenangabe bei kleinteiligen Rezepten
+
+Bei Rezepten, die viele einzelne Stücke ergeben (Lebkuchen, Muffins, Stangen …), kannst du definieren, wie viel ein Rezept ergibt und wie viel eine Portion ist:
+
+```yml
+servings: 44
+serving_size: 22
+serving_unit: "Lebkuchen"
+```
+
+- `servings` ist die Gesamtmenge des Rezepts (wie bisher).
+- `serving_size` (optional) ist die Menge pro Portion – "1 Portion = 22 Lebkuchen".
+- `serving_unit` (optional) ist die Bezeichnung der Menge, z. B. "Lebkuchen" oder "Stangen".
+
+Ohne diese Felder bleibt alles wie bisher ("4 Portionen", ±1). Mit `serving_size` springt der +-/--Selektor um je 1 Portion (z. B. ±22) und zeigt darunter an, wie viele Portionen der aktuellen Menge entsprechen.
