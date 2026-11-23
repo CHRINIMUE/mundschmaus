@@ -14,7 +14,7 @@ layout: default
   },
   "datePublished": "{{ page.date | date_to_xmlschema }}",
   "description": "{{ page.content | strip_html | truncatewords: 30 | escape }}",
-  "recipeYield": "{{ page.servings | default: 4 }} Portionen",
+  "recipeYield": "{{ page.servings | default: 4 }} {{ page.serving_unit | default: 'Portionen' }}",
   "recipeCategory": "{{ page.categories | join: ', ' }}",
   "keywords": "{{ page.tags | join: ', ' }}",
   {% if page.nutrition %}
@@ -159,16 +159,19 @@ layout: default
       {% if page.ingredients or grouped_ingredients or page.components %}
       <div class="flex items-center justify-between mb-4">
         <h2 class="uppercase text-primary font-semibold">{{ site.translation[site.language].ingredients }}</h2>
-        <div class="flex items-center gap-3 bg-orange-50 rounded-lg p-2">
-          <button id="decrease-servings" class="w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition" aria-label="Portionen verringern">
+        <div id="servings-selector" class="flex items-center gap-3 bg-orange-50 rounded-lg p-2" data-serving-size="{{ page.serving_size }}" data-serving-unit="{{ page.serving_unit | default: 'Portionen' }}">
+          <button id="decrease-servings" class="w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition" aria-label="Portion verringern">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
               <path fill-rule="evenodd" d="M4.25 12a.75.75 0 0 1 .75-.75h14a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
             </svg>
           </button>
           <span class="font-semibold min-w-[60px] text-center">
-            <span id="current-servings">{{ page.servings | default: 4 }}</span> Portionen
+            <span id="current-servings">{{ page.servings | default: 4 }}</span> <span id="serving-unit">{{ page.serving_unit | default: 'Portionen' }}</span>
+            {% if page.serving_size %}
+            <span id="portion-note" class="block text-xs font-normal text-gray-500"></span>
+            {% endif %}
           </span>
-          <button id="increase-servings" class="w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition" aria-label="Portionen erhöhen">
+          <button id="increase-servings" class="w-8 h-8 flex items-center justify-center bg-white rounded hover:bg-primary hover:text-white transition" aria-label="Portion erhöhen">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
               <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
             </svg>
@@ -526,7 +529,18 @@ layout: default
     
     // Main Recipe Servings Calculator
     const mainOriginalServings = parseInt(document.querySelector("ul.main-ingredients-list[data-original-servings]")?.getAttribute("data-original-servings")) || 4;
+    const mainServingsSelector = document.getElementById("servings-selector");
+    const mainServingSize = parseFloat(mainServingsSelector?.getAttribute("data-serving-size")) || 1;
+    const mainServingStep = Math.max(mainServingSize, 1);
     let mainCurrentServings = mainOriginalServings;
+
+    function updatePortionNote() {
+      if (mainServingSize <= 1) return;
+      const note = document.getElementById("portion-note");
+      if (!note) return;
+      const portions = mainCurrentServings / mainServingSize;
+      note.textContent = portions === 1 ? "(1 Portion)" : `(${formatAmount(portions)} Portionen)`;
+    }
 
     function processDirectionText(text, multiplier) {
       // Process [amount|unit|singular|plural] patterns in directions
@@ -548,10 +562,11 @@ layout: default
     }
 
     function updateServings(newServings) {
-      if (newServings < 1) return;
+      if (newServings < mainServingStep) return;
       
       mainCurrentServings = newServings;
       document.getElementById("current-servings").textContent = mainCurrentServings;
+      updatePortionNote();
       
       const multiplier = mainCurrentServings / mainOriginalServings;
       
@@ -625,12 +640,14 @@ layout: default
       item.querySelector(".direction-display").innerHTML = processedText;
     });
 
+    updatePortionNote();
+
     document.getElementById("decrease-servings")?.addEventListener("click", function() {
-      updateServings(mainCurrentServings - 1);
+      updateServings(mainCurrentServings - mainServingStep);
     });
 
     document.getElementById("increase-servings")?.addEventListener("click", function() {
-      updateServings(mainCurrentServings + 1);
+      updateServings(mainCurrentServings + mainServingStep);
     });
 
     // Component Servings Calculators

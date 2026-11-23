@@ -5,6 +5,8 @@ title:  "Blätterteigstangen – Pizza-Sticks"
 image: blaetterteig-pizza-sticks.jpg
 date: 2026-11-19
 servings: 20
+serving_size: 10
+serving_unit: "Stangen"
 
 tags:
 - Vegetarisch & Vegan
