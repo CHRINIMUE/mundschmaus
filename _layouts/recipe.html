@@ -88,7 +88,7 @@ layout: default
 
         {% if page.imagecredit %}
           {% for imagecredit in page.imagecredit %}
-            <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
+            <a href="{{ imagecredit }}" target="_blank" rel="noopener" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
               <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
             </a>
           {% endfor %}
@@ -105,7 +105,7 @@ layout: default
 
           {% if page.imagecredit %}
             {% for imagecredit in page.imagecredit %}
-              <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
+              <a href="{{ imagecredit }}" target="_blank" rel="noopener" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
                 <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
               </a>
             {% endfor %}
@@ -350,7 +350,7 @@ layout: default
             <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/{{ recipe.image }}" loading="lazy" />
             {% if recipe.imagecredit %}
               {% for imagecredit in recipe.imagecredit %}
-                <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
+                <a href="{{ imagecredit }}" target="_blank" rel="noopener" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
                   <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
                 </a>
               {% endfor %}
@@ -362,7 +362,7 @@ layout: default
               <img class="hide" itemprop="photo" src="{{site.baseurl}}/images/{{ image }}" loading="lazy" />
               {% if recipe.imagecredit %}
                 {% for imagecredit in recipe.imagecredit %}
-                  <a href="{{ imagecredit }}" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
+                  <a href="{{ imagecredit }}" target="_blank" rel="noopener" class="absolute bottom-3 right-3 p-3 bg-white bg-opacity-50 rounded-lg">
                     <svg class="js-geomicon geomicon" width="14" height="14" data-icon="camera" viewBox="0 0 32 32" style="fill:currentcolor"><title>camera icon</title><path d="M0 6 L8 6 L10 2 L22 2 L24 6 L32 6 L32 28 L0 28 z M9 17 A7 7 0 0 0 23 17 A7 7 0 0 0 9 17"></path></svg>
                   </a>
                 {% endfor %}

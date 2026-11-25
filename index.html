@@ -2,11 +2,11 @@
 layout: default
 ---
 
-  <div class="content w-full md:w-4/5 h-full overflow-scroll pt-10 pb-20">
+  <div id="content" class="content w-full md:w-4/5 h-full overflow-scroll pb-20">
 
     <!-- Table of Contents / Quick Navigation for Mobile -->
-    <div class="sticky top-0 bg-orange-50/95 backdrop-blur-sm z-20 px-4 md:px-6 py-3 border-b border-orange-200 shadow-sm">
-      <div class="flex overflow-x-auto space-x-3 md:space-x-4 pb-1 -mx-4 px-4 scrollbar-hide bg-orange-50">
+    <div class="sticky top-0 z-20 bg-orange-50 pt-14 pb-3 px-4 md:px-6 border-b border-orange-200 shadow-sm">
+      <div class="flex overflow-x-auto space-x-3 md:space-x-4 scrollbar-hide">
         {% for category in site.data.categories %}
           {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort: "date" | reverse %}
           {% if category_recipes.size > 0 %}
@@ -22,7 +22,7 @@ layout: default
     {% for category in site.data.categories %}
       {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort: "date" | reverse %}
       {% if category_recipes.size > 0 %}
-        <div id="category-{{ forloop.index0 }}" class="category-section py-8 border-b border-orange-100 last:border-b-0 scroll-mt-20">
+        <div id="category-{{ forloop.index0 }}" class="category-section py-8 border-b border-orange-100 last:border-b-0 scroll-mt-32">
           
           <!-- Category Header -->
           <div class="px-6 mb-6 pt-4">
@@ -78,7 +78,7 @@ layout: default
     {% endfor %}
 
     <!-- Back to Top Button -->
-    <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" 
+    <a href="#" aria-label="Nach oben scrollen" onclick="document.getElementById('content').scrollTo({top: 0, behavior: 'smooth'}); return false;" 
        class="fixed bottom-24 md:bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:bg-red-700 transition-colors z-30">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
