@@ -5,12 +5,12 @@ layout: default
   <div class="content w-full md:w-4/5 h-full overflow-scroll pt-10 pb-20">
 
     <!-- Table of Contents / Quick Navigation for Mobile -->
-    <div class="sticky top-0 bg-orange-50 z-20 px-6 py-3 border-b border-orange-100">
-      <div class="flex overflow-x-auto space-x-4 pb-2 -mx-6 px-6 scrollbar-hide">
+    <div class="sticky top-0 bg-orange-50 z-20 px-4 md:px-6 py-3 border-b border-orange-200 shadow-sm">
+      <div class="flex overflow-x-auto space-x-3 md:space-x-4 pb-1 -mx-4 px-4 scrollbar-hide">
         {% for category in site.data.categories %}
           {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort: "date" | reverse %}
           {% if category_recipes.size > 0 %}
-            <a href="#category-{{ forloop.index0 }}" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary transition-colors whitespace-nowrap">
+            <a href="#category-{{ forloop.index0 }}" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary hover:bg-orange-100 transition-colors whitespace-nowrap px-3 py-1 rounded-lg">
               {{ category }}
             </a>
           {% endif %}
@@ -47,11 +47,12 @@ layout: default
                 {% endif %}
               {% endif %}
               <a class="recipe group transition-all duration-200" href="{{ post.url | prepend: site.baseurl }}">
-                <div class="relative overflow-hidden rounded-xl bg-gray-100 aspect-square">
+                <div class="relative overflow-hidden rounded-xl bg-gray-100 aspect-video">
                   <img 
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     src="{{ site.baseurl }}/images/{{ first_image }}"
                     loading="lazy"
+                    decoding="async"
                     alt="{{ post.title }}">
                 </div>
                 <h3 class="font-medium text-sm md:text-base text-red-950 uppercase md:text-orange-950 md:font-inter md:normal-case mt-2 leading-tight line-clamp-2">
@@ -137,20 +138,12 @@ layout: default
       h2 {
         font-size: 1.25rem;
       }
-      
-      .aspect-square {
-        aspect-ratio: 1 / 1;
-      }
     }
     
     /* Tablet adjustments */
     @media (min-width: 768px) and (max-width: 1023px) {
       .grid {
         gap: 1rem;
-      }
-      
-      .aspect-square {
-        aspect-ratio: 1 / 1;
       }
     }
   </style>
