@@ -4,38 +4,153 @@ layout: default
 
   <div class="content w-full md:w-4/5 h-full overflow-scroll pt-10 pb-20">
 
-      <!-- Category Sections -->
-      {% for category in site.data.categories %}
-        {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort: "date" | reverse %}
-        {% if category_recipes.size > 0 %}
-          <div class="recipes">
-            <a href="{{ site.baseurl }}/search.html?tag={{ category | url_encode }}" class="block">
-              <h2 class="text-xl text-primary font-gelica md:text-primary uppercase md:font-semibold mb-2 px-6 cursor-pointer">{{ category }}</h2>
+    <!-- Table of Contents / Quick Navigation for Mobile -->
+    <div class="sticky top-0 bg-orange-50 z-20 px-6 py-3 border-b border-orange-100">
+      <div class="flex overflow-x-auto space-x-4 pb-2 -mx-6 px-6 scrollbar-hide">
+        {% for category in site.data.categories %}
+          {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort: "date" | reverse %}
+          {% if category_recipes.size > 0 %}
+            <a href="#category-{{ forloop.index0 }}" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary transition-colors whitespace-nowrap">
+              {{ category }}
             </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-6 px-6">
-              {% for post in category_recipes limit:6 %}
-                {% assign first_image = "default.jpg" %}
-                {% if post.image %}
-                  {% if post.image contains ".jpg" or post.image contains ".jpeg" or post.image contains ".png" or post.image contains ".webp" or post.image contains ".gif" or post.image contains ".avif" %}
-                    {% assign first_image = post.image %}
-                  {% else %}
-                    {% assign first_image = post.image | first %}
-                  {% endif %}
+    <!-- Category Sections -->
+    {% for category in site.data.categories %}
+      {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort: "date" | reverse %}
+      {% if category_recipes.size > 0 %}
+        <div id="category-{{ forloop.index0 }}" class="category-section py-8 border-b border-orange-100 last:border-b-0">
+          
+          <!-- Category Header -->
+          <div class="px-6 mb-6">
+            <a href="{{ site.baseurl }}/search.html?tag={{ category | url_encode }}" class="block">
+              <h2 class="text-xl md:text-2xl text-primary font-gelica uppercase font-semibold mb-2 flex items-center gap-3">
+                <span class="w-4 h-0.5 bg-primary"></span>
+                {{ category }}
+              </h2>
+            </a>
+            <p class="text-sm text-orange-600">{{ category_recipes.size }} Rezepte in dieser Kategorie</p>
+          </div>
+
+          <!-- Recipes Grid -->
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 px-6">
+            {% for post in category_recipes limit:8 %}
+              {% assign first_image = "default.jpg" %}
+              {% if post.image %}
+                {% if post.image contains ".jpg" or post.image contains ".jpeg" or post.image contains ".png" or post.image contains ".webp" or post.image contains ".gif" or post.image contains ".avif" %}
+                  {% assign first_image = post.image %}
+                {% else %}
+                  {% assign first_image = post.image | first %}
                 {% endif %}
-                <a class="recipe md:hover:scale-105 md:hover:rotate-1 transition" href="{{ post.url | prepend: site.baseurl }}">
+              {% endif %}
+              <a class="recipe group transition-all duration-200" href="{{ post.url | prepend: site.baseurl }}">
+                <div class="relative overflow-hidden rounded-xl bg-gray-100 aspect-square">
                   <img 
-                    class="aspect-video w-full rounded-xl bg-gray-100 mb-1 object-cover" 
-                    src="{{ site.baseurl }}/images/{{ first_image }}" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    src="{{ site.baseurl }}/images/{{ first_image }}"
                     loading="lazy"
                     alt="{{ post.title }}">
-                  <h1 class="font-semibold leading-tight text-red-950 uppercase md:text-base md:text-orange-950 md:font-inter md:normal-case pr-16 md:pr-0">{{ post.title }}</h1>
-                </a>
-              {% endfor %}
-            </div>
+                </div>
+                <h3 class="font-medium text-sm md:text-base text-red-950 uppercase md:text-orange-950 md:font-inter md:normal-case mt-2 leading-tight line-clamp-2">
+                  {{ post.title }}
+                </h3>
+              </a>
+            {% endfor %}
           </div>
-        {% endif %}
-      {% endfor %}
+
+          <!-- View All Link -->
+          {% if category_recipes.size > 8 %}
+          <div class="px-6 mt-4">
+            <a href="{{ site.baseurl }}/search.html?tag={{ category | url_encode }}" class="inline-flex items-center gap-2 text-primary font-medium text-sm hover:underline">
+              Alle {{ category_recipes.size }} Rezepte anzeigen
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    <!-- Back to Top Button -->
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+            class="fixed bottom-20 right-6 w-12 h-12 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:bg-red-700 transition-colors z-30">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+      </svg>
+    </button>
 
   </div>
 
+  <style>
+    /* Hide scrollbar for horizontal navigation */
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    /* Line clamp for recipe titles */
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    /* Smooth scrolling for anchor links */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Category section styling */
+    .category-section {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 0;
+    }
+    
+    /* Recipe card hover effect */
+    .recipe:hover {
+      transform: translateY(-2px);
+    }
+    
+    /* Mobile-specific adjustments */
+    @media (max-width: 767px) {
+      .content {
+        padding-bottom: 100px;
+      }
+      
+      .category-section {
+        padding: 1rem 0;
+      }
+      
+      .grid {
+        gap: 0.75rem;
+      }
+      
+      h2 {
+        font-size: 1.25rem;
+      }
+      
+      .aspect-square {
+        aspect-ratio: 1 / 1;
+      }
+    }
+    
+    /* Tablet adjustments */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .grid {
+        gap: 1rem;
+      }
+      
+      .aspect-square {
+        aspect-ratio: 1 / 1;
+      }
+    }
+  </style>
