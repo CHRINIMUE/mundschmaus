@@ -5,7 +5,7 @@ layout: default
   <div id="content" class="content w-full md:w-4/5 h-full overflow-scroll pb-20">
 
     <!-- Table of Contents / Quick Navigation for Mobile -->
-    <div class="sticky top-0 z-20 bg-orange-50 pt-14 pb-3 px-4 md:px-6 border-b border-orange-200 shadow-sm">
+    <div class="sticky top-0 z-20 bg-orange-50 pt-4 md:pt-14 pb-3 px-4 md:px-6 border-b border-orange-200 shadow-sm">
       <div class="flex overflow-x-auto space-x-3 md:space-x-4 scrollbar-hide">
         {% for category in site.data.categories %}
           {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort: "date" | reverse %}
@@ -22,7 +22,7 @@ layout: default
     {% for category in site.data.categories %}
       {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort: "date" | reverse %}
       {% if category_recipes.size > 0 %}
-        <div id="category-{{ forloop.index0 }}" class="category-section py-8 border-b border-orange-100 last:border-b-0 scroll-mt-32">
+        <div id="category-{{ forloop.index0 }}" class="category-section py-8 border-b border-orange-100 last:border-b-0 scroll-mt-6 md:scroll-mt-12">
           
           <!-- Category Header -->
           <div class="px-6 mb-6 pt-4">
@@ -147,3 +147,55 @@ layout: default
       }
     }
   </style>
+
+  <script>
+    (function() {
+      var content = document.getElementById('content');
+      if (!content) return;
+      var bar = content.querySelector('.sticky.top-0');
+      var chipsRow = bar ? bar.querySelector('.flex.overflow-x-auto') : null;
+      var chips = chipsRow ? Array.prototype.slice.call(chipsRow.querySelectorAll('a')) : [];
+      var sections = Array.prototype.slice.call(content.querySelectorAll('.category-section'));
+      if (!chipsRow || !chips.length || !sections.length) return;
+
+      var lastActiveId = null;
+
+      function setActive(section) {
+        var activeId = section ? section.id : null;
+        if (activeId === null && !lastActiveId) return;
+
+        var changed = false;
+        var activeChip = null;
+        chips.forEach(function(chip) {
+          var isActive = chip.getAttribute('href') === '#' + activeId;
+          if (chip.classList.toggle('bg-primary', isActive)) changed = true;
+          chip.classList.toggle('text-white', isActive);
+          chip.classList.toggle('text-orange-800', !isActive);
+          if (isActive) activeChip = chip;
+        });
+
+        if (activeChip && (activeId !== lastActiveId || changed)) {
+          var desired = chipsRow.scrollLeft + activeChip.getBoundingClientRect().left - chipsRow.getBoundingClientRect().left - 16;
+          chipsRow.scrollTo({ left: Math.max(0, desired), behavior: 'smooth' });
+        }
+        lastActiveId = activeId;
+      }
+
+      var ticking = false;
+      content.addEventListener('scroll', function() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function() {
+          ticking = false;
+          var barHeight = bar.offsetHeight || 0;
+          var current = sections[0];
+          sections.forEach(function(section) {
+            if (section.getBoundingClientRect().top - barHeight <= 10) current = section;
+          });
+          setActive(current);
+        });
+      });
+
+      content.dispatchEvent(new Event('scroll'));
+    })();
+  </script>
