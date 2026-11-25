@@ -5,7 +5,7 @@ layout: default
   <div id="content" class="content w-full md:w-4/5 h-full overflow-scroll pb-20">
 
     <!-- Table of Contents / Quick Navigation for Mobile -->
-    <div class="sticky top-0 z-20 bg-orange-50 pt-4 md:pt-14 pb-3 px-4 md:px-6 border-b border-orange-200 shadow-sm">
+    <div class="sticky top-0 z-20 bg-orange-50 pt-4 md:pt-8 pb-3 px-4 md:px-6 border-b border-orange-200 shadow-sm">
       <div class="flex overflow-x-auto space-x-3 md:space-x-4 scrollbar-hide">
         {% for category in site.data.categories %}
           {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort: "date" | reverse %}
@@ -22,7 +22,7 @@ layout: default
     {% for category in site.data.categories %}
       {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort: "date" | reverse %}
       {% if category_recipes.size > 0 %}
-        <div id="category-{{ forloop.index0 }}" class="category-section py-8 border-b border-orange-100 last:border-b-0 scroll-mt-6 md:scroll-mt-12">
+        <div id="category-{{ forloop.index0 }}" class="category-section py-8 border-b border-orange-100 last:border-b-0 scroll-mt-6">
           
           <!-- Category Header -->
           <div class="px-6 mb-6 pt-4">
