@@ -5,8 +5,8 @@ layout: default
   <div class="content w-full md:w-4/5 h-full overflow-scroll pt-10 pb-20">
 
     <!-- Table of Contents / Quick Navigation for Mobile -->
-    <div class="sticky top-0 bg-orange-50 z-20 px-4 md:px-6 py-3 border-b border-orange-200 shadow-sm">
-      <div class="flex overflow-x-auto space-x-3 md:space-x-4 pb-1 -mx-4 px-4 scrollbar-hide">
+    <div class="sticky top-0 bg-orange-50/95 backdrop-blur-sm z-20 px-4 md:px-6 py-3 border-b border-orange-200 shadow-sm">
+      <div class="flex overflow-x-auto space-x-3 md:space-x-4 pb-1 -mx-4 px-4 scrollbar-hide bg-orange-50">
         {% for category in site.data.categories %}
           {% assign category_recipes = site.recipes | where_exp: "item", "item.tags contains category" | sort: "date" | reverse %}
           {% if category_recipes.size > 0 %}
