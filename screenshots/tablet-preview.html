@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moon Schmaus - Tablet Preview</title>
+    <title>Moon Schmaus - Tablet Preview (aspect-video)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://use.typekit.net/htf0jhw.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://use.typekit.net/htf0jhw.css');
-        
         body {
             font-family: 'inter', sans-serif;
             background: #FFFAF0;
@@ -51,6 +49,10 @@
         .recipe:hover {
             transform: translateY(-2px);
         }
+        
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
 <body class="bg-orange-50">
@@ -83,14 +85,14 @@
                 <!-- Main Content -->
                 <div class="w-3/4 h-full overflow-y-auto pt-10 pb-20">
                     <!-- Quick Navigation -->
-                    <div class="sticky top-0 bg-orange-50 z-20 px-6 py-3 border-b border-orange-100">
-                        <div class="flex overflow-x-auto space-x-4 pb-2 -mx-6 px-6 scrollbar-hide">
-                            <a href="#category-0" class="flex-shrink-0 text-sm font-medium text-primary whitespace-nowrap">Vegetarisch & Vegan</a>
-                            <a href="#category-1" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary whitespace-nowrap">Salate & Bowls</a>
-                            <a href="#category-2" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary whitespace-nowrap">Suppen, Eintöpfe & Currys</a>
-                            <a href="#category-3" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary whitespace-nowrap">Nudeln</a>
-                            <a href="#category-4" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary whitespace-nowrap">Reis</a>
-                            <a href="#category-5" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary whitespace-nowrap">Kartoffeln</a>
+                    <div class="sticky top-0 bg-orange-50 z-20 px-6 py-3 border-b border-orange-200 shadow-sm">
+                        <div class="flex overflow-x-auto space-x-4 pb-1 -mx-6 px-6 scrollbar-hide">
+                            <a href="#category-0" class="flex-shrink-0 text-sm font-medium text-primary whitespace-nowrap px-3 py-1 rounded-lg bg-orange-100">Vegetarisch & Vegan</a>
+                            <a href="#category-1" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary hover:bg-orange-100 whitespace-nowrap px-3 py-1 rounded-lg transition-colors">Salate & Bowls</a>
+                            <a href="#category-2" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary hover:bg-orange-100 whitespace-nowrap px-3 py-1 rounded-lg transition-colors">Suppen & Eintöpfe</a>
+                            <a href="#category-3" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary hover:bg-orange-100 whitespace-nowrap px-3 py-1 rounded-lg transition-colors">Nudeln</a>
+                            <a href="#category-4" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary hover:bg-orange-100 whitespace-nowrap px-3 py-1 rounded-lg transition-colors">Reis</a>
+                            <a href="#category-5" class="flex-shrink-0 text-sm font-medium text-orange-800 hover:text-primary hover:bg-orange-100 whitespace-nowrap px-3 py-1 rounded-lg transition-colors">Kartoffeln</a>
                         </div>
                     </div>
                     
@@ -105,38 +107,38 @@
                         </div>
                         <div class="grid grid-cols-3 gap-4 px-6">
                             <a class="recipe group" href="#">
-                                <div class="aspect-square rounded-xl bg-gray-200 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Falafel">
+                                <div class="aspect-video rounded-xl bg-gray-200 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=225&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Falafel" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm text-orange-900 uppercase mt-2 leading-tight line-clamp-2">Falafel mit Tahini-Sauce und frischem Salat</h3>
                             </a>
                             <a class="recipe group" href="#">
-                                <div class="aspect-square rounded-xl bg-gray-200 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Gemüse-Curry">
+                                <div class="aspect-video rounded-xl bg-gray-200 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&h=225&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Gemüse-Curry" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm text-orange-900 uppercase mt-2 leading-tight line-clamp-2">Gemüse-Curry mit Kokosmilch</h3>
                             </a>
                             <a class="recipe group" href="#">
-                                <div class="aspect-square rounded-xl bg-gray-200 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1565299487978-dd76b4c33828?w=400&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Linsen-Dal">
+                                <div class="aspect-video rounded-xl bg-gray-200 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1565299487978-dd76b4c33828?w=400&h=225&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Linsen-Dal" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm text-orange-900 uppercase mt-2 leading-tight line-clamp-2">Linsen-Dal mit Basmatireis</h3>
                             </a>
                             <a class="recipe group" href="#">
-                                <div class="aspect-square rounded-xl bg-gray-200 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1565299585323-15d160b5a7a9?w=400&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Vegane Burger">
+                                <div class="aspect-video rounded-xl bg-gray-200 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1565299585323-15d160b5a7a9?w=400&h=225&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Vegane Burger" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm text-orange-900 uppercase mt-2 leading-tight line-clamp-2">Vegane Burger mit Süßkartoffel-Pommes</h3>
                             </a>
                             <a class="recipe group" href="#">
-                                <div class="aspect-square rounded-xl bg-gray-200 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Tofu-Pfanne">
+                                <div class="aspect-video rounded-xl bg-gray-200 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=225&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Tofu-Pfanne" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm text-orange-900 uppercase mt-2 leading-tight line-clamp-2">Tofu-Pfanne mit Gemüse</h3>
                             </a>
                             <a class="recipe group" href="#">
-                                <div class="aspect-square rounded-xl bg-gray-200 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Vegetarische Lasagne">
+                                <div class="aspect-video rounded-xl bg-gray-200 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&h=225&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Vegetarische Lasagne" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm text-orange-900 uppercase mt-2 leading-tight line-clamp-2">Vegetarische Lasagne</h3>
                             </a>
@@ -160,20 +162,20 @@
                         </div>
                         <div class="grid grid-cols-3 gap-4 px-6">
                             <a class="recipe group" href="#">
-                                <div class="aspect-square rounded-xl bg-gray-200 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1540420773420-2850a43b235f?w=400&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Buddha Bowl">
+                                <div class="aspect-video rounded-xl bg-gray-200 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1540420773420-2850a43b235f?w=400&h=225&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Buddha Bowl" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm text-orange-900 uppercase mt-2 leading-tight line-clamp-2">Buddha Bowl mit Avocado und Quinoa</h3>
                             </a>
                             <a class="recipe group" href="#">
-                                <div class="aspect-square rounded-xl bg-gray-200 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Cesar Salad">
+                                <div class="aspect-video rounded-xl bg-gray-200 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=225&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Cesar Salad" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm text-orange-900 uppercase mt-2 leading-tight line-clamp-2">Cesar Salad mit Hähnchen</h3>
                             </a>
                             <a class="recipe group" href="#">
-                                <div class="aspect-square rounded-xl bg-gray-200 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=400&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Nudelsalat">
+                                <div class="aspect-video rounded-xl bg-gray-200 overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=225&fit=crop" class="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Nudelsalat" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm text-orange-900 uppercase mt-2 leading-tight line-clamp-2">Nudelsalat mit Gemüse und Thunfisch</h3>
                             </a>
@@ -199,7 +201,8 @@
     </div>
     
     <div class="text-center mt-8 text-gray-600">
-        <p>Tablet Preview (768px - 1024px Breite)</p>
+        <p><strong>Tablet Preview (768px - 1024px) – aspect-video (16:9) Format</strong></p>
+        <p class="text-sm mt-2">✅ 3 Spalten Grid | ✅ Horizontale Scroll-Navigation | ✅ Lazy Loading</p>
     </div>
 </body>
 </html>
