@@ -1,0 +1,137 @@
+---
+layout: none
+---
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F53200">
+  <meta name="robots" content="noindex">
+  <title>Du bist offline · Mundschmaus</title>
+  <style>
+    :root {
+      --orange: #F53200;
+      --bg: #FFF7ED;
+      --ink: #431407;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+    .back {
+      position: fixed;
+      top: 24px; left: 24px;
+      width: 44px; height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      border-radius: 9999px;
+      color: var(--orange);
+      box-shadow: 0 1px 4px rgba(67, 20, 7, .18);
+      text-decoration: none;
+      transition: background 150ms ease;
+    }
+    .back:hover { background: #FFEDD5; }
+    .back svg { width: 20px; height: 20px; }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      gap: 0;
+    }
+    .icon {
+      width: 72px; height: 72px;
+      color: var(--orange);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .45; transform: scale(.94); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .icon { animation: none; }
+    }
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(24px, 6vw, 36px);
+      font-weight: 700;
+      margin: 22px 0 10px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      opacity: .72;
+      max-width: 38ch;
+    }
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cta {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 12px 26px;
+      border-radius: 9999px;
+      transition: filter 150ms ease;
+    }
+    .cta:hover { filter: brightness(.93); }
+    .cta.ghost {
+      background: #fff;
+      color: var(--orange);
+      box-shadow: inset 0 0 0 1.5px var(--orange);
+    }
+    footer {
+      position: relative;
+      text-align: center;
+      font-size: 12px;
+      opacity: .4;
+      padding: 24px 0;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <a class="back" href="/" aria-label="Zurück zur Übersicht">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+      <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+    </svg>
+  </a>
+  <main>
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="16.5" r="1.4" fill="currentColor" stroke="none" />
+      <path d="M8.5 13a5 5 0 0 1 7 0" />
+      <path d="M5.4 9.6a9.5 9.5 0 0 1 13.2 0" />
+      <path d="M2.5 6.2a14 14 0 0 1 4.2-2.7" />
+      <path d="M17.3 3.5a14 14 0 0 1 4.2 2.7" />
+      <path d="M4 4l16 16" />
+    </svg>
+    <h1>Du bist gerade offline.</h1>
+    <p>Aber keine Panik: Gespeicherte Seiten und Rezepte funktionieren auch ohne Internet.</p>
+    <div class="actions">
+      <button class="cta" onclick="location.reload()">Nochmal versuchen</button>
+      <a class="cta ghost" href="/">Zu den Rezepten</a>
+    </div>
+  </main>
+  <footer>mundschmaus.de</footer>
+</body>
+</html>

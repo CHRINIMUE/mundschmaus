@@ -2,7 +2,7 @@
 layout: none
 ---
 const CACHE = "mundschmaus-pwa-v{{ site.time | date: "%Y%m%d%H%M%S" }}";
-const OFFLINE_FALLBACK_PAGE = "{{ site.baseurl }}/";
+const OFFLINE_FALLBACK_PAGE = "{{ site.baseurl }}/offline.html";
 // Cache-Hygiene: Alte Versionen werden beim Aktivieren geloescht, und der
 // Laufzeit-Cache hat ein hartes Limit (aelteste Eintraege zuerst verworfen),
 // damit er nicht unbegrenzt waechst.
@@ -96,7 +96,9 @@ self.addEventListener("fetch", function (event) {
         return caches.match(request).then(function (matching) {
           if (matching) return matching;
           return caches.match(OFFLINE_FALLBACK_PAGE).then(function (fallback) {
-            return fallback || Response.error();
+            return fallback || caches.match("/").then(function (home) {
+              return home || Response.error();
+            });
           });
         });
       })

@@ -1,0 +1,125 @@
+---
+layout: none
+---
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F53200">
+  <meta name="robots" content="noindex">
+  <title>Seite nicht gefunden · Mundschmaus</title>
+  <style>
+    :root {
+      --orange: #F53200;
+      --bg: #FFF7ED;
+      --ink: #431407;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+    .back {
+      position: fixed;
+      top: 24px; left: 24px;
+      width: 44px; height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      border-radius: 9999px;
+      color: var(--orange);
+      box-shadow: 0 1px 4px rgba(67, 20, 7, .18);
+      text-decoration: none;
+      transition: background 150ms ease;
+    }
+    .back:hover { background: #FFEDD5; }
+    .back svg { width: 20px; height: 20px; }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+    }
+    .icon {
+      width: 72px; height: 72px;
+      color: var(--orange);
+      animation: float 3.2s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-4deg); }
+      50% { transform: translateY(-10px) rotate(4deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .icon { animation: none; }
+    }
+    .code {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(56px, 14vw, 96px);
+      font-weight: 700;
+      color: var(--orange);
+      line-height: 1;
+      margin-top: 20px;
+      letter-spacing: .04em;
+    }
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(22px, 5vw, 32px);
+      font-weight: 700;
+      margin: 14px 0 10px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      opacity: .72;
+      max-width: 36ch;
+    }
+    .cta {
+      display: inline-block;
+      margin-top: 28px;
+      background: var(--orange);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 12px 26px;
+      border-radius: 9999px;
+      transition: filter 150ms ease;
+    }
+    .cta:hover { filter: brightness(.93); }
+    footer {
+      position: relative;
+      text-align: center;
+      font-size: 12px;
+      opacity: .4;
+      padding: 24px 0;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <a class="back" href="/" aria-label="Zurück zur Übersicht">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+      <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+    </svg>
+  </a>
+  <main>
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M13 21.5C13 16.8056 16.8056 13 21.5 13C26.1944 13 30 16.8056 30 21.5C30 23.8248 29.0667 25.9315 27.5544 27.4661C27.5392 27.4801 27.5241 27.4946 27.5093 27.5093C27.4946 27.5241 27.4801 27.5392 27.4661 27.5544C25.9315 29.0667 23.8248 30 21.5 30C16.8056 30 13 26.1944 13 21.5ZM28.502 30.6233C26.5628 32.1139 24.1349 33 21.5 33C15.1487 33 10 27.8513 10 21.5C10 15.1487 15.1487 10 21.5 10C27.8513 10 33 15.1487 33 21.5C33 24.1349 32.1139 27.8513 30.6233 28.502L37.5607 35.4393C38.1464 36.0251 38.1464 36.9749 37.5607 37.5607C36.9749 38.1465 36.0251 38.1465 35.4393 37.5607L28.502 30.6233Z" />
+    </svg>
+    <div class="code">404</div>
+    <h1>Diese Seite gibt es nicht.</h1>
+    <p>Offenbar schmeckt sie jemandem so gut, dass sie spurlos verschwunden ist.</p>
+    <a class="cta" href="/">Zu den Rezepten</a>
+  </main>
+  <footer>mundschmaus.de</footer>
+</body>
+</html>
