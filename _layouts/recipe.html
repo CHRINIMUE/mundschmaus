@@ -64,14 +64,14 @@ layout: default
 
   <div class="image bg-red-500 relative aspect-video md:aspect-auto md:h-screen md:max-h-screen md:col-span-2">
 
-    <a href="/" class="back bg-white rounded-full block fixed top-6 md:top-10 left-6 md:left-10 p-4 md:p-6 z-50 hover:bg-orange-50 transition" aria-label="Zurück zur Startseite">
-      <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 md:size-8">
+    <a href="/" class="back bg-white rounded-full block fixed top-6 md:top-10 left-6 md:left-10 p-3 md:p-4 z-50 shadow-sm hover:bg-orange-50 transition" aria-label="Zurück zur Startseite">
+      <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 md:size-7">
         <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
       </svg>
     </a>
     
-    <button id="share-recipe" class="bg-white rounded-full block fixed top-6 md:top-10 right-6 md:right-10 p-4 md:p-6 z-50 hover:bg-orange-50 transition" aria-label="Rezept teilen">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 md:size-8">
+    <button id="share-recipe" class="bg-white rounded-full block fixed top-6 md:top-10 right-6 md:right-10 p-3 md:p-4 z-50 shadow-sm hover:bg-orange-50 transition" aria-label="Rezept teilen">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5 md:size-7">
         <path fill-rule="evenodd" d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z" clip-rule="evenodd" />
       </svg>
     </button>
@@ -126,7 +126,7 @@ layout: default
 
 <!-- call up the main recipe title and content -->
   <header class="recipe-header flex flex-col gap-6 md:pt-16">
-    <h1 class="recipe-title font-gelica text-primary text-left text-5xl lg:text-7xl font-bold" itemprop="name">{{ page.title }}</h1>
+    <h1 class="recipe-title font-gelica text-primary text-left text-5xl lg:text-7xl font-bold break-words hyphens-auto" itemprop="name">{{ page.title }}</h1>
 
     <div class="tags flex gap-2">
       {% for tag in page.tags %}
@@ -868,6 +868,21 @@ layout: default
           console.log("Share failed:", err);
         }
       }
+    });
+
+    // Zurueck-Button: zur vorherigen Seite der eigenen Seite zurueck
+    // (Startseite ODER Suche, je nachdem woher man kam); ohne eigenen
+    // Ursprung normal zur Startseite navigieren.
+    document.addEventListener("click", function(event) {
+      const backLink = event.target.closest("a.back");
+      if (!backLink) return;
+      if (!document.referrer || !history.length) return;
+      try {
+        if (new URL(document.referrer).origin === location.origin) {
+          event.preventDefault();
+          history.back();
+        }
+      } catch (err) {}
     });
   });
 </script>
