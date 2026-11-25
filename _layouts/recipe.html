@@ -869,6 +869,21 @@ layout: default
         }
       }
     });
+
+    // Zurueck-Button: zur vorherigen Seite der eigenen Seite zurueck
+    // (Startseite ODER Suche, je nachdem woher man kam); ohne eigenen
+    // Ursprung normal zur Startseite navigieren.
+    document.addEventListener("click", function(event) {
+      const backLink = event.target.closest("a.back");
+      if (!backLink) return;
+      if (!document.referrer || !history.length) return;
+      try {
+        if (new URL(document.referrer).origin === location.origin) {
+          event.preventDefault();
+          history.back();
+        }
+      } catch (err) {}
+    });
   });
 </script>
 

@@ -98,6 +98,44 @@
   }
   </script>
 
+  <script>
+    // Scrollposition pro Seite innerhalb der Tab-Session merken, damit
+    // Zurueck-Navigation (Startseite/Suche -> Rezept -> Zurueck) dort
+    // weitermacht, wo man war (die Seite scrollt im #content-Container,
+    // nicht im Fenster - deshalb stellt der Browser nichts von selbst her).
+    (function () {
+      var KEY = "msScrollPos";
+      function read() {
+        try { return JSON.parse(sessionStorage.getItem(KEY)) || {}; } catch (e) { return {}; }
+      }
+      function save() {
+        var c = document.getElementById("content") || document.querySelector(".content");
+        if (!c) return;
+        var d = read();
+        d[location.pathname] = c.scrollTop;
+        try { sessionStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+      }
+      function restore() {
+        var c = document.getElementById("content") || document.querySelector(".content");
+        if (!c) return;
+        // Nur bei Zurueck/Vorwaerts-Navigation und Reload wiederherstellen;
+        // frische Klicks (z. B. Nav-Link) starten oben.
+        var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+        var type = nav ? nav.type : "navigate";
+        if (type !== "back_forward" && type !== "reload") return;
+        var y = read()[location.pathname] || 0;
+        if (!y) return;
+        var attempts = 0;
+        (function apply() {
+          c.scrollTop = y;
+          if (Math.abs(c.scrollTop - y) > 2 && attempts++ < 120) requestAnimationFrame(apply);
+        })();
+      }
+      window.addEventListener("pagehide", save);
+      window.addEventListener("pageshow", function (e) { if (!e.persisted) restore(); });
+    })();
+  </script>
+
 </head>
 
 <nav class="pointer-events-none w-[90%] md:w-1/4 lg:w-1/5 md:h-full bg-orange-50 fixed md:relative bottom-2 md:bottom-auto left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 flex md:flex-col justify-around md:justify-start px-3 py-3 md:p-8 md:gap-4 z-10 shadow-3xl md:shadow-none rounded-3xl md:rounded-none md:mx-0 {% if page.url contains '/recipes/' %}hidden{% endif %}">
