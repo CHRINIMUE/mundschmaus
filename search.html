@@ -49,13 +49,15 @@ layout: default
       {% assign ingredient_name = ingredient | strip %}
     {% endif %}
     {% unless all_ingredients contains ingredient_name %}
-      {% assign all_ingredients = all_ingredients | append: ingredient_name | append: "," %}
+      {% assign all_ingredients = all_ingredients | append: ingredient_name | append: "||" %}
     {% endunless %}
   {% endfor %}
 {% endfor %}
 
-<!-- Step 4: Convert collected ingredients into an array -->
-{% assign ingredient_array = all_ingredients | split: "," | uniq | sort %}
+<!-- Step 4: Convert collected ingredients into an array; "||" statt ",",
+     weil Zutatennamen selbst Kommas enthalten koennen (sonst zerfallen
+     sie zu Muell-Fragmenten wie " Banane)") -->
+{% assign ingredient_array = all_ingredients | split: "||" | uniq | sort %}
 
 <div class="suggestions w-full mt-4 text-lg flex flex-col gap-2">
   <span class="text-red-950 md:text-primary uppercase font-semibold text-center">{{ site.translation[site.language].ingredients }}</span>     
@@ -131,6 +133,15 @@ document.addEventListener('DOMContentLoaded', () => {
     filterButton.classList.add('opacity-30');
   }
 
+  // Function to hide results and show the suggestions again (leeres Feld)
+  function showSuggestions() {
+    results.classList.add('hidden');
+    results.classList.remove('block');
+    filters.classList.remove('hidden');
+    filters.classList.add('block');
+    filterButton.classList.remove('opacity-30');
+  }
+
   // Parse URL parameters
   const params = new URLSearchParams(window.location.search);
   const tag = params.get('tag') ? decodeURIComponent(params.get('tag')) : null;
@@ -162,16 +173,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Event listener for clicking on suggested tags
   document.querySelectorAll('.suggestion').forEach(item => {
     item.addEventListener('click', function () {
-      searchInput.value = this.textContent;
-      simpleSearch.search(this.textContent);
+      searchInput.value = this.textContent.trim();
+      simpleSearch.search(searchInput.value);
       showResults();
     });
   });
 
-  // Event listener for search input to show results on typing
+  // Event listener for search input to show results on typing; bei leerem
+  // Feld zurueck zu den Vorschlaegen, statt alte Ergebnisse stehen zu lassen
   searchInput.addEventListener('input', function() {
     if (searchInput.value.length > 0) {
       showResults();
+    } else {
+      showSuggestions();
     }
   });
 

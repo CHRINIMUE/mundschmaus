@@ -121,5 +121,19 @@ layout: none
     <a class="cta" href="/">Zu den Rezepten</a>
   </main>
   <footer>mundschmaus.de</footer>
+  <script>
+    // Zurueck statt hart zur Startseite, wenn von einer eigenen Seite gekommen
+    document.addEventListener("click", function (event) {
+      var backLink = event.target.closest ? event.target.closest("a.back") : null;
+      if (!backLink) return;
+      if (!document.referrer || !history.length) return;
+      try {
+        if (new URL(document.referrer).origin === location.origin) {
+          event.preventDefault();
+          history.back();
+        }
+      } catch (err) {}
+    });
+  </script>
 </body>
 </html>
