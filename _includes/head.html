@@ -53,6 +53,10 @@
         scrollbar-width: none;  /* Firefox */
     }
 
+    :root {
+      --vt-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
     nav {
       view-transition-name: site-nav;
     }
@@ -65,16 +69,32 @@
       view-transition-name: btn-share;
     }
 
+    .btn-round:focus-visible {
+      outline: 2px solid #F53200;
+      outline-offset: 2px;
+    }
+
     @media (prefers-reduced-motion: no-preference) {
       @view-transition {
         navigation: auto;
       }
       ::view-transition-old(root) {
         animation-duration: 180ms;
+        animation-timing-function: var(--vt-ease);
       }
       ::view-transition-new(root) {
         animation-name: vt-content-in;
         animation-duration: 280ms;
+        animation-timing-function: var(--vt-ease);
+      }
+      :root:active-view-transition-type(forward) ::view-transition-new(root) {
+        animation-name: vt-in-forward;
+      }
+      :root:active-view-transition-type(back) ::view-transition-new(root) {
+        animation-name: vt-in-back;
+      }
+      ::view-transition-group(.vt-image) {
+        animation-timing-function: var(--vt-ease);
       }
     }
 
@@ -82,6 +102,28 @@
       from {
         opacity: 0;
         transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes vt-in-forward {
+      from {
+        opacity: 0;
+        transform: translateX(12px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @keyframes vt-in-back {
+      from {
+        opacity: 0;
+        transform: translateX(-12px);
       }
       to {
         opacity: 1;
@@ -145,7 +187,9 @@
   <script>
     (function () {
       var NAME = "recipe-image";
+      var VCLASS = "vt-image";
       var BACK_KEY = "msVtRecipeBack";
+      var DIR_KEY = "msVtDir";
       var clickedCard = null;
 
       function isRecipePath(pathname) {
@@ -154,6 +198,18 @@
 
       function pathOf(url) {
         return new URL(url, location.href).pathname;
+      }
+
+      function tagImage(el) {
+        if (!el) return;
+        el.style.viewTransitionName = NAME;
+        try { el.style.setProperty("view-transition-class", VCLASS); } catch (err) {}
+      }
+
+      function untagImage(el) {
+        if (!el) return;
+        el.style.viewTransitionName = "";
+        try { el.style.removeProperty("view-transition-class"); } catch (err) {}
       }
 
       document.addEventListener("click", function (e) {
@@ -165,27 +221,45 @@
         var dest = new URL(e.activation.entry.url, location.href);
         if (dest.origin !== location.origin) return;
 
+        try {
+          e.viewTransition.types.add(e.activation.navigationType === "traverse" ? "back" : "forward");
+          sessionStorage.setItem(DIR_KEY, e.activation.navigationType === "traverse" ? "traverse" : "push");
+        } catch (err) {}
+
         if (isRecipePath(location.pathname)) {
           var hero = document.querySelector(".image img.view");
-          if (hero) hero.style.viewTransitionName = NAME;
+          tagImage(hero);
           try { sessionStorage.setItem(BACK_KEY, location.pathname); } catch (err) {}
           return;
         }
 
         if (isRecipePath(dest.pathname) && clickedCard && pathOf(clickedCard.href) === dest.pathname) {
           var img = clickedCard.querySelector("img");
-          if (img) img.style.viewTransitionName = NAME;
+          tagImage(img);
         }
       });
 
       window.addEventListener("pagereveal", function (e) {
         if (!e.viewTransition) return;
+        var dir = null;
+        try {
+          if (window.navigation && window.navigation.activation && window.navigation.activation.navigationType) {
+            dir = window.navigation.activation.navigationType;
+          } else {
+            dir = sessionStorage.getItem(DIR_KEY);
+            sessionStorage.removeItem(DIR_KEY);
+          }
+        } catch (err) {}
+        if (dir === "traverse" || dir === "push") {
+          e.viewTransition.types.add(dir === "traverse" ? "back" : "forward");
+        }
+
         if (isRecipePath(location.pathname)) {
           var hero = document.querySelector(".image img.view");
           if (hero) {
-            hero.style.viewTransitionName = NAME;
+            tagImage(hero);
             e.viewTransition.finished.then(function () {
-              hero.style.viewTransitionName = "";
+              untagImage(hero);
             });
           }
           return;
@@ -201,15 +275,52 @@
             if (pathOf(cards[i].href) === from) {
               var img = cards[i].querySelector("img");
               if (img) {
-                img.style.viewTransitionName = NAME;
+                tagImage(img);
                 e.viewTransition.finished.then(function (el) {
-                  return function () { el.style.viewTransitionName = ""; };
+                  return function () { untagImage(el); };
                 }(img));
               }
               break;
             }
           }
         }
+      });
+    })();
+  </script>
+
+  <script type="speculationrules">
+    {
+      "prefetch": [
+        {
+          "source": "document",
+          "where": { "href_matches": "/recipes/*" },
+          "eagerness": "moderate"
+        }
+      ]
+    }
+  </script>
+
+  <script>
+    (function () {
+      var supportsRules = false;
+      try {
+        supportsRules = !!(window.HTMLScriptElement && HTMLScriptElement.supports && HTMLScriptElement.supports("speculationrules"));
+      } catch (err) {}
+      if (supportsRules || typeof fetch !== "function") return;
+      var done = {};
+      function prefetch(href) {
+        var u;
+        try { u = new URL(href, location.href); } catch (err) { return; }
+        if (u.origin !== location.origin) return;
+        if (u.pathname.indexOf("/recipes/") !== 0 || done[u.pathname]) return;
+        done[u.pathname] = true;
+        try { fetch(u.href, { credentials: "same-origin" }).catch(function () {}); } catch (err) {}
+      }
+      ["pointerover", "touchstart"].forEach(function (type) {
+        document.addEventListener(type, function (e) {
+          var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+          if (a) prefetch(a.href);
+        }, { passive: true, capture: true });
       });
     })();
   </script>
