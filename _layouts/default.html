@@ -5,7 +5,131 @@
 
   <body class="flex h-full font-inter bg-orange-50 text-orange-950">
 
+    <!-- Loading Screen -->
+    <div id="app-loading" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-orange-50" style="background-color: #FFF7ED;">
+      <div class="loading-icon" aria-label="Lädt">
+        <div class="pot"></div>
+        <div class="spoon"></div>
+      </div>
+      <h1 id="loading-text" class="mt-6 text-2xl font-bold text-orange-900">Lädt...</h1>
+      <p class="mt-2 text-orange-700">Einen Moment, wir bereiten alles vor.</p>
+    </div>
+    <style>
+      #app-loading {
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      #app-loading.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      .loading-icon {
+        position: relative;
+        width: 72px;
+        height: 72px;
+      }
+      .pot {
+        position: absolute;
+        width: 72px;
+        height: 48px;
+        background: #F53200;
+        border-radius: 0 0 36px 36px;
+        bottom: 0;
+        left: 0;
+        box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+      }
+      .pot::before {
+        content: '';
+        position: absolute;
+        width: 12px;
+        height: 8px;
+        background: #fff;
+        border-radius: 4px;
+        top: 8px;
+        left: 12px;
+      }
+      .pot::after {
+        content: '';
+        position: absolute;
+        width: 12px;
+        height: 8px;
+        background: #fff;
+        border-radius: 4px;
+        top: 8px;
+        right: 12px;
+      }
+      .spoon {
+        position: absolute;
+        width: 32px;
+        height: 8px;
+        background: #fff;
+        border-radius: 4px;
+        right: -8px;
+        top: 16px;
+        transform-origin: left center;
+        animation: stir 2.4s ease-in-out infinite;
+      }
+      .spoon::before {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 4px;
+        background: #fff;
+        border-radius: 2px;
+        right: -16px;
+        top: -2px;
+      }
+      @keyframes stir {
+        0%, 100% { transform: rotate(-10deg); }
+        50% { transform: rotate(10deg); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .spoon { animation: none; transform: rotate(0deg); }
+      }
+    </style>
+
     {{ content }}
+
+    <script>
+      // Set random loading message
+      const messages = [
+        "Wir kochen deine Rezepte...",
+        "Der Ofen heizt sich auf...",
+        "Geduld ist eine Zutat...",
+        "Wir schneiden gerade die Zutaten...",
+        "Der Topf dampft schon...",
+        "Fast fertig – wie ein guter Braten...",
+        "Wir rühren kräftig um...",
+        "Die Zutaten mischen sich...",
+        "Gleich servierfertig...",
+        "Wir würzen nach Geschmack..."
+      ];
+      
+      const loadingText = document.getElementById('loading-text');
+      if (loadingText) {
+        const randomIndex = Math.floor(Math.random() * messages.length);
+        loadingText.textContent = messages[randomIndex];
+      }
+      
+      // Hide loading screen once page is loaded
+      window.addEventListener('load', function() {
+        const loading = document.getElementById('app-loading');
+        if (loading) {
+          setTimeout(function() {
+            loading.classList.add('hidden');
+          }, 100);
+        }
+      });
+      
+      // Also hide if page is already loaded (for cached pages)
+      document.addEventListener('DOMContentLoaded', function() {
+        const loading = document.getElementById('app-loading');
+        if (loading) {
+          setTimeout(function() {
+            loading.classList.add('hidden');
+          }, 500);
+        }
+      });
+    </script>
 
   </body>
 

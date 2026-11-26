@@ -38,7 +38,7 @@ layout: none
             "type": "image/png"
         }
     ],
-    "theme_color": "{{ site.color }}",
+    "theme_color": "#FFF7ED",
     "background_color": "#FFF7ED",
     "start_url": "{{ site.baseurl }}/",
     "scope": "{{ site.baseurl }}/",
