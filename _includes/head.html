@@ -45,9 +45,6 @@
 
 
   <style>
-    @view-transition {
-      navigation: auto;
-    }
     .overflow-scroll::-webkit-scrollbar {
         display: none;
     }
@@ -56,6 +53,60 @@
         scrollbar-width: none;  /* Firefox */
     }
 
+    nav {
+      view-transition-name: site-nav;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      @view-transition {
+        navigation: auto;
+      }
+      ::view-transition-old(root) {
+        animation-duration: 180ms;
+      }
+      ::view-transition-new(root) {
+        animation-name: vt-content-in;
+        animation-duration: 280ms;
+      }
+    }
+
+    @keyframes vt-content-in {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .btn-round {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      border: none;
+      border-radius: 9999px;
+      color: #F53200;
+      box-shadow: 0 1px 4px rgba(67, 20, 7, .18);
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 150ms ease, opacity 250ms ease;
+    }
+    .btn-round:hover {
+      background: #FFEDD5;
+    }
+    .btn-round svg {
+      width: 20px;
+      height: 20px;
+    }
+    .btn-round.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
   </style>
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -81,6 +132,78 @@
         },
       },
     };
+  </script>
+
+  <script>
+    (function () {
+      var NAME = "recipe-image";
+      var BACK_KEY = "msVtRecipeBack";
+      var clickedCard = null;
+
+      function isRecipePath(pathname) {
+        return pathname.indexOf("/recipes/") === 0;
+      }
+
+      function pathOf(url) {
+        return new URL(url, location.href).pathname;
+      }
+
+      document.addEventListener("click", function (e) {
+        clickedCard = e.target && e.target.closest ? e.target.closest("a.recipe[href]") : null;
+      }, true);
+
+      window.addEventListener("pageswap", function (e) {
+        if (!e.viewTransition || !e.activation) return;
+        var dest = new URL(e.activation.entry.url, location.href);
+        if (dest.origin !== location.origin) return;
+
+        if (isRecipePath(location.pathname)) {
+          var hero = document.querySelector(".image img.view");
+          if (hero) hero.style.viewTransitionName = NAME;
+          try { sessionStorage.setItem(BACK_KEY, location.pathname); } catch (err) {}
+          return;
+        }
+
+        if (isRecipePath(dest.pathname) && clickedCard && pathOf(clickedCard.href) === dest.pathname) {
+          var img = clickedCard.querySelector("img");
+          if (img) img.style.viewTransitionName = NAME;
+        }
+      });
+
+      window.addEventListener("pagereveal", function (e) {
+        if (!e.viewTransition) return;
+        if (isRecipePath(location.pathname)) {
+          var hero = document.querySelector(".image img.view");
+          if (hero) {
+            hero.style.viewTransitionName = NAME;
+            e.viewTransition.finished.then(function () {
+              hero.style.viewTransitionName = "";
+            });
+          }
+          return;
+        }
+        var from = null;
+        try {
+          from = sessionStorage.getItem(BACK_KEY);
+          sessionStorage.removeItem(BACK_KEY);
+        } catch (err) {}
+        if (from) {
+          var cards = document.querySelectorAll("a.recipe[href]");
+          for (var i = 0; i < cards.length; i++) {
+            if (pathOf(cards[i].href) === from) {
+              var img = cards[i].querySelector("img");
+              if (img) {
+                img.style.viewTransitionName = NAME;
+                e.viewTransition.finished.then(function (el) {
+                  return function () { el.style.viewTransitionName = ""; };
+                }(img));
+              }
+              break;
+            }
+          }
+        }
+      });
+    })();
   </script>
 
   <script>
