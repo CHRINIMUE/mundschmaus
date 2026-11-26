@@ -39,7 +39,7 @@ layout: none
         }
     ],
     "theme_color": "{{ site.color }}",
-    "background_color": "{{ site.color }}",
+    "background_color": "#FFF7ED",
     "start_url": "{{ site.baseurl }}/",
     "scope": "{{ site.baseurl }}/",
     "display": "standalone",

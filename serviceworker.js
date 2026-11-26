@@ -3,6 +3,7 @@ layout: none
 ---
 const CACHE = "mundschmaus-pwa-v{{ site.time | date: "%Y%m%d%H%M%S" }}";
 const OFFLINE_FALLBACK_PAGE = "{{ site.baseurl }}/offline.html";
+const LOADING_FALLBACK_PAGE = "{{ site.baseurl }}/loading.html";
 // Cache-Hygiene: Alte Versionen werden beim Aktivieren geloescht, und der
 // Laufzeit-Cache hat ein hartes Limit (aelteste Eintraege zuerst verworfen),
 // damit er nicht unbegrenzt waechst.
@@ -31,7 +32,7 @@ const EXTERNAL_CACHE_HOSTS = [
 self.addEventListener("install", function (event) {
   event.waitUntil(
     caches.open(CACHE).then(function (cache) {
-      var all = PRECACHE_URLS.concat([OFFLINE_FALLBACK_PAGE]);
+      var all = PRECACHE_URLS.concat([OFFLINE_FALLBACK_PAGE, LOADING_FALLBACK_PAGE]);
       // Einzeln cachen: Ein einzelner Fehler (z. B. 404) bricht das
       // komplette Pre-Caching nicht ab.
       return Promise.all(all.map(function (url) {
@@ -82,7 +83,7 @@ self.addEventListener("fetch", function (event) {
   var url = new URL(request.url);
 
   // Navigationen (HTML): Netz zuerst, Cache als Rueckfallebene,
-  // Offline-Startseite als letzter Ausweg.
+  // Ladebildschirm als Fallback, dann Offline-Startseite als letzter Ausweg.
   if (request.mode === "navigate" || (request.headers.get("accept") || "").indexOf("text/html") !== -1) {
     event.respondWith(
       fetch(request).then(function (response) {
@@ -95,9 +96,14 @@ self.addEventListener("fetch", function (event) {
       }).catch(function () {
         return caches.match(request).then(function (matching) {
           if (matching) return matching;
-          return caches.match(OFFLINE_FALLBACK_PAGE).then(function (fallback) {
-            return fallback || caches.match("/").then(function (home) {
-              return home || Response.error();
+          // Zeige Ladebildschirm, falls verfügbar
+          return caches.match(LOADING_FALLBACK_PAGE).then(function (loadingFallback) {
+            if (loadingFallback) return loadingFallback;
+            // Dann Offline-Seite
+            return caches.match(OFFLINE_FALLBACK_PAGE).then(function (fallback) {
+              return fallback || caches.match("/").then(function (home) {
+                return home || Response.error();
+              });
             });
           });
         });
