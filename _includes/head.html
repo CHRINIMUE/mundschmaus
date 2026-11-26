@@ -21,7 +21,6 @@
   <link rel="manifest" href="{{ site.baseurl }}/manifest.json">
   <link rel="shortcut icon" href="{{ site.baseurl }}/icons/favicon.ico">
   <meta name="msapplication-TileColor" content="#F53200">
-  <meta name="msapplication-config" content="{{ site.baseurl }}/icons/browserconfig.xml">
   <meta name="theme-color" content="#F53200">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -373,8 +372,35 @@
           if (Math.abs(c.scrollTop - y) > 2 && attempts++ < 120) requestAnimationFrame(apply);
         })();
       }
-      window.addEventListener("pagehide", save);
       window.addEventListener("pageshow", function (e) { if (!e.persisted) restore(); });
+
+      // Position laufend im scroll-Event speichern statt nur beim Verlassen
+      // (pagehide): Beim Uebergang mit View Transitions setzt der Browser
+      // den Container-Scroll schon frueher auf 0, ein pagehide-Save wuerde
+      // die gute Position mit 0 ueberschreiben.
+      // Der Reset selbst erzeugt aber auch ein scroll-Event mit 0 - deshalb
+      // merken wir uns, dass das Dokument gerade verlassen wird (pageswap
+      // bzw. Klick auf einen Link), und speichern dann nicht mehr.
+      var leaving = false;
+      function markLeaving() { leaving = true; }
+      window.addEventListener("pageswap", markLeaving);
+      window.addEventListener("beforeunload", markLeaving);
+      document.addEventListener("click", function (e) {
+        if (e.target && e.target.closest && e.target.closest("a[href]")) markLeaving();
+      }, true);
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var c = document.getElementById("content") || document.querySelector(".content");
+        if (!c || c.addEventListener === undefined) return;
+        var timer = null;
+        c.addEventListener("scroll", function () {
+          if (leaving || timer) return;
+          timer = setTimeout(function () {
+            timer = null;
+            save();
+          }, 250);
+        }, { passive: true });
+      });
     })();
   </script>
 

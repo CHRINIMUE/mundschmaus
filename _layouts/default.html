@@ -5,8 +5,10 @@
 
   <body class="flex h-full font-inter bg-orange-50 text-orange-950">
 
-    <!-- Loading Screen -->
-    <div id="app-loading" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-orange-50" style="background-color: #FFF7ED;">
+    <!-- Loading Screen: nur im installierten PWA sichtbar, im Browser aus
+         damit die normalen View Transitions nicht durch den Ladescreen
+         ueberdeckt werden. -->
+    <div id="app-loading" class="hidden fixed inset-0 z-50 flex flex-col items-center justify-center bg-orange-50" style="display: none; background-color: #FFF7ED;">
       <div class="loading-icon" aria-label="Lädt">
         <div class="pot"></div>
         <div class="spoon"></div>
@@ -14,6 +16,20 @@
       <h1 id="loading-text" class="mt-6 text-2xl font-bold text-orange-900">Lädt...</h1>
       <p class="mt-2 text-orange-700">Einen Moment, wir bereiten alles vor.</p>
     </div>
+    <script>
+      (function () {
+        var standalone = (window.matchMedia && (
+          window.matchMedia("(display-mode: standalone)").matches ||
+          window.matchMedia("(display-mode: window-controls-overlay)").matches
+        )) || (window.navigator && window.navigator.standalone === true);
+        if (!standalone) return;
+        var appLoading = document.getElementById("app-loading");
+        if (appLoading) {
+          appLoading.classList.remove("hidden");
+          appLoading.style.display = "";
+        }
+      })();
+    </script>
     <style>
       #app-loading {
         transition: opacity 0.3s ease, visibility 0.3s ease;
