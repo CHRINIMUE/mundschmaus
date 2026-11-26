@@ -1,0 +1,11 @@
+{
+  "name": "mundschmaus",
+  "private": true,
+  "description": "Build-Tooling: statisches Tailwind-CSS für die Jekyll-Seite",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i _tailwind/tailwind.css -o css/tailwind.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

@@ -21,7 +21,7 @@ collections:
   recipes:
     output: true
 
-exclude: ['Gemfile', 'Gemfile.lock', 'Rakefile', 'README.md']
+exclude: ['Gemfile', 'Gemfile.lock', 'Rakefile', 'README.md', 'node_modules', 'package.json', 'package-lock.json', 'tailwind.config.js']
 
 translation:
   en:

@@ -5,9 +5,9 @@
 
   <body class="flex h-full font-inter bg-orange-50 text-orange-950">
 
-    <!-- Loading Screen: nur im installierten PWA sichtbar, im Browser aus
-         damit die normalen View Transitions nicht durch den Ladescreen
-         ueberdeckt werden. -->
+    <!-- Loading Screen: nur beim Kaltstart der installierten PWA sichtbar,
+         im Browser aus, damit die normalen View Transitions nicht durch den
+         Ladescreen ueberdeckt werden. -->
     <div id="app-loading" class="hidden fixed inset-0 z-50 flex flex-col items-center justify-center bg-orange-50" style="display: none; background-color: #FFF7ED;">
       <div class="loading-icon" aria-label="Lädt">
         <div class="pot"></div>
@@ -23,6 +23,13 @@
           window.matchMedia("(display-mode: window-controls-overlay)").matches
         )) || (window.navigator && window.navigator.standalone === true);
         if (!standalone) return;
+        // Nur beim Kaltstart zeigen (erste Seite der Session): Jede Seite ist
+        // ein eigener Dokumentaufruf, ohne Flag wuerde der Ladescreen auch bei
+        // jeder In-App-Navigation (z. B. Rezept oeffnen) kurz aufblitzen.
+        try {
+          if (window.sessionStorage.getItem("msAppSession")) return;
+          window.sessionStorage.setItem("msAppSession", "1");
+        } catch (err) {}
         var appLoading = document.getElementById("app-loading");
         if (appLoading) {
           appLoading.classList.remove("hidden");
