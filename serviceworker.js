@@ -16,16 +16,12 @@ const PRECACHE_URLS = [
   {% endif %}{% endfor %}
 ];
 
-// Externe Ressourcen, ohne die die App offline ungestylt oder kaputt waere
-// (Tailwind erzeugt das CSS zur Laufzeit, Fonts, jQuery). Alles andere
-// Cross-Origin-Anfragen werden bewusst NICHT gecacht.
+// Externe Ressourcen, ohne die die App offline ungestylt waere (Fonts).
+// Alles andere Cross-Origin-Anfragen werden bewusst NICHT gecacht.
 const EXTERNAL_CACHE_HOSTS = [
-  "cdn.tailwindcss.com",
   "fonts.googleapis.com",
   "fonts.gstatic.com",
-  "use.typekit.net",
-  "code.jquery.com",
-  "cdnjs.cloudflare.com"
+  "use.typekit.net"
 ];
 
 self.addEventListener("install", function (event) {

@@ -9,3 +9,5 @@ _recipes/.obsidian/workspace.json
 *.code-workspace
 
 .screenshots/
+
+node_modules/
