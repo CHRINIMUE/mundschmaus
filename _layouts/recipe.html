@@ -83,7 +83,8 @@ layout: default
           class="view w-full h-full object-cover" 
           src="{{ site.baseurl }}/images/{{ page.image }}"
           alt="{{ page.title }}"
-          loading="lazy">
+          fetchpriority="high"
+          decoding="async">
 
 
         {% if page.imagecredit %}
@@ -100,7 +101,7 @@ layout: default
             class="view w-full h-full object-cover" 
             src="{{ site.baseurl }}/images/{{ image }}"
             alt="{{ page.title }}"
-            loading="lazy">
+            {% if forloop.first %}fetchpriority="high" {% endif %}decoding="async">
 
 
           {% if page.imagecredit %}
@@ -117,7 +118,8 @@ layout: default
         class="view w-full h-full object-cover" 
         src="{{ site.baseurl }}/images/default.jpg"
         alt="{{ page.title }}"
-        loading="lazy">
+        fetchpriority="high"
+        decoding="async">
     {% endif %}
 
   </div>
